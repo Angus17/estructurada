@@ -1,0 +1,46 @@
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+                                FORMA DE EVALUACIÓN: 
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+10% 1ER EXAMEN PARCIAL
+15% 2DO EXAMEN PARCIAL
+20% 3ER EXAMEN PARCIAL
+- - - - - - - - - 
+45% TOTAL EXAMENES
+- - - - - - - - - 
+10% 1ER TAREA (EXPOSICION SOLO 1 VEZ)
+15% 2DA TAREA (TEAMS)
+- - - - - - - - - 
+25% TOTAL TAREAS
+- - - - - - - - -
+30% PROYECTO INTEGRADOR (EQUIPO) APLICACION DE CODIGO EN C++
+" Se entrega en la semana 15 "
+- - - - - - - - -  
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+                                TEMARIO: 
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+ETAPA 1:
+    * Fundamentos en lenguaje C
+    * Funciones de entrada y saLida
+    * Estructura de Seleccion: If, If/Else, anidados, switch
+    * Estructuras ciclicas, for, while, do-while
+    * Arreglos y cadenas
+    * Estructuras
+ETAPA 2:
+    * Funciones
+    * Apuntadores
+    * Entrada y salida de archivos secuenciales y binarios
+    * Memoria dinamica
+ETAPA 3:
+    * C++ diferencias
+    * Datos de entrada/salida
+    * Hilos (Threads)
+    * Entrada/Salida de Bits
+    * PIA
