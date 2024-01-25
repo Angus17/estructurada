@@ -1,0 +1,38 @@
+=> Un BLOQUE esta representado por { }
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+OPERADORES ARITMETICOS:
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
++ Suma
+- Resta
+* Multiplicacion
+/ Division
+% Modulo
+
+Operadores binarios porque ocupa dos valores para obtener uno
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+OPERADORES RELACIONALES:
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+== Igual que
+>= Mayor  o igual que 
+<= Menor o igual que
+< Menor que
+> Mayor que
+!= Diferente de
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+OPERADORES LOGICOS:
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+&& AND
+|| OR
+! NOT
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+JERARQUIA
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+()
+!
+* / %
++ -
+< >= <= < 
+== !=
+&&
+||
+=
