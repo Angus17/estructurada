@@ -10,7 +10,7 @@ OPERADORES ARITMETICOS:
 
 Operadores binarios porque ocupa dos valores para obtener uno
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-OPERADORES RELACIONALES:
+    OPERADORES RELACIONALES:
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 == Igual que
 >= Mayor  o igual que 
@@ -19,13 +19,13 @@ OPERADORES RELACIONALES:
 > Mayor que
 != Diferente de
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-OPERADORES LOGICOS:
+    OPERADORES LOGICOS:
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 && AND
 || OR
 ! NOT
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-JERARQUIA
+    JERARQUIA
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ()
 !
