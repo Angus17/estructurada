@@ -25,7 +25,7 @@ Operadores binarios porque ocupa dos valores para obtener uno
 || OR
 ! NOT
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    JERARQUIA
+    .JERARQUIA
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ()
 !
