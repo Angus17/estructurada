@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/dileo/OneDrive/Documentos/Programacion Estructurada",
-      "program": "c:/Users/dileo/OneDrive/Documentos/Programacion Estructurada/build/Debug/outDebug",
+      "cwd": "c:/Users/dileo/OneDrive/Documentos/Programacion_Estructurada",
+      "program": "c:/Users/dileo/OneDrive/Documentos/Programacion_Estructurada/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

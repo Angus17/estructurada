@@ -36,3 +36,15 @@ Operadores binarios porque ocupa dos valores para obtener uno
 &&
 ||
 =
+
+do
+{
+    printf("Escribe una letra de la \'a\' a la \'d\': ");
+    fflush(stdin);
+    retorno = scanf("%c", &letter);
+    if (letter < 'a' || letter > 'd')
+    {
+        retorno--;
+        system("cls");
+    }
+} while (retorno == 0);
