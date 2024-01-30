@@ -12,7 +12,7 @@
 
 #include <stdio.h>
 
-int main(void)
+main()
 {
     int numero_1, numero_2;
 
@@ -30,6 +30,5 @@ int main(void)
     if (numero_2 > numero_1)
     
         printf("El numero %d es mayor que %d\n",numero_2, numero_1);
-    
     
 }

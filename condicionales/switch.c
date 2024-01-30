@@ -13,11 +13,12 @@
 
 #include <stdio.h>
 
-int main(void)
+main()
 {
     char letter;
 
     printf("Escribe una letra de la \'a\' a la \'d\': ");
+    fflush(stdin);
     scanf("%c", &letter);
     
     switch (letter)
@@ -39,6 +40,4 @@ int main(void)
             printf("La letra que ingresaste no pertenece al conjunto esperado\n");
             break;
     }
-
-    return 0;
 }

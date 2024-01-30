@@ -21,8 +21,8 @@ int main(void)
     scanf("%f", &costo);
 
     enganche = costo * .35;
-    mensualidades = (costo - enganche) * .12;
+    mensualidades = (costo - enganche) * 1.12 / 36;
 
     printf("El costo de enganche del vehiculo es de: $%.2f\n", enganche);
-    printf("El cliente debera pagar $%.2f en 36 mensualidades", mensualidades);   
+    printf("El cliente debera pagar $%.2f en 36 mensualidades", mensualidades);
 }
