@@ -20,13 +20,13 @@ int main(void)
     scanf("%d", &sueldo);
 
     if (sueldo <= 10000)
-    {
+    
         sueldo_nuevo = sueldo * 1.15;
-    }
+    
     else
-    {
+    
         sueldo_nuevo = sueldo * 1.08;
-    }
+    
 
     printf("\nEl sueldo anterior del trabajador era de: $%d\n", sueldo);
     printf("El trabajador recibio un aumento de $%d\n", sueldo_nuevo - sueldo);

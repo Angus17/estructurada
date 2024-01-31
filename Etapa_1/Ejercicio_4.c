@@ -21,20 +21,19 @@ int main(void)
     
         precio_impuestos = 0;
     
-    else if (costo_articulo > 200 && costo_articulo <= 400)
+    else if (costo_articulo <= 400)
         
             precio_impuestos = costo_articulo * 0.30;
         
-        else if (costo_articulo > 400 && costo_articulo <= 5000)
+        else if (costo_articulo <= 5000)
             
                 precio_impuestos = costo_articulo * 0.40;
             
             else
             
                 precio_impuestos = costo_articulo * 0.50;
-            
+    
     precio_total = costo_articulo + precio_impuestos;
     
     printf("\nEl precio total final del articulo es de: $%d\n", precio_total);
-    
 }
