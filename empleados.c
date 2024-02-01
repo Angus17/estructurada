@@ -1,5 +1,5 @@
 /*
-Genera el siguiente menú:
+Genera el siguiente menú: eeeeeeeeeeeee
 
 a - Lectura de trabajadores
 b - Trabajadores de contabilidad
