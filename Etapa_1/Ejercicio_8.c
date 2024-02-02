@@ -1,9 +1,12 @@
 #include <stdio.h>
+#include <locale.h>
 
 int main(void)
 {
     int categoria, horas_trabajadas;
     float sueldo, sueldo_nuevo;
+
+    setlocale(LC_CTYPE, "spanish");
 
     printf("Ingresa el sueldo del trabajador: ");
     scanf("%f", &sueldo);
@@ -11,7 +14,7 @@ int main(void)
     printf("Ingresa las horas extra trabajadas: ");
     scanf("%d", &horas_trabajadas);
 
-    printf("Ingresa la categoria del trabajador: ");
+    printf("Ingresa la categoría del trabajador: ");
     scanf("%d", &categoria);
 
     if (horas_trabajadas > 30)
@@ -40,5 +43,5 @@ int main(void)
             sueldo_nuevo = sueldo;
             break;
     }
-    printf("\nEl sueldo nuevo del trabajador sera de: %.2f\n", sueldo_nuevo);
+    printf("\nEl sueldo nuevo del trabajador será de: %.2f\n", sueldo_nuevo);
 }
