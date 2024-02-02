@@ -23,15 +23,15 @@ int main(void)
     
     else if (costo_articulo <= 400)
         
-            precio_impuestos = costo_articulo * 0.30;
+            precio_impuestos = (costo_articulo - 200) * 0.30;
         
         else if (costo_articulo <= 5000)
             
-                precio_impuestos = costo_articulo * 0.40;
+                precio_impuestos = 200 * 0.30 + (costo_articulo - 400) * 0.40;
             
             else
             
-                precio_impuestos = costo_articulo * 0.50;
+                precio_impuestos = 200 * 0.30 + (costo_articulo - 400) * 0.50;
     
     precio_total = costo_articulo + precio_impuestos;
     
