@@ -1,0 +1,22 @@
+CICLOS
+
+Un ciclo permite la ejecucion de un conjunto de procesos, en n iteraciones
+
+-+-+-+-+
+  FOR
+-+-+-+-+
+Maneja la estructura por una variable iterador y se ejecuta hasta n iteraciones
+
+-+-+-+-+
+  WHILE 
+-+-+-+-+
+Se hace 0 o mas veces
+
+Estructura ciclica la cual se ejecuta siempre y cuando es verdadera, y terminara cuando es falsa
+Si la condicion no es correcta, el programa se ciclara debido a un error logico
+
+-+-+-+-+-+-+
+  DO-WHILE
+-+-+-+-+-+-+
+
+Prueba la condicion de continuacion, y se repite 1 o mas veces
