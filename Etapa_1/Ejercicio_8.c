@@ -7,7 +7,7 @@ int main(void)
     float sueldo, sueldo_nuevo;
 
     setlocale(LC_CTYPE, "spanish");
-
+    
     printf("Ingresa el sueldo del trabajador: ");
     scanf("%f", &sueldo);
 
