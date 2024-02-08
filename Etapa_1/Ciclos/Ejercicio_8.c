@@ -43,6 +43,8 @@ int main(void)
                 
             } while (matricula <= 0);
 
+            system("cls");
+
             do
             {
                 printf("\nIngresa el sexo de el/la alumn@ %d\nH\nM\n: ", i + 1);
@@ -60,6 +62,8 @@ int main(void)
                 
             } while (sexo != 'h' && sexo != 'm');
 
+            system("cls");
+
             do
             {
                 printf("\nEn que semestre se encuentra el/la alumn@ %d\n: ", i + 1);
@@ -73,6 +77,8 @@ int main(void)
                     system("cls");
                 }
             } while (semestre[i] < 0 || semestre[i] > 10);
+
+            system("cls");
             
             do
             {
