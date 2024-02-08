@@ -19,121 +19,291 @@ Fecha de actualizacion: 07/02/2024
 
 int main(void)
 {
-    int matricula, matricula_mayor_1, matricula_mayor_2, semestre[10], i;
-    char sexo;
-    float promedio[10], promedio_mayor_1 = 0, promedio_mayor_2 = 0;
+    #if defined(WIN_32) || defined(WIN_64)
 
-    for ( i = 0; i < 50 ; i++)
-    {
-        do
+        int matricula, matricula_mayor_1, matricula_mayor_2, semestre[50], i;
+        char sexo;
+        float promedio[50], promedio_mayor_1 = 0, promedio_mayor_2 = 0;
+
+        for ( i = 0; i < 50 ; i++)
         {
-            printf("\nIngresa la matricula de el/la alumn@ %d: ", i + 1);
-            scanf("%d", &matricula);
-
-            if (matricula < 0)
-            {
-                system("cls");
-                printf("Ingresa una matricula valida");
-                system("pause");
-                system("cls");
-            }
             
-        } while (matricula < 0);
-
-        do
-        {
-            printf("\nIngresa el sexo de el/la alumn@ %d\nH\nM\n: ", i + 1);
-            scanf(" %c", &sexo);
-
-            sexo = tolower(sexo);
-
-            if (sexo != 'h' && sexo != 'm')
             {
-                system("cls");
-                printf("Ingresa un dato valido para el sexo de el/la alumn@");
-                system("pause");
-                system("cls");
-            }
+                printf("\nIngresa la matricula de el/la alumn@ %d: ", i + 1);
+                scanf("%d", &matricula);
+
+                if (matricula <= 0)
+                {
+                    system("cls");
+                    printf("Ingresa una matricula valida");
+                    system("pause");
+                    system("cls");
+                }
+                
+            } while (matricula <= 0);
+
+            do
+            {
+                printf("\nIngresa el sexo de el/la alumn@ %d\nH\nM\n: ", i + 1);
+                scanf(" %c", &sexo);
+
+                sexo = tolower(sexo);
+
+                if (sexo != 'h' && sexo != 'm')
+                {
+                    system("cls");
+                    printf("Ingresa un dato valido para el sexo de el/la alumn@");
+                    system("pause");
+                    system("cls");
+                }
+                
+            } while (sexo != 'h' && sexo != 'm');
+
+            do
+            {
+                printf("\nEn que semestre se encuentra el/la alumn@ %d\n: ", i + 1);
+                scanf("%d", &semestre[i]);
+
+                if (semestre[i] < 0 || semestre[i] > 10)
+                {
+                    system("cls");
+                    printf("Ingresa un semestre valido");
+                    system("pause");
+                    system("cls");
+                }
+            } while (semestre[i] < 0 || semestre[i] > 10);
             
-        } while (sexo != 'h' && sexo != 'm');
-
-        do
-        {
-            printf("\nEn que semestre se encuentra el/la alumn@ %d\n: ", i + 1);
-            scanf("%d", &semestre[i]);
-
-            if (semestre[i] < 0 || semestre[i] > 10)
+            do
             {
-                system("cls");
-                printf("Ingresa un semestre valido");
-                system("pause");
-                system("cls");
-            }
-        } while (semestre[i] < 0 || semestre[i] > 10);
-        
-        do
-        {
-            printf("\nIngresa el promedio de el/la alumn@ %d\n: ", i + 1);
-            scanf("%f", &promedio[i]);
+                printf("\nIngresa el promedio de el/la alumn@ %d\n: ", i + 1);
+                scanf("%f", &promedio[i]);
 
-            if (promedio[i] < 0.0 || promedio[i] > 100.0)
+                if (promedio[i] < 0.0 || promedio[i] > 100.0)
+                {
+                    system("cls");
+                    printf("El promedio es inexistente, ingresa un dato valido");
+                    system("pause");
+                    system("cls");
+                }
+            } while (promedio[i] < 0.0 || promedio[i] > 100.0);
+
+            system("cls");
+
+            /* Caso 1 Promedio mayor de mujeres*/
+            
+            if (promedio[i] > promedio_mayor_1 && sexo == 'm')
             {
-                system("cls");
-                printf("El promedio es inexistente, ingresa un dato valido");
-                system("pause");
-                system("cls");
+                promedio_mayor_1 = promedio[i];
+                matricula_mayor_1 = matricula;
             }
-        } while (promedio[i] < 0.0 || promedio[i] > 100.0);
 
-        system("cls");
+            /* Caso 2 Promedio mayor de hombres*/
+            if (promedio[i] > promedio_mayor_2 && sexo == 'h')
+            {
+                promedio_mayor_2 = promedio[i];
+                matricula_mayor_2 = matricula;
+            }
+        }
+        printf("De las mujeres, el promedio mayor fue de %.2f con la alumna de matricula %d\n", promedio_mayor_1, matricula_mayor_1);
+        printf("De los hombres, el promedio mayor fue de %.2f con el alumno de matricula %d\n", promedio_mayor_2, matricula_mayor_2);
 
-        /* Caso 1 Promedio mayor de mujeres*/
-        
-        if (promedio[i] > promedio_mayor_1 && sexo == 'm')
+        printf("\nPromedio de alumnos de 1er semestre:\n");
+        for ( i = 0; i < 50; i++)
         {
-            promedio_mayor_1 = promedio[i];
-            matricula_mayor_1 = matricula;
+            if (semestre[i] == 1)
+                printf("%.2f\n", promedio[i]);
+            
         }
 
-        /* Caso 2 Promedio mayor de hombres*/
-        if (promedio[i] > promedio_mayor_2 && sexo == 'h')
+        printf("\nPromedio de alumnos de 4to semestre:\n");
+        for ( i = 0; i < 50; i++)
         {
-            promedio_mayor_2 = promedio[i];
-            matricula_mayor_2 = matricula;
+            if (semestre[i] == 4)
+                printf("%.2f\n", promedio[i]);
+            
         }
-    }
-    printf("De las mujeres, el promedio mayor fue de %.2f con la alumna de matricula %d\n", promedio_mayor_1, matricula_mayor_1);
-    printf("De los hombres, el promedio mayor fue de %.2f con el alumno de matricula %d\n", promedio_mayor_2, matricula_mayor_2);
 
-    printf("\nPromedio de alumnos de 1er semestre:\n");
-    for ( i = 0; i < 50; i++)
-    {
-        if (semestre[i] == 1)
-            printf("%.2f\n", promedio[i]);
-        
-    }
+        printf("\nPromedio de alumnos de 6to semestre:\n");
+        for ( i = 0; i < 50; i++)
+        {
+            if (semestre[i] == 6)
+                printf("%.2f\n", promedio[i]);
+            
+        }
 
-    printf("\nPromedio de alumnos de 4to semestre:\n");
-    for ( i = 0; i < 50; i++)
-    {
-        if (semestre[i] == 4)
-            printf("%.2f\n", promedio[i]);
-        
-    }
+        printf("\nPromedio de alumnos de 8vo semestre:\n");
+        for ( i = 0; i < 50; i++)
+        {
+            if (semestre[i] == 8)
+                printf("%.2f\n", promedio[i]);
+            
+        }
+    #elif __linux__
+        int matricula, matricula_mayor_1, matricula_mayor_2, semestre[50], i;
+        char sexo;
+        float promedio[50], promedio_mayor_1 = 0, promedio_mayor_2 = 0;
 
-    printf("\nPromedio de alumnos de 6to semestre:\n");
-    for ( i = 0; i < 50; i++)
-    {
-        if (semestre[i] == 6)
-            printf("%.2f\n", promedio[i]);
-        
-    }
+        for ( i = 0; i < 50 ; i++)
+        {
+            do
+            {
+                printf("\nIngresa la matricula de el/la alumn@ %d: ", i + 1);
+                scanf("%d", &matricula);
 
-    printf("\nPromedio de alumnos de 8vo semestre:\n");
-    for ( i = 0; i < 50; i++)
-    {
-        if (semestre[i] == 8)
-            printf("%.2f\n", promedio[i]);
-        
-    }
+                if (matricula <= 0)
+                {
+                    system("clear");
+
+                    printf("Ingresa una matricula valida");
+                    fflush(stdout);
+                    
+                    printf("\nPresiona la tecla ENTER para continuar. . . ");
+                    fflush(stdout);
+                    while (getchar() != '\n');
+                    getchar();
+                    
+                    system("clear");
+                }
+                
+            } while (matricula <= 0);
+
+            system("clear");
+
+            do
+            {
+                printf("\nIngresa el sexo de el/la alumn@ %d\nH\nM\n: ", i + 1);
+                scanf(" %c", &sexo);
+
+                sexo = tolower(sexo);
+
+                if (sexo != 'h' && sexo != 'm')
+                {
+                    system("clear");
+                    
+                    printf("Ingresa un dato valido para el sexo de el/la alumn@\n");
+                    fflush(stdout);
+                    
+                    printf("\nPresiona la tecla ENTER para continuar. . . ");
+                    fflush(stdout);
+                    while (getchar() != '\n');
+                    getchar();
+                    
+                    system("clear");
+                }
+                
+            } while (sexo != 'h' && sexo != 'm');
+
+            system("clear");
+
+            do
+            {
+                if (sexo == 'h')
+                
+                    printf("\nEn que semestre se encuentra el alumno: ");
+                
+                else
+                
+                    printf("\nEn que semestre se encuentra la alumna: ");
+
+                scanf("%d", &semestre[i]);
+
+                if (semestre[i] < 0 || semestre[i] > 10)
+                {
+                    system("clear");
+                    
+                    printf("Ingresa un semestre valido");
+                    fflush(stdout);
+                    
+                    printf("\nPresiona la tecla ENTER para continuar. . . ");
+                    fflush(stdout);
+                    while (getchar() != '\n');
+                    getchar();
+                    
+                    system("clear");
+                }
+            } while (semestre[i] < 0 || semestre[i] > 10);
+
+            system("clear");
+            
+            do
+            {
+                if (sexo == 'h')
+                
+                    printf("\nIngresa el promedio de el alumno: ");
+                
+                else
+                
+                    printf("\nIngresa el promedio de la alumna: ");
+                    
+                scanf("%f", &promedio[i]);
+
+                if (promedio[i] < 0.0 || promedio[i] > 100.0)
+                {
+                    system("clear");
+                    
+                    printf("El promedio es inexistente, ingresa un dato valido");
+                    fflush(stdout);
+                    
+                    printf("\nPresiona la tecla ENTER para continuar. . . ");
+                    fflush(stdout);
+                    while (getchar() != '\n');
+                    getchar();
+                    
+                    system("clear");
+                }
+            } while (promedio[i] < 0.0 || promedio[i] > 100.0);
+
+            system("clear");
+
+            /* Caso 1 Promedio mayor de mujeres*/
+            
+            if (promedio[i] > promedio_mayor_1 && sexo == 'm')
+            {
+                promedio_mayor_1 = promedio[i];
+                matricula_mayor_1 = matricula;
+            }
+
+            /* Caso 2 Promedio mayor de hombres*/
+            if (promedio[i] > promedio_mayor_2 && sexo == 'h')
+            {
+                promedio_mayor_2 = promedio[i];
+                matricula_mayor_2 = matricula;
+            }
+        }
+        printf("De las mujeres, el promedio mayor fue de %.2f con la alumna de matricula %d\n", promedio_mayor_1, matricula_mayor_1);
+        printf("De los hombres, el promedio mayor fue de %.2f con el alumno de matricula %d\n", promedio_mayor_2, matricula_mayor_2);
+
+        printf("\nPromedio de alumnos de 1er semestre:\n");
+        for ( i = 0; i < 50; i++)
+        {
+            if (semestre[i] == 1)
+                printf("%.2f\n", promedio[i]);
+            
+        }
+
+        printf("\nPromedio de alumnos de 4to semestre:\n");
+        for ( i = 0; i < 50; i++)
+        {
+            if (semestre[i] == 4)
+                printf("%.2f\n", promedio[i]);
+            
+        }
+
+        printf("\nPromedio de alumnos de 6to semestre:\n");
+        for ( i = 0; i < 50; i++)
+        {
+            if (semestre[i] == 6)
+                printf("%.2f\n", promedio[i]);
+            
+        }
+
+        printf("\nPromedio de alumnos de 8vo semestre:\n");
+        for ( i = 0; i < 50; i++)
+        {
+            if (semestre[i] == 8)
+                printf("%.2f\n", promedio[i]);
+            
+        }
+
+    #endif // DEBUG
 }
