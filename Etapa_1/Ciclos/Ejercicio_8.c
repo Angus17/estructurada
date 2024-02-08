@@ -66,7 +66,7 @@ int main(void)
 
             do
             {
-                printf("\nEn que semestre se encuentra el/la alumn@ %d\n: ", i + 1);
+                printf("\nEn que semmestre se encuentra el/la alumn@ %d\n: ", i + 1);
                 scanf("%d", &semestre[i]);
 
                 if (semestre[i] < 0 || semestre[i] > 10)
