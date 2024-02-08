@@ -138,6 +138,7 @@ int main(void)
                 printf("%.2f\n", promedio[i]);
             
         }
+        
     #elif __linux__
         int matricula, matricula_mayor_1, matricula_mayor_2, semestre[50], i;
         char sexo;
