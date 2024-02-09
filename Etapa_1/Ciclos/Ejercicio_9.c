@@ -161,7 +161,11 @@ int main(void)
                     promedio = suma / i;
             }
             
-            system("clear");
+            #if defined(_WIN32) || defined(_WIN64)
+                system("cls");
+            #elif __linux__
+                system("clear");
+            #endif 
 
             printf("Alumno %d matricula %d", contador_alumnos + 1, matricula);
             printf("\nSu promedio es de %.2f\n\n", promedio);
