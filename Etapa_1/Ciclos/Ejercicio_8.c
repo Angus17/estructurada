@@ -6,7 +6,7 @@
 
         1- Matricula y mayor promedio de las mujeres
         2- Matrucula y mayor promedio de los hombres
-        3- promedio de los alumnos de 1er, 4to, 6to, 8vo semestre
+        3- promedio de CANTIDAD de alumnos de 1er, 4to, 6to, 8vo semestre
         
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Autor: Diego Leonardo Alejo Cantu
