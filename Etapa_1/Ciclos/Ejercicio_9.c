@@ -32,7 +32,7 @@ int main(void)
 
             respuesta_existencia = tolower(respuesta_existencia);
 
-            #if defined(WIN_32) || defined(WIN_64)
+            #if defined(_WIN32) || defined(_WIN64)
 
                 if (respuesta_existencia != 's' && respuesta_existencia != 'n')
                 {
@@ -44,7 +44,8 @@ int main(void)
                     getchar();
                     
                     system("cls");
-                }else if (respuesta_existencia == 's')
+                }
+                else if (respuesta_existencia == 's')
                 
                     existencia = true;
 
@@ -63,7 +64,8 @@ int main(void)
                     getchar();
                     
                     system("clear");
-                }else if (respuesta_existencia == 's')
+                }
+                else if (respuesta_existencia == 's')
                 
                     existencia = true;
             #endif 
@@ -78,7 +80,7 @@ int main(void)
                 printf("Ingresa la matricula del alumn@ %d: ", contador_alumnos + 1);
                 scanf("%d", &matricula);
 
-                #if defined(WIN_32) || defined(WIN_64)
+                #if defined(_WIN32) || defined(_WIN64)
                 
                     if (matricula < 0)
                     {
@@ -119,7 +121,7 @@ int main(void)
                     printf("Ingresa la calificacion %d del alumn@ %d: ", i, contador_alumnos + 1);
                     scanf("%d", &calificacion);
                     
-                    #if defined(WIN_32) || defined(WIN_64)
+                    #if defined(_WIN32) || defined(_WIN64)
 
                         if (calificacion < 0 ||  calificacion > 100)
                         {
@@ -171,28 +173,52 @@ int main(void)
 
                 respuesta_existencia = tolower(respuesta_existencia);
 
-                if (respuesta_existencia != 's' && respuesta_existencia != 'n')
-                {
-                    system("clear");
+                #if defined(_WIN32) || defined(_WIN64)
 
-                    printf("Ingresa una respuesta valida");
-                    fflush(stdout);
-                    
-                    printf("\nPresiona la tecla ENTER para continuar. . . ");
-                    fflush(stdout);
-                    while (getchar() != '\n');
-                    getchar();
-                    
-                    system("clear");
-                }
-                else if (respuesta_existencia == 'n')
-                
-                        existencia = false;
+                    if (respuesta_existencia != 's' && respuesta_existencia != 'n')
+                    {
+                        system("cls");
 
-                    else
-
-                        suma = 0;
+                        printf("Ingresa una respuesta valida");
+                        printf("\nPresiona la tecla ENTER para continuar. . . ");
+                        fflush(stdin);
+                        getchar();
+                        
+                        system("cls");
+                    }
+                    else if (respuesta_existencia == 'n')
                     
+                            existencia = false;
+
+                        else
+
+                            suma = 0;
+
+                #elif __linux__
+                    
+                    if (respuesta_existencia != 's' && respuesta_existencia != 'n')
+                    {
+                        system("clear");
+
+                        printf("Ingresa una respuesta valida");
+                        fflush(stdout);
+                        
+                        printf("\nPresiona la tecla ENTER para continuar. . . ");
+                        fflush(stdout);
+                        while (getchar() != '\n');
+                        getchar();
+                        
+                        system("clear");
+                    }
+                    else if (respuesta_existencia == 'n')
+                    
+                            existencia = false;
+
+                        else
+
+                            suma = 0;
+                        
+                #endif 
 
             } while (respuesta_existencia != 's' && respuesta_existencia != 'n');
 
