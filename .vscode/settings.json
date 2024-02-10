@@ -59,6 +59,7 @@
   "files.associations": {
     "MEMORIA.C": "cpp",
     "unistd.h": "c",
-    "ctype.h": "c"
+    "ctype.h": "c",
+    "string.h": "c"
   }
 }
