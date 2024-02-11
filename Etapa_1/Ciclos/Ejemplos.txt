@@ -1,0 +1,16 @@
+Suponer
+
+2 empleados hombres
+3 mujeres
+1 empleado hombre menor de 40 que recibe sueldo menor a 40000
+2 empleadas mujeres con sueldo mayor a 30000
+3 empleados mayores de 50
+
+
+5 VUELTAS
+
+1 - Clave A, edad 34, Hombre, sueldo 34000 
+2 - Clave B, edad 56, hombre, sueldo 50000
+3 - Clave A, edad 51, Mujer, sueldo 40000
+4 - Clave B, edad 57, Mujer, sueldo 41000
+5 - Clave A, edad 44, Mujer, sueldo 22000
