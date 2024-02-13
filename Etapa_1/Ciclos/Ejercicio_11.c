@@ -10,17 +10,19 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 int main(void)
 {
     int lista_numeros[10], i, elemento = -1, busqueda;
+    bool existencia = true;
 
     for ( i = 0; i < 10; i++)
     {
         do
         {
             printf("Ingresa numero %d: ", i + 1);
-            scanf("%d", &lista_numeros[i]);
+            scanf(" %d", &lista_numeros[i]);
 
             #if defined(_WIN32) || defined(_WIN64)
 
@@ -58,7 +60,7 @@ int main(void)
     do
     {
         printf("Ingresa el numero que quieres buscar: ");
-        scanf("%d", &busqueda);
+        scanf(" %d", &busqueda);
 
         #if defined(_WIN32) || defined(_WIN64)
             if (busqueda < 0 || busqueda > 5000)
@@ -92,14 +94,22 @@ int main(void)
         #endif 
     } while (busqueda < 0 || busqueda > 5000);
     
-    for ( i = 0; i < 10; i++)
+    i = 0;
+
+    while (existencia)
     {
         if (busqueda == lista_numeros[i])
-        
+        {
             elemento = i;
-        
+            existencia = false;
+        }
+        else if (i == 10)
+            
+                existencia = false;
+        i++;
     }
+    
 
-    (elemento != -1) ? printf("\nEl numero que buscas fue encontrado en la posicion %d del arreglo, el numero es: %d\n", elemento, lista_numeros[elemento]) : printf("\nEl numero que ingresaste no fue encontrado. . .\n") ;
+    (elemento != -1) ? printf("\nEl numero que buscas fue encontrado en la posicion %d del arreglo, el numero es: %d\n\n", elemento, lista_numeros[elemento]) : printf("\nEl numero que ingresaste no fue encontrado. . .\n") ;
 
 }
