@@ -24,7 +24,7 @@ int main(void)
     char sexo;
     float promedio[50], promedio_mayor_1 = 0, promedio_mayor_2 = 0;
 
-    #if defined(WIN_32) || defined(WIN_64)
+    #if defined(_WIN32) || defined(_WIN64)
 
         for ( i = 0; i < 50 ; i++)
         {
