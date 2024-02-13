@@ -226,6 +226,7 @@ int main(void)
         do
         {
             printf("Ingresa el sexo de el/la emplead@ %d\nM.Hombre\nF.Mujer\n:  ", contador_empleados + 1);
+
             #if defined(_WIN32) || defined(_WIN64)
                 fflush(stdin);
             #endif 
@@ -273,13 +274,7 @@ int main(void)
 
         do
         {
-            if (sexo == 'm')
-            
-                printf("Ingresa el sueldo del empleado: ");
-            
-            else
-            
-                printf("Ingresa el sueldo de la empleada: ");
+            (sexo == 'm') ? printf("Ingresa el sueldo del empleado: ") : printf("Ingresa el sueldo de la empleada: ");
             
             scanf("%d", &sueldo);
 
@@ -317,7 +312,9 @@ int main(void)
         do
         {
             printf("Existen más empleados?\nS.Si\nN.No\n: ");
-            scanf(" %c", &respuesta_existencia);
+            scanf(" %c", &respuesta_existencia); 
+            
+            (sexo == 'm')?printf("Ingresa el sueldo del empleado: "):printf("Ingresa el sueldo de la empleada: ");
 
             respuesta_existencia = tolower(respuesta_existencia);
 

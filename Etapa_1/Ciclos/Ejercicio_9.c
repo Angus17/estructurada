@@ -14,7 +14,7 @@ Fecha de actualizacion: 08/02/2024
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
+#include <ctype.h> 
 #include <stdbool.h>
 
 int main(void)
@@ -253,7 +253,6 @@ int main(void)
         promedio_grupal = suma_grupal / contador_alumnos;
         printf("\nEl promedio grupal de l@s %d alumn@s es de: %.2f\n", contador_alumnos, promedio_grupal);
     }
-    
-    
+
     printf("\nOperacion finalizada! . . .\n");
 }
