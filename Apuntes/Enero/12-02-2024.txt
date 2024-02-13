@@ -1,0 +1,1 @@
+Los ARREGLOS son estructuras de datos homogeneos, datos almacenados en espacios en memoria RAM
