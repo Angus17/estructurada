@@ -15,7 +15,7 @@
 int main(void)
 {
     int lista_numeros[10], i, elemento = -1, busqueda;
-    bool existencia = true;
+    bool bandera = true;
 
     for ( i = 0; i < 10; i++)
     {
@@ -96,16 +96,14 @@ int main(void)
     
     i = 0;
 
-    while (existencia)
+    while (i < 10 && bandera)
     {
         if (busqueda == lista_numeros[i])
         {
             elemento = i;
-            existencia = false;
+            bandera = false;
         }
-        else if (i == 10)
-            
-                existencia = false;
+
         i++;
     }
     
