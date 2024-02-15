@@ -1,0 +1,10 @@
+ASCII 0-255
+
+Caracter, interpretado en lenguaje C tambien como valor int
+
+-+-+-+-+-+-+-+
+CADENA
+-+-+-+-+-+-+-+
+
+Es un arreglo de caracteres el cual finaliza con caracter nulo '\0'
+

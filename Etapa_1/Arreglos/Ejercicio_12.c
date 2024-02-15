@@ -51,13 +51,13 @@ int main(void)
 
     for ( i = 0 ; i < 9 ; i++)
     {
-        for ( j = 0 ; j < 9 ; j++)
+        for ( j = i + 1 ; j <= 9 ; j++)
         {
-            if (lista_numeros[j] > lista_numeros[j + 1])
+            if (lista_numeros[i] > lista_numeros[j])
             {
-                auxiliar = lista_numeros[j];
-                lista_numeros[j] = lista_numeros[j + 1];
-                lista_numeros[j + 1] = auxiliar;
+                auxiliar = lista_numeros[i];
+                lista_numeros[i] = lista_numeros[j];
+                lista_numeros[j] = auxiliar;
             }
         }
     }
