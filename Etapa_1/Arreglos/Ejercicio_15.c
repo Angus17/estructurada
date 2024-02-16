@@ -19,7 +19,7 @@ Fecha: 15-02-2024
 
 int main(void)
 {
-    int i, j, calificacion[7][3], promedio[7], suma = 0, contador, espacio_caracter;
+    int i, j, calificacion[7][3], promedio[7], suma, contador, espacio_caracter;
     char nombre[7][50];
 
     for ( i = 0; i < 7; i++)
@@ -27,6 +27,11 @@ int main(void)
         do
         {
             printf("Escribe el nombre del alumn@ %d: ", i + 1);
+            #if defined(_WIN32) || defined(_WIN64)
+                fflush(stdin);
+            #elif __linux__
+                __fpurge(stdin);
+            #endif
             fgets(nombre[i], 50, stdin);
 
             espacio_caracter = 0;
@@ -53,7 +58,10 @@ int main(void)
             
             do
             {
-                printf("Ingresa la calificacion %d del alumn@ %d", j + 1, i + 1);
+                printf("Ingresa la calificacion %d del alumn@ %d: ", j + 1, i + 1);
+                #ifdef __linux__
+                    __fpurge(stdin);
+                #endif
                 scanf("%d", &calificacion[i][j]);
 
                 #if defined(_WIN32) || defined(_WIN64)
@@ -95,6 +103,8 @@ int main(void)
     
     for ( i = 0; i < 7; i++)
     {
+        suma = 0;
+        
         for ( j = 0; j < 3; j++)
         
             suma += calificacion[i][j];
