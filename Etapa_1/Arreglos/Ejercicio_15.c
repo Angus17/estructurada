@@ -19,7 +19,7 @@ Fecha: 15-02-2024
 
 int main(void)
 {
-    int i, j, calificacion[7][3], promedio[7], suma, contador, espacio_caracter;
+    int i, j, calificacion[7][3], promedio[7], suma, contador, espacio_caracter, longitud = 0;
     char nombre[7][50];
 
     for ( i = 0; i < 7; i++)
@@ -27,25 +27,35 @@ int main(void)
         do
         {
             printf("Escribe el nombre del alumn@ %d: ", i + 1);
+
             #if defined(_WIN32) || defined(_WIN64)
                 fflush(stdin);
             #elif __linux__
                 __fpurge(stdin);
             #endif
-            fgets(nombre[i], 50, stdin);
 
-            espacio_caracter = 0;
-            contador = 0;
-            while (nombre[i][espacio_caracter] != '\0')
+            fgets(nombre[i], 50, stdin); /* gets(nombre[i]) */
+
+            nombre[i][strcspn(nombre[i], "\n")] = '\0';  
+
+            longitud = strlen(nombre[i]);
+
+            if (longitud != 0)
             {
-                if (isalpha(nombre[i][espacio_caracter]) || nombre[i][espacio_caracter] == 32)
-                
-                    contador++;
-                
-                espacio_caracter++;
+                espacio_caracter = 0;
+                contador = 0;
+
+                while (nombre[i][espacio_caracter] != '\0')
+                {
+                    if (isalpha(nombre[i][espacio_caracter]) || nombre[i][espacio_caracter] == 32)
+                    
+                        contador++;
+                    
+                    espacio_caracter++;
+                }
             }
 
-        } while (strlen(nombre[i]) == 0 || contador == 0);
+        } while (longitud == 0 || longitud != contador);
 
         #if defined(_WIN32) || defined(_WIN64)
             system("cls");
