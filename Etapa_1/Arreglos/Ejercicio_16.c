@@ -10,7 +10,7 @@
         Validar que la calificacion se encuentre entre 0 y 100
 
         Autor: Diego Leonardo Alejo Cantu
-        Fecha: 15-02-2024
+        Fecha: 16-02-2024
     -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
  */
 
@@ -24,8 +24,8 @@
 
 int main(void)
 {
-    int calificaciones[100][5], suma, contador_alumnos = 0, alumno_calificacion_mayor, calificacion_mayor = 0, promedio_mayor_examenes = 0, i, j, examen_mayor;
-    float promedio_alumnos[100], promedio_examenes[5];
+    int calificaciones[100][5], suma, contador_alumnos = 0, alumno_calificacion_mayor, calificacion_mayor = 0, i, j, examen_mayor;
+    float promedio_alumnos[100], promedio_examenes[5], promedio_mayor_examenes = 0.0;
     bool existencia = false;
     char respuesta;
 
@@ -73,6 +73,12 @@ int main(void)
             existencia = true;
 
     } while (respuesta != 's' && respuesta != 'n');
+
+    #if defined(_WIN32) || defined(_WIN64)
+        system("cls");
+    #elif __linux__
+        system("clear");
+    #endif
     
     while (existencia)
     {
@@ -174,7 +180,7 @@ int main(void)
         
             suma += calificaciones[i][j];
         
-        promedio_alumnos[i] = suma / 5;
+        promedio_alumnos[i] = (float) suma / 5;
     }
     
     i = 0;
@@ -211,6 +217,11 @@ int main(void)
         
     }
     
+    for ( i = 0; i < contador_alumnos; i++)
     
+        printf("\nEl promedio del alumno %d es de %.2f\n", i + 1, promedio_alumnos[i]);
     
+    printf("El alumno que obtuvo la mejor calificacion en el parcial #3 fue el alumno %d\n", alumno_calificacion_mayor);
+    printf("El examen que obtuvo mejor promedio entre los alumnos, fue el parcial #%d con un promedio "
+            "de %.2f\n", examen_mayor, promedio_mayor_examenes);
 }
