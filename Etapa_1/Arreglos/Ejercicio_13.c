@@ -4,6 +4,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
 {
@@ -12,5 +13,5 @@ int main(void)
     for ( i = 0; i < 256; i++)
     
         printf(" %c ", i);
-    
+    system("pause");
 }
