@@ -1,0 +1,28 @@
+*******************************************************************************************                                        
+                                        
+                                        ESTRUCTURAS
+
+*******************************************************************************************
+
+Las estructuras nos permiten guardar
+conjuntos de tipos de variables de todos tipos de datos, 
+menos a la misma estructura
+
+Para inicializar las estructuras pueden ser inicializadas mediante listas
+de inicializacion como arreglos
+
+struct card
+{
+    char face[];
+    char suit[];
+};
+
+struct card a = ("Tres", "Corazones")
+
+Para acceder a la informacion, se utiliza (.) como metodo para llamar a la variable 
+dentro de struct 
+
+* * * * * * * typedef * * * * * * *
+
+proporciona mecanismo para la creacion de sinonimos para tipos de datos anteriormente definidos
+
