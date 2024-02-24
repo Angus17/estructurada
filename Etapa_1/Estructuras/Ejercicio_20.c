@@ -39,16 +39,18 @@ int main(void)
 {
     float promedio_general_total[50];
     struct Datos_Estudiantes datos[50];
-    int i, j, contador_estudiantes = 0, longitud_cadena, contador_cadenas;
+    int i, j, contador_estudiantes = 0, longitud_cadena, contador_caracteres;
     float suma = 0.0;
     char respuesta_existencia;
     bool existencia = false;
 
     do
     {
-        printf("Existen estudiantess?\nS.Si\nN.No\n: ");
+        printf("Existen estudiantes?\nS.Si\nN.No\n: ");
         #if defined(_WIN32) || defined(_WIN64)
             fflush(stdin);
+        #elif __linux__
+            __fpurge(stdin);
         #endif
         scanf(" %c", &respuesta_existencia);
 
@@ -97,26 +99,29 @@ int main(void)
         do
         {
             printf("Escribe el nombre del estudiante %d: ", contador_estudiantes);
-            #if __linux__
+            #if defined(_WIN32) || defined(_WIN64)
+                fflush(stdin);
+            #elif __linux__
                 __fpurge(stdin);
             #endif 
             gets(datos[contador_estudiantes].nombre_alumno);
 
-            datos->nombre_alumno[strcspn(datos[contador_estudiantes].nombre_alumno, "\n")] = '\0';
+            datos[contador_estudiantes].nombre_alumno[strcspn(datos[contador_estudiantes].nombre_alumno, "\n")] = '\0';
             longitud_cadena = strlen(datos[contador_estudiantes].nombre_alumno);
 
             j = 0;
-            contador_cadenas = 0;
+            contador_caracteres = 0;
+
             while (datos[contador_estudiantes].nombre_alumno[j] != '\0')
             {
                 if (isalpha(datos[contador_estudiantes].nombre_alumno[j]) || datos[contador_estudiantes].nombre_alumno[j] == 32)
                 
-                    contador_cadenas++;
+                    contador_caracteres++;
                 
                 j++;
             }
 
-        } while (longitud_cadena == 0 || contador_cadenas != longitud_cadena);
+        } while (longitud_cadena == 0 || contador_caracteres != longitud_cadena);
 
         do
         {
@@ -249,21 +254,22 @@ int main(void)
             #endif 
             gets(datos[contador_estudiantes].nombre_alumno);
 
-            datos->nombre_alumno[strcspn(datos[contador_estudiantes].nombre_alumno, "\n")] = '\0';
+            datos[contador_estudiantes].nombre_alumno[strcspn(datos[contador_estudiantes].nombre_alumno, "\n")] = '\0';
             longitud_cadena = strlen(datos[contador_estudiantes].nombre_alumno);
 
             j = 0;
-            contador_cadenas = 0;
+            contador_caracteres = 0;
+
             while (datos[contador_estudiantes].nombre_alumno[j] != '\0')
             {
                 if (isalpha(datos[contador_estudiantes].nombre_alumno[j]) || datos[contador_estudiantes].nombre_alumno[j] == 32)
                 
-                    contador_cadenas++;
+                    contador_caracteres++;
                 
                 j++;
             }
 
-        } while (longitud_cadena == 0 || contador_cadenas != longitud_cadena);
+        } while (longitud_cadena == 0 || contador_caracteres != longitud_cadena);
         
         do
         {

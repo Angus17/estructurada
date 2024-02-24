@@ -25,4 +25,5 @@ int main(void)
 
     printf("El costo de enganche del vehiculo es de: $%.2f\n", enganche);
     printf("El cliente debera pagar $%.2f en 36 mensualidades", mensualidades);
+    
 }

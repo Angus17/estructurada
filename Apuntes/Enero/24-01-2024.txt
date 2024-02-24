@@ -5,9 +5,10 @@ Fases de Entorno de C:
     2- PREPROCESADOR: procesa el programa, incluye y reemplaza, analiza
        el codigo
     3- COMPILADOR: Crea el codigo objeto y lo almacena e disco
-    4- ENLAZADOR: Vincula el codigo objeto con las bibliotecas crea el archivo a out y lo almacena en disco
+    4- ENLAZADOR: Vincula el codigo objeto con las bibliotecas crea el archivo.out y lo almacena en disco
     5- CARGADOR: Coloca el programa en memoria RAM
-    6- CPU: Toma cada una de las instrucciones y las ejecuta, almacenando posiblemente nuevos valores de datos conforme se ejecuta el programa en la Unidad Central del Procesamiento
+    6- CPU: Toma cada una de las instrucciones y las ejecuta, almacenando posiblemente
+            nuevos valores de datos conforme se ejecuta el programa en la Unidad Central del Procesamiento
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 EJEMPLO DE PROGRAMA:

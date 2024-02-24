@@ -1,0 +1,19 @@
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+                        FUNCIONES
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+Bloques de codigo que realizan una accion en específico
+se pueden reutilizar las veces que queramos mientras las invoquemos
+
+
+tipo de valor  nombre_de_funcion(tipo de valor de parametro parametro)
+{
+    declaraciones
+
+    return valor //Si es void no retorna nada
+}
+
+
+VER PELICULA BLACKBERRY
