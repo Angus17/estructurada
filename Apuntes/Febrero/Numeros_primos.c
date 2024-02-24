@@ -3,8 +3,7 @@
 #include <math.h>
 
 bool Buscar_numeros_primos(int);
-
-
+ 
 int main(void)
 {
     long int numero_a_buscar;
@@ -26,21 +25,25 @@ int main(void)
 
 bool Buscar_numeros_primos(int numero)
 {
-    if (numero <= 2 || numero % 2 == 0)
+    if (numero == 2)
+    
+        return true;
+    
+    else if (numero < 2 || numero % 2 == 0)
     
         return false;
     
-    else
-    {
-        for (int i = 3; i <= trunc(sqrt(numero)) ; i += 2)
+        else
         {
-            if (numero % i == 0)
-            
-                return false;
-            
-            
-        }
+            for (int i = 3; i <= sqrt(numero) ; i += 2)
+            {
+                if (numero % i == 0)
+                
+                    return false;
+                
+                
+            }
 
-        return true;
-    }
+            return true;
+        }
 }
