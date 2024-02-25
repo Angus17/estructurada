@@ -1,29 +1,49 @@
 #include <stdio.h>
-#include <math.h>
+#include <locale.h>
 
 int main(void)
 {
-    int entero_y;
+    int categoria, horas_trabajadas, horas_extra;
+    float sueldo, sueldo_nuevo;
 
-    printf("Escribe un numero: ");
-    scanf("%d", &entero_y);
+    setlocale(LC_CTYPE, "spanish");
+    
+    printf("Ingresa el sueldo del trabajador: ");
+    scanf("%f", &sueldo);
 
-    if (entero_y <= 11)
+    printf("Ingresa las horas extra trabajadas: ");
+    scanf("%d", &horas_extra);
+
+    printf("Ingresa la categoría del trabajador: ");
+    scanf("%d", &categoria);
+
+    horas_trabajadas = horas_extra;
     
-        entero_y += 50;
+    if (horas_trabajadas > 30)
     
-    else if (entero_y <= 33)
+        horas_trabajadas = 30;
+    
+    switch (categoria)
+    {
+        case 1: 
+            sueldo_nuevo = sueldo + horas_trabajadas * 30;
+            break;
         
-            entero_y *= entero_y -10;
-        
-        else if (entero_y <= 64)
-            
-                entero_y = pow(entero_y,3) + (entero_y * entero_y) - 10;
-            
-            else
-            
-                entero_y = 0;
-            
-            
-    printf("\nEl nuevo numero es: %d\n", entero_y);
+        case 2: 
+            sueldo_nuevo = sueldo + horas_trabajadas * 40;
+            break;
+
+        case 3: 
+            sueldo_nuevo = sueldo + horas_trabajadas * 50;
+            break;
+
+        case 4: 
+            sueldo_nuevo = sueldo + horas_trabajadas * 70;
+            break;
+
+        default:
+            sueldo_nuevo = sueldo;
+            break;
+    }
+    printf("\nEl sueldo nuevo del trabajador será de: %.2f\n", sueldo_nuevo);
 }

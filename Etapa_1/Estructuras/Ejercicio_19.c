@@ -33,23 +33,25 @@ int main(void)
 
     for ( i = 0; i < 5; i++)
     {
-        
         do
         {
             printf("Escribe el nombre del deportista: ");
             #if __linux__
                 __fpurge(stdin);
+            #elif defined(_WIN32) || defined(_WIN64)
+                fflush(stdin);
             #endif 
             gets(datos[i].nombre);
 
-            datos.nombre[strcspn(datos[i].nombre, "\n")] = '\0';
+            datos[i].nombre[strcspn(datos[i].nombre, "\n")] = '\0';
             longitud_cadena = strlen(datos[i].nombre);
 
             j = 0;
             contador_cadenas = 0;
+            
             while (datos[i].nombre[j] != '\0')
             {
-                if (isalpha(datos[i].nombre[j]) || datos.nombre[j] == 32)
+                if (isalpha(datos[i].nombre[j]) || datos[i].nombre[j] == 32)
                 
                     contador_cadenas++;
                 
@@ -65,7 +67,7 @@ int main(void)
             printf("Ingresa ahora su edad: ");
             #if __linux__
                 __fpurge(stdin);
-            #elif defined(_WIN32)
+            #elif defined(_WIN32) || defined(_WIN64)
                 fflush(stdin);
             #endif 
             scanf("%d", &datos[i].edad);
@@ -106,12 +108,11 @@ int main(void)
         #endif
     }
     
-
-    printf("\nNombre del deportista: %s\n", datos.nombre);
-    printf("Edad del deportista: %d\n", datos.edad);
-    printf("Peso del deportista: %.2f\n", datos.peso);
-    printf("Altura del deportista: %.2f\n", datos.altura);
-
+    for ( i = 0; i < 5; i++)
+    {
+        printf("\nNombre del deportista: %s\n", datos[i].nombre);
+        printf("Edad del deportista: %d\n", datos[i].edad);
+        printf("Peso del deportista: %.2f\n", datos[i].peso);
+        printf("Altura del deportista: %.2f\n", datos[i].altura);
+    }
 }
-
-/* Ahora hacer ejercicio 19 para 5 deportistas */
