@@ -18,10 +18,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
+/* #include <stdbool.h>
 #if __linux__
     #include <stdio_ext.h>
-#endif 
+#endif  */
 
 struct Automoviles_Estacionamiento
 {
@@ -30,11 +30,11 @@ struct Automoviles_Estacionamiento
 };
 
 int calcular_cobro_estacionamiento(int);
-void validar_Sistema_Operativo(bool);
+/* void validar_Sistema_Operativo(bool); */
 
 int main(void)
 {
-    int i;
+    int i, costo_total = 0;
     struct Automoviles_Estacionamiento datos[5];
 
     for ( i = 0; i < 5; i++)
@@ -43,27 +43,24 @@ int main(void)
         {
             printf("Cuantas horas estuvo estacionado el auto #%d: ", i + 1);
 
-            #if defined(_WIN32) || defined(_WIN64)
+            /* #if defined(_WIN32) || defined(_WIN64)
                 fflush(stdin);
             #elif __linux__
                 __fpurge(stdin);
-            #endif
+            #endif */
 
             scanf("%d", &datos[i].horas);
 
-            if (datos[i].horas <= 0)
+            /* if (datos[i].horas <= 0)
             {
                 #if defined(_WIN32) || defined(_WIN64)
                     validar_Sistema_Operativo(true);
                 #elif __linux__
                     validar_Sistema_Operativo(false);
                 #endif 
-            }
+            } */
             
         } while (datos[i].horas <= 0);
-
-        datos[i].cobro = calcular_cobro_estacionamiento(datos[i].horas);
-        
     }
 
     #if defined(_WIN32) || defined(_WIN64)
@@ -72,12 +69,23 @@ int main(void)
         system("clear");
     #endif
 
-    printf("\t\t\tAuto\t\t\tHoras\t\t\tCobro\n\n");
+    for ( i = 0; i < 5; i++)
+    
+        datos[i].cobro = calcular_cobro_estacionamiento(datos[i].horas);
+    
+    for ( i = 0; i < 5; i++)
+    
+        costo_total += datos[i].cobro;
+    
+    
+
+    printf("%-30s %-30s  %-s\n", "Autos", "Horas", "Cobro");
 
     for ( i = 0; i < 5; i++)
     
-        printf("\t\t\t%d\t\t\t%d\t\t\t%d\n", i + 1, datos[i].horas, datos[i].cobro);
+        printf("  %-30d %-30d $%-d\n", i + 1, datos[i].horas, datos[i].cobro);
 
+    printf("\nTotal Generado: $%d\n", costo_total);
 }
 
 int calcular_cobro_estacionamiento(int hours)
@@ -96,7 +104,7 @@ int calcular_cobro_estacionamiento(int hours)
     return cobro;
 }
 
-void validar_Sistema_Operativo(bool data)
+/* void validar_Sistema_Operativo(bool data)
 {
     
     if (data)
@@ -122,5 +130,5 @@ void validar_Sistema_Operativo(bool data)
         getchar();
         
         system("clear");
-    }
-}
+    } 
+}    */
