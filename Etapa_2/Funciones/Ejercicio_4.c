@@ -116,7 +116,7 @@ int main(void)
             break;
 
             case 3:
-                if (!datos_leidos && !promedios_calculados)
+                if (!datos_leidos)
                 
                     puts("Necesitas leer los datos primero y luego calcular promedios, para imprimir resultados");
                 
