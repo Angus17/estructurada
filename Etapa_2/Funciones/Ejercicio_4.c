@@ -26,8 +26,8 @@
 int calcular_promedio(int[3][6], int);
 void validar_Sistema_Operativo();
 void limpiar_buffer_STDIN();
-void limpiar_pantalla();
-void pausar_pantalla();
+void limpiar_terminal();
+void pausar_terminal();
 
 int main(void)
 {
@@ -36,7 +36,7 @@ int main(void)
 
     do
     {
-        limpiar_pantalla();
+        limpiar_terminal();
 
         do
         {
@@ -57,7 +57,7 @@ int main(void)
             
         } while (opcion < 1 || opcion > 4);
         
-        limpiar_pantalla();
+        limpiar_terminal();
 
         switch (opcion)
         {
@@ -87,7 +87,7 @@ int main(void)
                             } while (calificaciones[i][j] < 0 || calificaciones[i][j] > 100);
                         }
 
-                        limpiar_pantalla();
+                        limpiar_terminal();
                     }
 
                     datos_leidos = true;
@@ -145,7 +145,7 @@ int main(void)
 
         if (opcion != 4)
         
-            pausar_pantalla();
+            pausar_terminal();
 
     } while (opcion != 4);
 }
@@ -171,7 +171,7 @@ void limpiar_buffer_STDIN()
     #endif
 }
 
-void limpiar_pantalla()
+void limpiar_terminal()
 {
     #if defined(_WIN32) || defined(_WIN64)
         system("cls");
@@ -180,7 +180,7 @@ void limpiar_pantalla()
     #endif
 }
 
-void pausar_pantalla()
+void pausar_terminal()
 {
     #if defined(_WIN32) || defined(_WIN64)
         system("pause");
