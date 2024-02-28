@@ -23,103 +23,178 @@
     #include <stdio_ext.h>
 #endif 
 
-int calcular_promedio(int[][6]);
-void validar_Sistema_Operativo(bool);
+int calcular_promedio(int[3][6], int);
+void validar_Sistema_Operativo();
+void limpiar_buffer_STDIN();
+void limpiar_pantalla();
+void pausar_pantalla();
 
 int main(void)
 {
     int opcion, calificaciones[3][6], i, j;
+    bool datos_leidos = false, promedios_calculados = false;
 
     do
     {
+        limpiar_pantalla();
+
         do
         {
-            printf("%-10s: \n", "MENU DE OPCIONES");
+            printf("    %-s: \n", "MENU DE OPCIONES");
             printf("1. Lectura de datos\n");
-            printf("2. Calculo de promedio");
-            printf("3. Imprimir resultado");
-            printf("4. Salir");
-            printf("%-10s: ", "opcion");
+            printf("2. Calculo de promedio\n");
+            printf("3. Imprimir resultado\n");
+            printf("4. Salir\n");
+            printf("    %-s: ", "opcion");
             
+            limpiar_buffer_STDIN();
+
             scanf("%d", &opcion);
 
             if (opcion < 1 || opcion > 4)
-            {
-                #if defined(_WIN32) || defined(_WIN64)
-                    validar_Sistema_Operativo(true);
-                #elif __linux__
-                    validar_Sistema_Operativo(false);
-                #endif 
-            }
+            
+                validar_Sistema_Operativo();
             
         } while (opcion < 1 || opcion > 4);
         
+        limpiar_pantalla();
+
         switch (opcion)
         {
             case 1:
-                for ( i = 0; i < 3; i++)
+                if (datos_leidos)
+                
+                    puts("Ya leiste los datos, procede a calcular los promedios");
+                
+                else
                 {
-                    for ( j = 0; j < 5; j++)
+                    for ( i = 0; i < 3; i++)
                     {
-                        do
+                        for ( j = 0; j < 5; j++)
                         {
-                            printf("Calificacion %d alumn@ %d:", j + 1, i + 1);
-                            
-                            #if defined(_WIN32) || defined(_WIN64)
-                                fflush(stdin);
-                            #elif __linux__
-                                __fpurge(stdin);
-                            #endif
-
-                            scanf("%d", &calificaciones[i][j]);
-
-                            if (calificaciones[i][j] < 0 || calificaciones[i][j] > 100)
+                            do
                             {
-                                #if defined(_WIN32) || defined(_WIN64)
-                                    validar_Sistema_Operativo(true);
-                                #elif __linux__
-                                    validar_Sistema_Operativo(false);
-                                #endif 
-                            }
-                            
-                        } while (calificaciones[i][j] < 0 || calificaciones[i][j] > 100);
-                        
+                                printf("Calificacion %d alumn@ %d: ", j + 1, i + 1);
+                                
+                                limpiar_buffer_STDIN();
+
+                                scanf("%d", &calificaciones[i][j]);
+
+                                if (calificaciones[i][j] < 0 || calificaciones[i][j] > 100)
+                                
+                                    validar_Sistema_Operativo();
+                                
+                            } while (calificaciones[i][j] < 0 || calificaciones[i][j] > 100);
+                        }
+
+                        limpiar_pantalla();
                     }
-                    
+
+                    datos_leidos = true;
                 }
+                
             break;
 
             case 2:
-                for ( i = 0; i < 3; i++)
+                if (!datos_leidos)
                 
-                    calificaciones[5][i] = calcular_promedio(calificaciones);
-                
+                    puts("Necesitas ingresar las calificaciones para obtener el promedio");
+
+                else if (promedios_calculados)
+                    
+                        puts("Ya calculaste los promedios, ya puedes imprimir resultados");
+                    
+                    else
+                    {
+                        for ( i = 0; i < 3; i++)
+                        
+                            calificaciones[i][5] = calcular_promedio(calificaciones, i);
+                        
+                        promedios_calculados = true;
+                        puts("Promedios calculados con exito!");
+                    }
             break;
 
             case 3:
+                if (!datos_leidos && !promedios_calculados)
+                
+                    puts("Necesitas leer los datos primero y luego calcular promedios, para imprimir resultados");
+                
+                else if (!promedios_calculados)
+                    
+                        puts("Te falta calcular los promedios para poder imprimir resultados");
+                    
+                    else
+                    {
+                        for ( i = 0; i < 3; i++)
+                        {
+                            printf("Calificaciones del alumn@ %d: ", i + 1);
+                            for ( j = 0; j < 5; j++)
+                            
+                                printf(" %d ", calificaciones[i][j]);
+                            
+                            printf("\n");
+                        }
+                        
+                        for ( i = 0; i < 3; i++)
+                        
+                            printf("Alumn@ %d promedio de %d\n", i + 1, calificaciones[i][5]);
+                    }
             break;
         }
+
+        if (opcion != 4)
+        
+            pausar_pantalla();
+
     } while (opcion != 4);
 }
 
-int calcular_promedio(int calificaciones[][6])
+int calcular_promedio(int calificaciones_f[3][6], int index)
 {
-    int i, j, suma = 0;
+    int j, suma = 0;
 
-    for ( i = 0; i < 3; i++)
-    {
-        for ( j = 0; j < 5; j++)
-        
-            suma += calificaciones[i][j];
-    }
+    for ( j = 0; j < 5; j++)
+    
+        suma += calificaciones_f[index][j];
 
     return suma / 5;
 }
 
-void validar_Sistema_Operativo(bool data)
+
+void limpiar_buffer_STDIN()
 {
-    if (data)
-    {
+    #if defined(_WIN32) || defined(_WIN64)
+        fflush(stdin);
+    #elif __linux
+        __fpurge(stdin);
+    #endif
+}
+
+void limpiar_pantalla()
+{
+    #if defined(_WIN32) || defined(_WIN64)
+        system("cls");
+    #elif __linux
+        system("clear");
+    #endif
+}
+
+void pausar_pantalla()
+{
+    #if defined(_WIN32) || defined(_WIN64)
+        system("pause");
+    #elif __linux
+        printf("Presiona ENTER para continuar. . .");
+        fflush(stdout);
+        limpiar_buffer_STDIN();
+        getchar();
+    #endif
+}
+
+void validar_Sistema_Operativo()
+{
+    #if defined(_WIN32) || defined(_WIN64)
         system("cls");
 
         printf("Dato ingresado no valido, verificar dato");
@@ -127,9 +202,7 @@ void validar_Sistema_Operativo(bool data)
         fflush(stdin);
         getchar();
         system("cls");
-    }
-    else
-    {
+    #elif __linux__
         system("clear");
 
         printf("Dato ingresado no valido, verificar dato");
@@ -141,5 +214,5 @@ void validar_Sistema_Operativo(bool data)
         getchar();
         
         system("clear");
-    }
+    #endif
 }
