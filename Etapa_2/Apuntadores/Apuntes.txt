@@ -1,0 +1,9 @@
+Apuntador son variables que guardan direcciones en memoria RAM
+
+int y = 0
+int ptrY = &y
+
+& es un operador unario para referirnos a las direcciones en memoria
+* operador unario de indireccion
+const reserva el valor que se le asigne y no puede ser modificada
+

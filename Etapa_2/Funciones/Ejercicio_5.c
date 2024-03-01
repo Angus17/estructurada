@@ -28,29 +28,29 @@
 struct Datos_Estudiantes
 {
     char nombre[100], carrera[30];
-    int calificaciones[5], matricula;
+    int calificaciones[6], matricula;
 };
 
-void leer_datos(struct Datos_Estudiantes[]);
-int calcular_promedios(struct Datos_Estudiantes[]);
-void listar_alumnos_PromedioMayor(struct Datos_Estudiantes[]);
-void calcular_promedios_mayores(struct Datos_Estudiantes[]);
+int leer_datos(struct Datos_Estudiantes[]);
+int calcular_promedios(struct Datos_Estudiantes[], int);
+void listar_alumnos_PromedioMayor(struct Datos_Estudiantes[], int);
+void calcular_promedios_mayores(struct Datos_Estudiantes[], int);
 
 bool validar_cadenas_con_espacios(char[]);
 bool validar_cadenas_sin_espacios(char[]);
+void convertir_cadenas_a_minusculas(char[]);
 
 void validar_Sistema_Operativo();
 void limpiar_buffer_STDIN();
 void limpiar_terminal();
 void pausar_terminal();
 
-
 int main(void)
 {
     char opcion;
     struct Datos_Estudiantes datos[50];
     bool datos_leidos = false, promedios_calculados = false;
-    int retorno = 0;
+    int retorno = 0, i, cantidad_alumnos;
 
     do
     {
@@ -88,16 +88,44 @@ int main(void)
                 
                 else
                 {
-                    leer_datos(datos);
+                    cantidad_alumnos = leer_datos(datos);
                     datos_leidos = true;
                 }
             break;
 
             case 'b':
+                if (!datos_leidos)
                 
+                    puts("Necesitas leer todos los datos de estudiantes para obtener promedios");
+
+                else if (promedios_calculados)
+                    
+                        puts("Ya fueron calculados los promedios");
+                    
+                    else
+                    {
+                        for ( i = 0; i < cantidad_alumnos; i++)
+                        
+                            datos[i].calificaciones[5] = calcular_promedios(datos, i);
+                        
+                        promedios_calculados = true;
+                    }
             break;
 
             case 'c':
+                if (!datos_leidos)
+                
+                    puts("Te falta leer los datos de los estudiantes y calcular los promedios");
+                
+                else if (!promedios_calculados)
+                    
+                        puts("Necesitas calcular los promedios primero");
+                    
+                    else
+                    
+                        listar_alumnos_PromedioMayor(datos);
+                    
+                
             break;
 
             case 'd':
@@ -114,7 +142,7 @@ int main(void)
 
 }
 
-void leer_datos(struct Datos_Estudiantes data[])
+int leer_datos(struct Datos_Estudiantes data[])
 {
     int  j, contador_estudiantes = 0;
     bool fin_alumnos = false, cadena_aceptada = false, carrera_encontrada;
@@ -122,6 +150,8 @@ void leer_datos(struct Datos_Estudiantes data[])
 
     while (!fin_alumnos && contador_estudiantes < 50)
     {
+        limpiar_terminal();
+
         do
         {
             printf("Ingresa el nombre del estudiante %d: ", contador_estudiantes + 1);
@@ -173,8 +203,17 @@ void leer_datos(struct Datos_Estudiantes data[])
             {
                 
                 cadena_aceptada = validar_cadenas_con_espacios(data[contador_estudiantes].carrera);
+                convertir_cadenas_a_minusculas(data[contador_estudiantes].carrera);
 
-                if (cadena_aceptada && strcmp(data[contador_estudiantes].carrera, "computacion") == 0 || strcmp(data[contador_estudiantes].carrera, "animacion") == 0 || strcmp(data[contador_estudiantes].carrera, "fisica") == 0 || strcmp(data[contador_estudiantes].carrera, "matematicas") == 0 || strcmp(data[contador_estudiantes].carrera, "seguridad") == 0 || strcmp(data[contador_estudiantes].carrera, "actuaria") == 0)
+                if (cadena_aceptada && 
+                    strcmp(data[contador_estudiantes].carrera, "computacion") == 0 || 
+                    strcmp(data[contador_estudiantes].carrera, "animacion") == 0 ||
+                    strcmp(data[contador_estudiantes].carrera, "fisica") == 0 || 
+                    strcmp(data[contador_estudiantes].carrera, "matematicas") == 0 || 
+                    strcmp(data[contador_estudiantes].carrera, "seguridad") == 0 || 
+                    strcmp(data[contador_estudiantes].carrera, "actuaria") == 0
+                    
+                    )
                 
                         carrera_encontrada = true;
                 
@@ -192,12 +231,63 @@ void leer_datos(struct Datos_Estudiantes data[])
 
         } while (strlen(data[contador_estudiantes].carrera) == 0 || !cadena_aceptada || !carrera_encontrada);
         
+        do
+        {
+            puts("Existen mas alumnos?");
+            puts("S.Si");
+            puts("N.No");
+
+            limpiar_buffer_STDIN();
+
+            scanf(" %c", &respuesta);
+
+            respuesta = tolower(respuesta);
+
+            if (respuesta != 's' && respuesta != 'n')
+            
+                validar_Sistema_Operativo();
+            
+        } while (respuesta != 's' && respuesta != 'n');
         
+        if (respuesta == 'n')
+        
+            fin_alumnos = true;
+
         contador_estudiantes++;
     }
-    
-    
 
+    return contador_estudiantes;
+}
+
+int calcular_promedios(struct Datos_Estudiantes data[], int index)
+{
+    int j, suma = 0;
+
+    for ( j = 0; j < 5; j++)
+    
+        suma += data[index].calificaciones[j];
+    
+    return suma / 5;
+}
+
+void listar_alumnos_PromedioMayor(struct Datos_Estudiantes data[], int alumnos)
+{
+    int i, j, promedio_mayor = 0;
+
+    for (i = 0; i < alumnos; i++)
+    {
+        for (j = 0; j < 5; j++)
+        {
+            if (data[i].calificaciones[j] > promedio_mayor)
+            {
+                promedio_mayor = data[i].calificaciones[j];
+                
+            }
+            
+        }
+        
+    }
+    
 }
 
 bool validar_cadenas_con_espacios(char cadena[])
@@ -233,6 +323,22 @@ bool validar_cadenas_sin_espacios(char cadena[])
 
     return !caracteres_rechazados;
 }
+
+void convertir_cadenas_a_minusculas(char cadena[])
+{
+    int j = 0;
+
+    while (cadena[j] != '\0')
+    {
+        if (!islower(cadena[j]))
+        
+            cadena[j] = tolower(cadena[j]);
+        
+        j++;
+    }
+    
+}
+
 /* --------------------------------------------------------------------- */
 void limpiar_buffer_STDIN()
 {
