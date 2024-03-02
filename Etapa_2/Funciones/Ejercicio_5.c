@@ -58,7 +58,7 @@ int main(void)
     bool existencia_promedios_mayores = false;
     int retorno = 0, i, cantidad_alumnos = 0;
 
-    setlocale(LC_ALL, "spanish");
+    setlocale(LC_ALL, "en_US.UTF-8");
 
     do
     {
@@ -765,7 +765,7 @@ void limpiar_buffer_STDIN()
 {
     #if defined(_WIN32) || defined(_WIN64)
         fflush(stdin);
-    #elif __linux
+    #elif __linux__
         __fpurge(stdin);
     #endif
 }
@@ -775,7 +775,7 @@ void limpiar_terminal()
 {
     #if defined(_WIN32) || defined(_WIN64)
         system("cls");
-    #elif __linux
+    #elif __linux__
         system("clear");
     #endif
 }
@@ -785,7 +785,7 @@ void pausar_terminal()
 {
     #if defined(_WIN32) || defined(_WIN64)
         system("pause");
-    #elif __linux
+    #elif __linux__
         printf("Presiona ENTER para continuar. . .");
         fflush(stdout);
         limpiar_buffer_STDIN();
