@@ -195,6 +195,7 @@ int main(void)
     } while (opcion != 'f');
 }
 
+// Lectura y validacion de datos
 int leer_validar_datos(struct Datos_Estudiantes data[])
 {
     int contador_estudiantes = 0, j;
@@ -360,6 +361,7 @@ int leer_validar_datos(struct Datos_Estudiantes data[])
     return contador_estudiantes;
 }
 
+// Calculo de promedios
 int calcular_promedios(struct Datos_Estudiantes data[], int index)
 {
     int j, suma = 0;
@@ -371,6 +373,7 @@ int calcular_promedios(struct Datos_Estudiantes data[], int index)
     return suma / 5;
 }
 
+// Modulo para imprimir datos de alumn@s con promedios >= 90
 void listar_alumnos_PromedioMayor(struct Datos_Estudiantes data[], int alumnos)
 {
     int i;
@@ -385,6 +388,7 @@ void listar_alumnos_PromedioMayor(struct Datos_Estudiantes data[], int alumnos)
     
 }
 
+// Modulo para imprimir datos de alumn@s de x carrera indicada por el user, con promedio >= 90
 void buscar_alumnos_PromedioMayor_carrera(struct Datos_Estudiantes data_f[], int alumnos_f)
 {
     bool existencia = false, cadena_aceptada = false, carrera_encontrada = false, existencia_promedios_mayores = false;
@@ -466,6 +470,7 @@ void buscar_alumnos_PromedioMayor_carrera(struct Datos_Estudiantes data_f[], int
     
 }
 
+// Modulo para listar datos de alumn@s con promedio >= 90 dependiendo de la carrera 
 void listar_alumnos_promedio_mayor_carreras(struct Datos_Estudiantes data[], char carrera[], int alumnos)
 {
     int i = 0;
@@ -533,6 +538,7 @@ void listar_alumnos_promedio_mayor_carreras(struct Datos_Estudiantes data[], cha
                     }
 }
 
+// Modulo que analiza los datos existentes en busca de promedios >= 90 en x carrera indicada por el user
 bool buscar_existencia_promediosMayores(struct Datos_Estudiantes data[], char carrera[], int alumnos)
 {
     int i = 0;
@@ -610,6 +616,7 @@ bool buscar_existencia_promediosMayores(struct Datos_Estudiantes data[], char ca
     return existencia;
 }
 
+// Modulo que analiza los datos existentes en busca de existencia de alumnos en la carrera indicada por el user
 bool existencia_alumnos_por_carrera(struct Datos_Estudiantes data[], char carrera[], int alumnos)
 {
     int i = 0;
@@ -687,6 +694,7 @@ bool existencia_alumnos_por_carrera(struct Datos_Estudiantes data[], char carrer
     return existencia;
 }
 
+// Modulo que valida que todas las cadenas de caracteres recibidas, sean tipo char y con espacios
 bool validar_cadenas_con_espacios(char cadena[])
 {
     int j = 0;
@@ -704,6 +712,7 @@ bool validar_cadenas_con_espacios(char cadena[])
     return !caracteres_rechazados;
 }
 
+// Modulo que valida que todas las cadenas de caracteres recibidas, sean tipo char y con espacios
 bool validar_cadenas_sin_espacios(char cadena[])
 {
     int j = 0;
@@ -721,6 +730,7 @@ bool validar_cadenas_sin_espacios(char cadena[])
     return !caracteres_rechazados;
 }
 
+// Modulo que convierte toda una cadena de caracteres(tipo char), a minusculas, para validaciones
 void convertir_cadenas_a_minusculas(char cadena[])
 {
     int j = 0;
@@ -736,6 +746,8 @@ void convertir_cadenas_a_minusculas(char cadena[])
 }
 
 /* --------------------------------------------------------------------- */
+
+// Limpia buffer STDIN tanto para sistemas Windows como para UNIX/Linux
 void limpiar_buffer_STDIN()
 {
     #if defined(_WIN32) || defined(_WIN64)
@@ -745,6 +757,7 @@ void limpiar_buffer_STDIN()
     #endif
 }
 
+// Limpia terminal tanto para sistemas Windows como para UNIX/Linux
 void limpiar_terminal()
 {
     #if defined(_WIN32) || defined(_WIN64)
@@ -754,6 +767,7 @@ void limpiar_terminal()
     #endif
 }
 
+// Pausa la terminal tanto para sistemas Windows como para UNIX/Linux
 void pausar_terminal()
 {
     #if defined(_WIN32) || defined(_WIN64)
@@ -766,6 +780,7 @@ void pausar_terminal()
     #endif
 }
 
+// Clasifica los mensajes de error tanto para Windows como para UNIX/Linux, cuando se ingresan datos incorrectos
 void validar_Sistema_Operativo()
 {
     #if defined(_WIN32) || defined(_WIN64)
