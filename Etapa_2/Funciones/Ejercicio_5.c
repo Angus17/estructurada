@@ -56,7 +56,7 @@ int main(void)
     struct Datos_Estudiantes datos[50];
     bool datos_leidos = false, promedios_calculados = false, alumnos_computacion = false;
     bool existencia_promedios_mayores = false;
-    int retorno = 0, i, cantidad_alumnos = 0;
+    int retorno = 0, i, cantidad_alumnos = 0, cantidad_alumnos_con_promedio = 0;
 
     setlocale(LC_ALL, "en_US.UTF-8");
 
@@ -100,6 +100,8 @@ int main(void)
                     
                     else
                     {
+                        promedios_calculados = false;
+
                         cantidad_alumnos = leer_validar_datos(datos, cantidad_alumnos);
 
                         if (!datos_leidos)
@@ -118,19 +120,21 @@ int main(void)
 
             case 'b':
                 if (!datos_leidos)
-                
+
                     puts("Necesitas leer todos los datos de estudiantes para obtener promedios");
 
-                else if (promedios_calculados)
-                    
-                        puts("Ya fueron calculados los promedios");
-                    
-                    else 
+                else if (cantidad_alumnos_con_promedio == cantidad_alumnos)
+
+                        puts("Ya fueron calculados los promedios para todos los estudiantes posibles");
+
+                    else
                     {
-                        for ( i = 0; i < cantidad_alumnos; i++)
-                            
+                        for (i = cantidad_alumnos_con_promedio; i < cantidad_alumnos; i++)
+                        {
                             datos[i].calificaciones[5] = calcular_promedios(datos, i);
-                        
+                            cantidad_alumnos_con_promedio++;
+                        }
+
                         promedios_calculados = true;
                         puts("Promedios calculados satisfactoriamente!");
                     }
@@ -143,7 +147,7 @@ int main(void)
                 
                 else if (!promedios_calculados)
                     
-                        puts("Necesitas calcular los promedios para proceder");
+                        puts("Necesitas calcular todos los promedios para proceder");
                     
                     else
                     
@@ -159,7 +163,7 @@ int main(void)
                 
                 else if (!promedios_calculados)
                     
-                        puts("Necesitas calcular los promedios para proceder");
+                        puts("Necesitas calcular todos los promedios para proceder");
                     
                     else
                     {
@@ -189,7 +193,7 @@ int main(void)
                 
                 else if (!promedios_calculados)
                     
-                        puts("Necesitas calcular los promedios para proceder");
+                        puts("Necesitas calcular todos los promedios para proceder");
                     
                     else
                     
