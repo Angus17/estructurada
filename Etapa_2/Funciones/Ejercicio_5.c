@@ -34,10 +34,14 @@ struct Datos_Estudiantes
 int leer_validar_datos(struct Datos_Estudiantes[]);
 int calcular_promedios(struct Datos_Estudiantes[], int);
 void listar_alumnos_PromedioMayor(struct Datos_Estudiantes[], int);
-void listar_alumnos_promedio_mayor_carreras(struct Datos_Estudiantes[], int);
-bool existencia_alumnos_por_carrera(struct Datos_Estudiantes[], char[]);
+void buscar_alumnos_PromedioMayor_carrera(struct Datos_Estudiantes[], int);
+void listar_alumnos_promedio_mayor_carreras(struct Datos_Estudiantes[], char[], int);
+
+bool buscar_existencia_promediosMayores(struct Datos_Estudiantes[], char[], int);
+bool existencia_alumnos_por_carrera(struct Datos_Estudiantes[], char[], int);
 bool validar_cadenas_con_espacios(char[]);
 bool validar_cadenas_sin_espacios(char[]);
+
 void convertir_cadenas_a_minusculas(char[]);
 
 void validar_Sistema_Operativo();
@@ -50,24 +54,29 @@ int main(void)
     char opcion;
     struct Datos_Estudiantes datos[50];
     bool datos_leidos = false, promedios_calculados = false, alumnos_computacion = false;
+    bool existencia_promedios_mayores = false;
     int retorno = 0, i, cantidad_alumnos;
 
     do
     {
+        limpiar_terminal();
+
         do
         {
             printf("    %-s: \n", "MENU DE OPCIONES");
-            printf("a). Lectura y validacion de datos\n");
-            printf("b). Calcular los promedios\n");
-            printf("c). Listado de nombres y matricula para alumnos con promedio >= 90\n");
-            printf("d). Listado de nombres y matricula para alumnos con promedio >= 90 en computacion\n");
-            printf("e). Listado de nombre y matricula de mayor promedio indicado por el usuario\n");
-            printf("f). Salir\n");
+            puts("a). Lectura y validacion de datos");
+            puts("b). Calcular los promedios");
+            puts("c). Listado de nombres y matricula para alumnos con promedio >= 90");
+            puts("d). Listado de nombres y matricula para alumnos con promedio >= 90 en computacion");
+            puts("e). Listado de nombre y matricula de mayor promedio indicado por el usuario");
+            puts("f). Salir");
             printf("    %-s: ", "opcion");
             
             limpiar_buffer_STDIN();
 
             retorno = scanf(" %c", &opcion);
+
+            opcion = tolower(opcion);
 
             if (opcion < 'a' || opcion > 'f')
             {
@@ -88,7 +97,7 @@ int main(void)
                 
                 else
                 {
-                    cantidad_alumnos = leer_datos(datos);
+                    cantidad_alumnos = leer_validar_datos(datos);
 
                     for ( i = 0; i < cantidad_alumnos; i++)
                     
@@ -144,35 +153,51 @@ int main(void)
                     
                     else
                     {
-                        alumnos_computacion = existencia_alumnos_por_carrera(datos, "Computacion");
+                        alumnos_computacion = existencia_alumnos_por_carrera(datos, "Computacion", cantidad_alumnos);
+                        existencia_promedios_mayores = buscar_existencia_promediosMayores(datos, "Computacion", cantidad_alumnos);
 
                         if (!alumnos_computacion)
                         
                             puts("El sistema no encontro alumn@s de la carrera de Computacion");
                         
-                        else
-                        
-                            listar_alumnos_promedio_mayor_carreras();
-                        
-                        
+                        else if (!existencia_promedios_mayores)
+                            
+                                puts("El sistema no encontro alumn@s de Computacion con promedio >= 90");
+                            
+                            else
+                            
+                                listar_alumnos_promedio_mayor_carreras(datos, "Computacion", cantidad_alumnos);
+
                     }
                         
             break;
 
             case 'e':
+                if (!datos_leidos)
+                
+                    puts("Te falta leer los datos de los estudiantes y calcular los promedios");
+                
+                else if (!promedios_calculados)
+                    
+                        puts("Necesitas calcular los promedios primero");
+                    
+                    else
+                    
+                        buscar_alumnos_PromedioMayor_carrera(datos, cantidad_alumnos);
+                    
             break;
         }
 
-    } while (opcion != 'e');
-    
+        if (opcion != 'f')
+        
+            pausar_terminal();
 
-
-
+    } while (opcion != 'f');
 }
 
 int leer_validar_datos(struct Datos_Estudiantes data[])
 {
-    int contador_estudiantes = 0;
+    int contador_estudiantes = 0, j;
     bool fin_alumnos = false, cadena_aceptada = false, carrera_encontrada;
     char respuesta;
 
@@ -182,6 +207,8 @@ int leer_validar_datos(struct Datos_Estudiantes data[])
 
         do
         {
+            limpiar_terminal();
+
             printf("Ingresa el nombre del estudiante %d: ", contador_estudiantes + 1);
 
             limpiar_buffer_STDIN();
@@ -194,19 +221,29 @@ int leer_validar_datos(struct Datos_Estudiantes data[])
             
                 cadena_aceptada = validar_cadenas_con_espacios(data[contador_estudiantes].nombre);
 
-            else if (strlen(data[contador_estudiantes].nombre) == 0 || !cadena_aceptada)
+            else
+            {
+                puts("El campo del nombre no puede estar vacio");
+                pausar_terminal();
+            }
+
+            if (!cadena_aceptada)
             
-                    validar_Sistema_Operativo();
+                validar_Sistema_Operativo();
 
         } while (strlen(data[contador_estudiantes].nombre) == 0 || !cadena_aceptada);
         
         do
         {
-            printf("Ahora ingresa la matricula de %s: ", data[contador_estudiantes].nombre);
+            limpiar_terminal();
 
-            limpiar_buffer_STDIN();
+            do
+            {
+                printf("Ahora ingresa la matricula de %s: ", data[contador_estudiantes].nombre);
 
-            scanf("%d", &data[contador_estudiantes].matricula);
+                limpiar_buffer_STDIN();
+                
+            } while (scanf("%d", &data[contador_estudiantes].matricula) != 1);
 
             if (data[contador_estudiantes].matricula < 0)
             
@@ -218,46 +255,75 @@ int leer_validar_datos(struct Datos_Estudiantes data[])
         {
             carrera_encontrada = false;
 
-            printf("Escribe la carrera que esta cursando %s: \n- Computacion\n- Matematicas\n- Seguridad"
-                    "\n- Animacion\n- Fisica\n- Actuaria\n: " , data[contador_estudiantes].nombre);
-
-            limpiar_buffer_STDIN();
-
-            scanf(" %c", data[contador_estudiantes].carrera);
-
-            data[contador_estudiantes].carrera[strcspn(data[contador_estudiantes].carrera, "\n")] = '\0';
-
-            if (strlen(data[contador_estudiantes].carrera) != 0)
+            do
             {
-                
-                cadena_aceptada = validar_cadenas_con_espacios(data[contador_estudiantes].carrera);
-                convertir_cadenas_a_minusculas(data[contador_estudiantes].carrera);
+                limpiar_terminal();
 
-                if (cadena_aceptada && 
-                        (   strcmp(data[contador_estudiantes].carrera, "computacion") == 0 || 
-                            strcmp(data[contador_estudiantes].carrera, "animacion") == 0 ||
-                            strcmp(data[contador_estudiantes].carrera, "fisica") == 0 || 
-                            strcmp(data[contador_estudiantes].carrera, "matematicas") == 0 || 
-                            strcmp(data[contador_estudiantes].carrera, "seguridad") == 0 || 
-                            strcmp(data[contador_estudiantes].carrera, "actuaria") == 0
-                        )
-                    )
-                
-                        carrera_encontrada = true;
-                
+                printf("Escribe la carrera que esta cursando %s: \n- Computacion\n- Matematicas\n- Seguridad"
+                        "\n- Animacion\n- Fisica\n- Actuaria\n: " , data[contador_estudiantes].nombre);
+
+                limpiar_buffer_STDIN();
+
+                scanf(" %s", data[contador_estudiantes].carrera); 
+
+                if (strlen(data[contador_estudiantes].carrera) != 0)
+            
+                    cadena_aceptada = validar_cadenas_con_espacios(data[contador_estudiantes].carrera);
+
                 else
                 {
-                    puts("No fue encontrada la carrera que ingresaste");
+                    puts("No puedes manejar cadenas vacias");
                     pausar_terminal();
                 }
-                
-            }
-            else
+
+                if (!cadena_aceptada)
             
-                puts("No puedes manejar cadenas vacias");
+                    validar_Sistema_Operativo();
+                
+            } while (!cadena_aceptada || strlen(data[contador_estudiantes].carrera) == 0);
+
+            convertir_cadenas_a_minusculas(data[contador_estudiantes].carrera);
+
+            if  (
+                    strcmp(data[contador_estudiantes].carrera, "computacion") == 0 || 
+                    strcmp(data[contador_estudiantes].carrera, "animacion") == 0 ||
+                    strcmp(data[contador_estudiantes].carrera, "fisica") == 0 || 
+                    strcmp(data[contador_estudiantes].carrera, "matematicas") == 0 || 
+                    strcmp(data[contador_estudiantes].carrera, "seguridad") == 0 || 
+                    strcmp(data[contador_estudiantes].carrera, "actuaria") == 0
+                    
+                )
+            
+                    carrera_encontrada = true;
+            
+            else
+            {
+                puts("No fue encontrada la carrera que ingresaste");
+                pausar_terminal();
+            }
             
 
-        } while (strlen(data[contador_estudiantes].carrera) == 0 || !cadena_aceptada || !carrera_encontrada);
+        } while (!carrera_encontrada);
+        
+        for ( j = 0; j < 5; j++)
+        {
+            do
+            {
+                do
+                {
+                    printf("Registra la calificacion %d de %s: ", j + 1, data[contador_estudiantes].nombre);
+
+                    limpiar_buffer_STDIN();
+
+                } while (scanf("%d", &data[contador_estudiantes].calificaciones[j]) != 1);
+
+                if (data[contador_estudiantes].calificaciones[j] < 0 || data[contador_estudiantes].calificaciones[j] > 100)
+                
+                    validar_Sistema_Operativo();
+                
+            } while (data[contador_estudiantes].calificaciones[j] < 0 || data[contador_estudiantes].calificaciones[j] > 100);
+            
+        }
         
         do
         {
@@ -319,19 +385,239 @@ void listar_alumnos_PromedioMayor(struct Datos_Estudiantes data[], int alumnos)
     
 }
 
-void listar_alumnos_promedio_mayor_carreras(struct Datos_Estudiantes data[], int alumnos)
+void buscar_alumnos_PromedioMayor_carrera(struct Datos_Estudiantes data_f[], int alumnos_f)
 {
+    bool existencia = false, cadena_aceptada = false, carrera_encontrada = false, existencia_promedios_mayores = false;
+    char busqueda[30];
+
+    do
+    {
+        do
+        {
+            limpiar_terminal();
+
+            puts("- Computacion");
+            puts("- Fisica");
+            puts("- Matematicas");
+            puts("- Actuaria");
+            puts("- Animacion");
+            puts("- Seguridad");
+            puts("Escribe la carrera que desee buscar alumnos con promedio >= 90: ");
+
+            limpiar_buffer_STDIN();
+
+            scanf(" %s", busqueda); 
+
+            if (strlen(busqueda) != 0)
+        
+                cadena_aceptada = validar_cadenas_con_espacios(busqueda);
+
+            else
+            {
+                puts("No puedes manejar cadenas vacias");
+                pausar_terminal();
+            }
+
+            if (!cadena_aceptada)
+        
+                validar_Sistema_Operativo();
+            
+        } while (!cadena_aceptada || strlen(busqueda) == 0);
+
+        convertir_cadenas_a_minusculas(busqueda);
+
+        if  (
+                strcmp(busqueda, "computacion") == 0 || 
+                strcmp(busqueda, "animacion") == 0 ||
+                strcmp(busqueda, "fisica") == 0 || 
+                strcmp(busqueda, "matematicas") == 0 || 
+                strcmp(busqueda, "seguridad") == 0 || 
+                strcmp(busqueda, "actuaria") == 0
+                
+            )
+        
+                carrera_encontrada = true;
+        
+        else
+        {
+            puts("No fue encontrada la carrera que ingresaste");
+            pausar_terminal();
+        }
+    } while (!carrera_encontrada);
+
+    busqueda[0] = toupper(busqueda[0]);
+    limpiar_terminal();
+    
+    existencia = existencia_alumnos_por_carrera(data_f, busqueda, alumnos_f);
+    existencia_promedios_mayores = buscar_existencia_promediosMayores(data_f, busqueda, alumnos_f);
+
+    if (!existencia)
+    
+        printf("No existen alumnos de la carrera de %s\n", busqueda);
+    
+    else if (!existencia_promedios_mayores)
+        
+            printf("El sistema no encontro alumnos con promedio >= 90 en la carrera de %s\n", busqueda);
+        
+        else
+        
+            listar_alumnos_promedio_mayor_carreras(data_f, busqueda, alumnos_f);
+        
     
 }
 
-bool existencia_alumnos_por_carrera(struct Datos_Estudiantes data[], char carrera[])
+void listar_alumnos_promedio_mayor_carreras(struct Datos_Estudiantes data[], char carrera[], int alumnos)
+{
+    int i = 0;
+
+    if (strcmp(carrera, "Computacion") == 0)
+    {
+        for ( i = 0; i < alumnos; i++)
+        {
+            if (strcmp(data[i].carrera, "Computacion") == 0 && data[i].calificaciones[5] >= 90)
+            
+                printf("- Alumn@: %s\n Matricula: %d\n Carrera: %s\n Promedio: %d\n\n", data[i].nombre, data[i].matricula,data[i].carrera, data[i].calificaciones[5]);
+            
+        }
+        
+    }
+    else if (strcmp(carrera, "Fisica") == 0)
+        {
+            for ( i = 0; i < alumnos; i++)
+            {
+                if (strcmp(data[i].carrera, "Fisica") == 0 && data[i].calificaciones[5] >= 90)
+                
+                    printf("- Alumn@: %s\n Matricula: %d\n Carrera: %s\n Promedio: %d\n\n", data[i].nombre, data[i].matricula,data[i].carrera, data[i].calificaciones[5]);
+                
+            }
+        }
+        else if (strcmp(carrera, "Matematicas") == 0)
+            {
+                for ( i = 0; i < alumnos; i++)
+                {
+                    if (strcmp(data[i].carrera, "Matematicas") == 0 && data[i].calificaciones[5] >= 90)
+                    
+                        printf("- Alumn@: %s\n Matricula: %d\n Carrera: %s\n Promedio: %d\n\n", data[i].nombre, data[i].matricula,data[i].carrera, data[i].calificaciones[5]);
+                    
+                }
+            }
+            else if (strcmp(carrera, "Actuaria") == 0)
+                {
+                    for ( i = 0; i < alumnos; i++)
+                    {
+                        if (strcmp(data[i].carrera, "Actuaria") == 0 && data[i].calificaciones[5] >= 90)
+                        
+                            printf("- Alumn@: %s\n Matricula: %d\n Carrera: %s\n Promedio: %d\n\n", data[i].nombre, data[i].matricula,data[i].carrera, data[i].calificaciones[5]);
+                        
+                    }
+                }
+                else if (strcmp(carrera, "Seguridad") == 0)
+                    {
+                        for ( i = 0; i < alumnos; i++)
+                        {
+                            if (strcmp(data[i].carrera, "Seguridad") == 0 && data[i].calificaciones[5] >= 90)
+                            
+                                printf("- Alumn@: %s\n Matricula: %d\n Carrera: %s\n Promedio: %d\n\n", data[i].nombre, data[i].matricula,data[i].carrera, data[i].calificaciones[5]);
+                            
+                        }
+                    }
+                    else
+                    {
+                        for ( i = 0; i < alumnos; i++)
+                        {
+                            if (strcmp(data[i].carrera, "Animacion") == 0 && data[i].calificaciones[5] >= 90)
+                            
+                                printf("- Alumn@: %s\n Matricula: %d\n Carrera: %s\n Promedio: %d\n\n", data[i].nombre, data[i].matricula,data[i].carrera, data[i].calificaciones[5]);
+                            
+                        }
+                    }
+}
+
+bool buscar_existencia_promediosMayores(struct Datos_Estudiantes data[], char carrera[], int alumnos)
 {
     int i = 0;
     bool existencia = false;
 
     if (strcmp(carrera, "Computacion") == 0)
     {
-        while (!existencia && i < 50)
+        while (!existencia && i < alumnos)
+        {
+            if (strcmp(data[i].carrera, "Computacion") == 0 && data[i].calificaciones[5] >= 90)
+            
+                existencia = true;
+
+            i++;
+        }
+        
+    }
+    else if (strcmp(carrera, "Fisica") == 0)
+        {
+            while (!existencia && i < alumnos)
+            {
+                if (strcmp(data[i].carrera, "Fisica") == 0 && data[i].calificaciones[5] >= 90)
+            
+                    existencia = true;
+                
+                
+                i++;
+            }
+        }
+        else if (strcmp(carrera, "Matematicas") == 0)
+            {
+                while (!existencia && i < alumnos)
+                {
+                    if (strcmp(data[i].carrera, "Matematicas") == 0 && data[i].calificaciones[5] >= 90)
+            
+                        existencia = true;
+                
+                    i++;
+                }
+            }
+            else if (strcmp(carrera, "Actuaria") == 0)
+                {
+                    while (!existencia && i < alumnos)
+                    {
+                        if (strcmp(data[i].carrera, "Actuaria") == 0 && data[i].calificaciones[5] >= 90)
+            
+                            existencia = true;
+                
+                        i++;
+                    }
+                }
+                else if (strcmp(carrera, "Seguridad") == 0)
+                    {
+                        while (!existencia && i < alumnos)
+                        {
+                            if (strcmp(data[i].carrera, "Seguridad") == 0 && data[i].calificaciones[5] >= 90)
+            
+                                existencia = true;
+                
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        while (!existencia && i < alumnos)
+                        {
+                            if (strcmp(data[i].carrera, "Animacion") == 0 && data[i].calificaciones[5] >= 90)
+            
+                                existencia = true;
+                
+                            i++;
+                        }
+                    }
+    
+    return existencia;
+}
+
+bool existencia_alumnos_por_carrera(struct Datos_Estudiantes data[], char carrera[], int alumnos)
+{
+    int i = 0;
+    bool existencia = false;
+
+    if (strcmp(carrera, "Computacion") == 0)
+    {
+        while (!existencia && i < alumnos)
         {
             if (strcmp(data[i].carrera, "Computacion") == 0)
             
@@ -343,7 +629,7 @@ bool existencia_alumnos_por_carrera(struct Datos_Estudiantes data[], char carrer
     }
     else if (strcmp(carrera, "Fisica") == 0)
         {
-            while (!existencia && i < 50)
+            while (!existencia && i < alumnos)
             {
                 if (strcmp(data[i].carrera, "Fisica") == 0)
             
@@ -355,7 +641,7 @@ bool existencia_alumnos_por_carrera(struct Datos_Estudiantes data[], char carrer
         }
         else if (strcmp(carrera, "Matematicas") == 0)
             {
-                while (!existencia && i < 50)
+                while (!existencia && i < alumnos)
                 {
                     if (strcmp(data[i].carrera, "Matematicas") == 0)
             
@@ -366,7 +652,7 @@ bool existencia_alumnos_por_carrera(struct Datos_Estudiantes data[], char carrer
             }
             else if (strcmp(carrera, "Actuaria") == 0)
                 {
-                    while (!existencia && i < 50)
+                    while (!existencia && i < alumnos)
                     {
                         if (strcmp(data[i].carrera, "Actuaria") == 0)
             
@@ -377,7 +663,7 @@ bool existencia_alumnos_por_carrera(struct Datos_Estudiantes data[], char carrer
                 }
                 else if (strcmp(carrera, "Seguridad") == 0)
                     {
-                        while (!existencia && i < 50)
+                        while (!existencia && i < alumnos)
                         {
                             if (strcmp(data[i].carrera, "Seguridad") == 0)
             
@@ -388,7 +674,7 @@ bool existencia_alumnos_por_carrera(struct Datos_Estudiantes data[], char carrer
                     }
                     else
                     {
-                        while (!existencia && i < 50)
+                        while (!existencia && i < alumnos)
                         {
                             if (strcmp(data[i].carrera, "Animacion") == 0)
             
