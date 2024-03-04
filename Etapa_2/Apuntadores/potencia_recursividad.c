@@ -61,13 +61,19 @@ int main(void)
 
 void elevar_numero(int NumeroP, int potencia_f, int *resultado_f)
 {
-    int i, resultado = 1;
+    static int resultado = 1;
+    
+    
+    if (potencia_f == 0)
+    {
+        resultado = 1;
+        return;
+    }
 
-    for (i = 1; i <= potencia_f; i++)
-    
-        resultado *= NumeroP;
-    
+    resultado *= NumeroP;
     *resultado_f = resultado;
+
+    elevar_numero(NumeroP, potencia_f - 1, resultado_f);
 }
 
 // Limpia buffer STDIN tanto para sistemas Windows como para UNIX/Linux

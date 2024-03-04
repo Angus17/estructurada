@@ -1,76 +1,109 @@
 /*  
-    Elabora un programa que mediante una funcion, eleve un numero indicado por el 
-    usuario, a la potencia tambien indicada por el. Validar que los numeros sean
-    mayor a cero.
+    Elabora un programa que mediante una funcion indique si en una cadena dada por
+    el usuario (validar que sea solo letras y esacios)
+    , se encuentra una letra (validar mayuscula o minuscula) indicada por el
 
-    Los datos y la impresion se realizan desde main
+    Los datos y la impresion se realizaran desde main
 
-    La llamada a la funcion es por referencia
+    La llamada a la funcion sera por referencia
 */
 
 #include <stdio.h>
+#include <ctype.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
 #if __linux__
     #include <stdio_ext.h>
-#endif 
+#endif
 
-void elevar_numero(int, int, int *);
+bool validar_caracteres(char *);
+bool buscar_caracteres(char *, char);
 void validar_Sistema_Operativo();
 void limpiar_buffer_STDIN();
 void limpiar_terminal();
 void pausar_terminal();
 
+
 int main(void)
 {
-    int potencia, valor, numero, resultado;
+    char cadena[30], letra;
+    bool cadena_correcta = false, caracter_encontrado = false;
 
     do
     {
-        puts("Escribe un numero positivo: ");
-
+        puts("Ingresa una cadena: ");
+        
         limpiar_buffer_STDIN();
 
-        valor = scanf("%d", &numero);
+        fgets(cadena, 30, stdin);
 
-        if (numero < 0 || valor != 1)
+        cadena[strcspn(cadena, "\n")] = '\0';
+
+        cadena_correcta = validar_caracteres(cadena);
+
+        if (!cadena_correcta)
         
             validar_Sistema_Operativo();
-        
-        
-    } while (numero < 0 || valor != 1);
+
+    } while (!cadena_correcta);
 
     do
     {
-        puts("A que potencia deseas elevarlo?: ");
+        puts("Ingrese un caracter el cual desee buscar: ");
 
         limpiar_buffer_STDIN();
 
-        valor = scanf("%d", &potencia);
+        scanf(" %c", &letra);
 
-        if (potencia < 0 || valor != 1)
+        caracter_encontrado = buscar_caracteres(cadena, letra);
+
+        if (!caracter_encontrado)
         
             validar_Sistema_Operativo();
+            
+        else
         
-    } while (potencia < 0 || valor != 1);
+            puts("Caracter encontrado!");
+        
+    } while (!caracter_encontrado);
     
-    elevar_numero(numero, potencia, &resultado);
-    
-    printf("El numero %d elevado a la %d es: %d\n", numero, potencia, resultado);
 }
 
-
-void elevar_numero(int NumeroP, int potencia_f, int *resultado_f)
+bool validar_caracteres(char *caracter)
 {
-    int i, resultado = 1;
+    bool cadena_correcta = true;
 
-    for (i = 1; i <= potencia_f; i++)
+    while (*caracter != '\0' && cadena_correcta)
+    {
+        if (!isalpha(*caracter) && *caracter != 32)
+        
+            cadena_correcta = false;
+
+        caracter++;
+    }
     
-        resultado *= NumeroP;
-    
-    *resultado_f = resultado;
+    return cadena_correcta;
 }
 
-// Limpia buffer STDIN tanto para sistemas Windows como para UNIX/Linux
+bool buscar_caracteres(char *caracter, char caracter_a_buscar)
+{
+    bool caracter_encontrado = false;
+
+    while (*caracter != '\0' && !caracter_encontrado)
+    {
+        if (caracter_a_buscar == *caracter)
+        
+            caracter_encontrado = true;
+
+        caracter++;
+    }
+    
+
+    return caracter_encontrado;
+
+}
+
 void limpiar_buffer_STDIN()
 {
     #if defined(_WIN32) || defined(_WIN64)
