@@ -1,6 +1,6 @@
 /*  
     Elabora un programa que mediante una funcion indique si en una cadena dada por
-    el usuario (validar que sea solo letras y esacios)
+    el usuario (validar que sea solo letras y espacios)
     , se encuentra una letra (validar mayuscula o minuscula) indicada por el
 
     Los datos y la impresion se realizaran desde main
@@ -28,7 +28,8 @@ void pausar_terminal();
 int main(void)
 {
     char cadena[30], letra;
-    bool cadena_correcta = false, caracter_encontrado = false;
+    bool cadena_correcta, caracter_encontrado;
+    int valido;
 
     do
     {
@@ -50,18 +51,30 @@ int main(void)
 
     do
     {
-        puts("Ingrese un caracter el cual desee buscar: ");
+        do
+        {
+            puts("Ingrese un caracter el cual desee buscar: ");
 
-        limpiar_buffer_STDIN();
+            limpiar_buffer_STDIN();
 
-        scanf(" %c", &letra);
+            valido = scanf(" %c", &letra);
 
+            if (!isalpha(letra))
+            {
+                valido -= 1;
+                validar_Sistema_Operativo();
+            }
+
+        } while (valido != 1);
+        
         caracter_encontrado = buscar_caracteres(cadena, letra);
 
         if (!caracter_encontrado)
-        
-            validar_Sistema_Operativo();
-            
+        {
+            puts("No se ha encontrado el caracter en la cadena");
+            pausar_terminal();
+            limpiar_terminal();
+        }   
         else
         
             puts("Caracter encontrado!");
@@ -99,9 +112,7 @@ bool buscar_caracteres(char *caracter, char caracter_a_buscar)
         caracter++;
     }
     
-
     return caracter_encontrado;
-
 }
 
 void limpiar_buffer_STDIN()
