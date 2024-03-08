@@ -45,7 +45,7 @@ bool validar_cadenas_sin_espacios(char[]);
 
 void convertir_cadenas_a_minusculas(char[]);
 
-void validar_Sistema_Operativo();
+void validar_errores_por_SO();
 void limpiar_buffer_STDIN();
 void limpiar_terminal();
 void pausar_terminal();
@@ -83,7 +83,7 @@ int main(void)
 
             if (opcion < 'a' || opcion > 'f')
             {
-                validar_Sistema_Operativo();
+                validar_errores_por_SO();
                 retorno--;
             }
 
@@ -238,7 +238,7 @@ int leer_validar_datos(struct Datos_Estudiantes data[], int alumnos)
 
                 if (!cadena_aceptada)
                 
-                    validar_Sistema_Operativo();
+                    validar_errores_por_SO();
             }
             else
             {
@@ -263,7 +263,7 @@ int leer_validar_datos(struct Datos_Estudiantes data[], int alumnos)
 
             if (data[alumnos].matricula < 0)
             
-                validar_Sistema_Operativo();
+                validar_errores_por_SO();
             
         } while (data[alumnos].matricula < 0);
         
@@ -288,7 +288,7 @@ int leer_validar_datos(struct Datos_Estudiantes data[], int alumnos)
                     
                     if (!cadena_aceptada)
                 
-                        validar_Sistema_Operativo();
+                        validar_errores_por_SO();
                 }
                 else
                 {
@@ -336,7 +336,7 @@ int leer_validar_datos(struct Datos_Estudiantes data[], int alumnos)
 
                 if (data[alumnos].calificaciones[j] < 0 || data[alumnos].calificaciones[j] > 100)
                 
-                    validar_Sistema_Operativo();
+                    validar_errores_por_SO();
                 
             } while (data[alumnos].calificaciones[j] < 0 || data[alumnos].calificaciones[j] > 100);
             
@@ -356,7 +356,7 @@ int leer_validar_datos(struct Datos_Estudiantes data[], int alumnos)
 
             if (respuesta != 's' && respuesta != 'n')
             
-                validar_Sistema_Operativo();
+                validar_errores_por_SO();
             
         } while (respuesta != 's' && respuesta != 'n');
         
@@ -434,7 +434,7 @@ void buscar_alumnos_PromedioMayor_carrera(struct Datos_Estudiantes data_f[], int
 
                 if (!cadena_aceptada)
             
-                    validar_Sistema_Operativo();
+                    validar_errores_por_SO();
                 
             }
             else
@@ -798,7 +798,7 @@ void pausar_terminal()
 }
 
 // Clasifica los mensajes de error tanto para Windows como para UNIX/Linux, cuando se ingresan datos incorrectos
-void validar_Sistema_Operativo()
+void validar_errores_por_SO()
 {
     #if defined(_WIN32) || defined(_WIN64)
         system("cls");

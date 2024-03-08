@@ -19,7 +19,7 @@
 
 bool validar_caracteres(char *);
 bool buscar_caracteres(char *, char);
-void validar_Sistema_Operativo();
+void validar_errores_por_SO();
 void limpiar_buffer_STDIN();
 void limpiar_terminal();
 void pausar_terminal();
@@ -29,7 +29,6 @@ int main(void)
 {
     char cadena[30], letra;
     bool cadena_correcta, caracter_encontrado;
-    int valido;
 
     do
     {
@@ -45,7 +44,7 @@ int main(void)
 
         if (!cadena_correcta)
         
-            validar_Sistema_Operativo();
+            validar_errores_por_SO();
 
     } while (!cadena_correcta);
 
@@ -57,15 +56,14 @@ int main(void)
 
             limpiar_buffer_STDIN();
 
-            valido = scanf(" %c", &letra);
+            scanf(" %c", &letra);
 
             if (!isalpha(letra))
-            {
-                valido -= 1;
-                validar_Sistema_Operativo();
-            }
+            
+                validar_errores_por_SO();
+            
 
-        } while (valido != 1);
+        } while (!isalpha(letra));
         
         caracter_encontrado = buscar_caracteres(cadena, letra);
 
@@ -115,6 +113,7 @@ bool buscar_caracteres(char *caracter, char caracter_a_buscar)
     return caracter_encontrado;
 }
 
+// Limpia buffer STDIN tanto para sistemas Windows como para UNIX/Linux
 void limpiar_buffer_STDIN()
 {
     #if defined(_WIN32) || defined(_WIN64)
@@ -148,7 +147,7 @@ void pausar_terminal()
 }
 
 // Clasifica los mensajes de error tanto para Windows como para UNIX/Linux, cuando se ingresan datos incorrectos
-void validar_Sistema_Operativo()
+void validar_errores_por_SO()
 {
     #if defined(_WIN32) || defined(_WIN64)
         limpiar_terminal();

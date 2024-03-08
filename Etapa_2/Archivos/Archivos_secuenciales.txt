@@ -1,0 +1,48 @@
+Los ARCHIVOS guardan los datos almacenados durante el programa, para evitar la perdida de los datos
+cuando finalice el programa
+
+Los caracteres se agrupan en lo que se llaman campos 
+
+Los registros (estructuras) se componen de varios campos
+
+Un archivo es un grupo de registros relacionados
+
+Un grupo de archivos se le conoce como Base De datos
+
+ARCHIVOS Y FLUJOS
+
+Cada archivo termina en un marcador EOF (fin del archivo)
+    * En Windows marcador de fin de archivo es Ctrl + Z
+    * Para UNIX/Linux es Ctrl + D
+
+Abrir un archivo regresa un apuntador FILE 
+FILE incluye un descriptor de 
+
+EN los archivos secuenciales, los datos se almacenan en orden
+
+CREAR ARCHIVO secuencial
+
+FILE *cfPtr
+
+fopen("archivo", "modo")
+
+"w" escribe o sobreescribe en el archivo
+"r" Abre el archivo para lectura
+"a" Abre el archivo para agregar nuevos registros al final del archivo
+
+fopen() regresa NULL si ocurrio algun error al intentar abrir el archivo
+
+feof() indica si encontro el indicador del fin del archivo, regresa un entero diferente de 0
+si encontro el EOF, de lo contrario,  regresa 0
+
+fprintf(cfPtr, " %d %s\n", costo, lugar);
+
+fscanf(puntero, "%s %d", &costo, lugar);
+
+Lee los registros de un archivo y les asigna una variable
+
+Para recuperar secuencialmente datos de un archivo, un programa 
+
+rewind(cfPtr) Regresa el apuntador al principio del archivo 
+
+si se desea actualizar un campo

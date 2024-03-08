@@ -15,7 +15,7 @@
 #endif 
 
 void elevar_numero(int, int, int *);
-void validar_Sistema_Operativo();
+void validar_errores_por_SO();
 void limpiar_buffer_STDIN();
 void limpiar_terminal();
 void pausar_terminal();
@@ -34,7 +34,7 @@ int main(void)
 
         if (numero < 0 || valor != 1)
         
-            validar_Sistema_Operativo();
+            validar_errores_por_SO();
         
         
     } while (numero < 0 || valor != 1);
@@ -49,7 +49,7 @@ int main(void)
 
         if (potencia < 0 || valor != 1)
         
-            validar_Sistema_Operativo();
+            validar_errores_por_SO();
         
     } while (potencia < 0 || valor != 1);
     
@@ -104,7 +104,7 @@ void pausar_terminal()
 }
 
 // Clasifica los mensajes de error tanto para Windows como para UNIX/Linux, cuando se ingresan datos incorrectos
-void validar_Sistema_Operativo()
+void validar_errores_por_SO()
 {
     #if defined(_WIN32) || defined(_WIN64)
         limpiar_terminal();
