@@ -212,14 +212,14 @@ void leer_datos(char *estados[], int (*lluvias)[13], int *datos_ya_registrados)
 
             limpiar_buffer_STDIN();
 
-            fgets(estados[*datos_ya_registrados], 50, stdin);
+            fgets(*(estados + *datos_ya_registrados), 50, stdin);
             
             estados[*datos_ya_registrados][strcspn(estados[*datos_ya_registrados], "\n")] = '\0';
 
-            if (strlen(estados[*datos_ya_registrados]) != 0)
+            if (strlen(*(estados + *datos_ya_registrados)) != 0)
             {
-                cadena_valida = validar_cadenas(estados[*datos_ya_registrados]);
-                estado_existente = verificar_estado(estados, estados[*datos_ya_registrados], datos_ya_registrados);
+                cadena_valida = validar_cadenas(*(estados + *datos_ya_registrados));
+                estado_existente = verificar_estado(estados, *(estados + *datos_ya_registrados), datos_ya_registrados);
 
                 if (!cadena_valida)
                 
@@ -235,7 +235,7 @@ void leer_datos(char *estados[], int (*lluvias)[13], int *datos_ya_registrados)
             
                 puts("Cadena vacía, ingresa una cadena valida");
                 
-        } while (!cadena_valida || estado_existente || strlen(estados[*datos_ya_registrados]) == 0);
+        } while (!cadena_valida || estado_existente || strlen(*(estados + *datos_ya_registrados)) == 0);
 
         for ( j = 0; j < 12; j++)
         {
@@ -417,13 +417,13 @@ void validar_errores_por_SO()
     #if defined(_WIN32) || defined(_WIN64)
         limpiar_terminal();
 
-        printf("Dato/s ingresado/s no valido/s, verificar dato/s");
+        printf("Dato/s ingresado/s no valido/s, verificar dato/s\n");
         pausar_terminal();
         limpiar_terminal();
     #elif __linux__
         limpiar_terminal();
 
-        printf("Dato/s ingresado/s no valido/s, verificar dato/s");
+        printf("Dato/s ingresado/s no valido/s, verificar dato/s\n");
         fflush(stdout);
         
         pausar_terminal();
