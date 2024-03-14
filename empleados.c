@@ -68,7 +68,7 @@ int main(void)
         puts("c. Trabajadores con sueldo mayor a $15,000");
         puts("d. Salir");
         puts("Selecciona una opción: ");
-        fflush(stdin);
+        __fpurge(stdin);
         }while(scanf("%c",&opcion) != 1);
 
 
@@ -133,11 +133,11 @@ void trabajadores(struct trabajadores t[ ], FILE *D, char arch[ ], int *empleado
             do
             {
                 printf("Cuál es su número de empleado? (empleado %d): ", i + 1);
-                fflush(stdin);
+                __fpurge(stdin);
                 scanf("%d",&t[i].n_empleado);
 
                 printf("Digite el nombre del empleado #%d: ", t[i].n_empleado);
-                fflush(stdin);
+                __fpurge(stdin);
                 gets(t[i].nombre);
 
                 t[i].nombre[strcspn(t[i].nombre, "\n")] = '\0';
@@ -166,7 +166,7 @@ void trabajadores(struct trabajadores t[ ], FILE *D, char arch[ ], int *empleado
                     }
 
                     printf("A qué departamento pertenece el empleado #%d: ", t[i].n_empleado);
-                    fflush(stdin);
+                    __fpurge(stdin);
                     gets(t[i].departamento);
 
                     t[i].departamento[strcspn(t[i].departamento, "\n")] = '\0';
@@ -193,7 +193,7 @@ void trabajadores(struct trabajadores t[ ], FILE *D, char arch[ ], int *empleado
                         }
                         
                         puts("Por último digite su sueldo: ");
-                        fflush(stdin);
+                        __fpurge(stdin);
                         scanf("%f", &t[i].sueldo);
         
                     }
@@ -207,7 +207,7 @@ void trabajadores(struct trabajadores t[ ], FILE *D, char arch[ ], int *empleado
             system("cls");
 
             printf("Existen más empleados?\n(Sí = Enter)\n(No = CTRL + Z)\n");
-            fflush(stdin);
+            __fpurge(stdin);
             scanf("%c", &salida);
             
             i++;

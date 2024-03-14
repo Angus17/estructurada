@@ -22,11 +22,12 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
 {
     FILE *file;
-    char nombres[100];
+    char *nombres;
     int promedios, matricula, semestre;
 
     file = fopen("alumnos.txt", "r");
@@ -37,10 +38,13 @@ int main(void)
     
     else
     {
+        nombres = malloc(sizeof nombres);
+
         while (fscanf(file, "%50[^0-9] %d %d %d", nombres, &matricula, &promedios, &semestre) != EOF)
         
             printf("%-20s %-20d %-20d %-20d\n", nombres, matricula, promedios, semestre);
         
+        free(nombres);
         fclose(file);
     }
 }
