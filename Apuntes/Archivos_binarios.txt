@@ -1,0 +1,29 @@
+Archivos secuenciales son archivos con datos los cuales se crean y leen de manera secuencial
+uno tras otro, su tamaño de bytes es variable
+
+ARCHIVOS DIRECTOS
+
+SOn de longitud fija y se puede tener acceso a ellos directamente, sin tener que 
+buscar a traves de otros registros
+
+sizeof es un operador unario que devuelve la cantidad de bytes
+
+fwrite(variable, sizeof(TipoDeDato), elementos, aputadorArchivo);
+
+elementos es el tamaño de elementos de arreglo que debe ser escrito
+
+en vez de usar fprintf(apuntador, "%d", variable)
+
+Ahora
+
+fwrite(&variable, sizeof(int), 1, archivoApuntador)
+
+fseek define la posicion del apuntador del archivo
+
+fseek(APuntadorArchivo, long int desplazamiento, int ApartirDe)
+
+SEEK_SET Inicio
+SEEK_CUR Posicion actual
+SEEK_END Fin
+
+fread(los mismos parametros de fwrite)

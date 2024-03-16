@@ -31,14 +31,14 @@
 
 //Funciones del menu
 void leer_datos(FILE *);
-void listar_promedios_mayores(FILE *);
-void listar_alumnos_semestre(FILE *);
+void listar_empleados(FILE *);
+void listar_empleados_sueldo_mayor(FILE *);
 
 // Validaciones y verificaciones
 bool validar_cadenas(char *);
 bool verificar_existencia_archivo(FILE *);
-bool buscar_existencias_promedio_mayor(FILE *);
-bool buscar_existencias_semestre(FILE *, int);
+bool buscar_existencias_empleados(FILE *);
+bool buscar_existencias_sueldo_mayor(FILE *, int);
 bool verificar_existencia_registros(FILE *);
 
 // Funciones adicionales para el sistema
@@ -90,7 +90,7 @@ int main(void)
                 
                 else
                 
-                    listar_promedios_mayores(file_alumnos);
+                    listar_empleados(file_alumnos);
             break;
 
             case 'c':
@@ -100,7 +100,7 @@ int main(void)
                 
                 else
                 
-                    listar_alumnos_semestre(file_alumnos);
+                    listar_empleados_sueldo_mayor(file_alumnos);
 
             break;
 
@@ -266,7 +266,7 @@ void leer_datos(FILE *archivo)
     }
 }
 
-void listar_promedios_mayores(FILE *archivo)
+void listar_empleados(FILE *archivo)
 {
     int promedio, matricula, semestre;
     char nombre[50];
@@ -277,7 +277,7 @@ void listar_promedios_mayores(FILE *archivo)
     
         puts("No se pudo abrir el archivo, regresando al menu. . .");
     
-    else if (!buscar_existencias_promedio_mayor(archivo))
+    else if (!buscar_existencias_empleados(archivo))
         
             puts("No existen alumn@s con promedio mayor");
         
@@ -297,7 +297,7 @@ void listar_promedios_mayores(FILE *archivo)
     
 }
 
-void listar_alumnos_semestre(FILE *archivo)
+void listar_empleados_sueldo_mayor(FILE *archivo)
 {
     int promedio, matricula, semestre, busqueda;
     char nombre[50];
@@ -322,7 +322,7 @@ void listar_alumnos_semestre(FILE *archivo)
                 validar_errores_por_SO();
         } while (busqueda < 1 || busqueda > 9);
         
-        if (buscar_existencias_semestre(archivo, busqueda))
+        if (buscar_existencias_sueldo_mayor(archivo, busqueda))
         {
             printf("\n%-20s %-20s %-20s %-20s\n", "NOMBRE", "MATRICULA", "PROMEDIO", "SEMESTRE");
 
@@ -373,7 +373,7 @@ bool verificar_existencia_archivo(FILE *archivo)
     }
 }
 
-bool buscar_existencias_promedio_mayor(FILE *archivo)
+bool buscar_existencias_empleados(FILE *archivo)
 {
     char nombre[50];
     int matricula, promedio, semestre;
@@ -392,7 +392,7 @@ bool buscar_existencias_promedio_mayor(FILE *archivo)
     return false;
 }
 
-bool buscar_existencias_semestre(FILE *archivo, int semestre_busqueda)
+bool buscar_existencias_sueldo_mayor(FILE *archivo, int semestre_busqueda)
 {
     char nombre[50];
     int matricula, promedio, semestre;
