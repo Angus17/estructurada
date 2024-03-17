@@ -3,18 +3,24 @@
 
     en un archivo binario (acceso directo)
 
-    -matriculafread()
+    -matricula 
     -Nombre
     -semestre
     -Promedio
     -Carrera
 
     Muestra:
-    - Todos los alumnos (1000 alumnos maximo)
+    - Todos los alumnos (1000 alumnos maximo) fread()
 */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
 #include <stdbool.h>
+#ifdef __linux__
+    #include <stdio_ext.h>
+#endif 
 
 bool validar_cadenas(char *);
 void validar_errores_por_SO();
@@ -29,18 +35,17 @@ struct Datos_Alumnos
     char carrera[10];
     int semestre;
     int promedio;
-
 };
 
 int main(void)
 {
     FILE *file_alumnos;
     struct Datos_Alumnos datos;
-    int contador_alumnos = 0, i;
+    int contador_alumnos = 0, i = 0;
     char respuesta;
     bool cadena_valida;
 
-    file_alumnos = fopen("alumnos.dat", "ab+");
+    file_alumnos = fopen("alumnos.dat", "wb+");
 
     if (file_alumnos == NULL)
     
@@ -49,12 +54,6 @@ int main(void)
     else
     {
         rewind(file_alumnos);
-
-        for ( i = 0; i < 1000; i++)
-        
-            fwrite(&datos, sizeof(struct Datos_Alumnos), 1, file_alumnos);
-        
-        puts("Archivo creado con exito");
         
         do
         {
@@ -74,8 +73,6 @@ int main(void)
                 validar_errores_por_SO();
 
         } while (respuesta != 's' && respuesta != 'n');
-
-        rewind(file_alumnos);
 
         while (respuesta == 's')
         {
@@ -107,17 +104,110 @@ int main(void)
             } while (strlen(datos.nombre) == 0 || !cadena_valida);
 
 
+            
             do
             {
-                limpiar_terminal();
+                do
+                {
+                    limpiar_terminal();
 
-                printf("Matricula de %s: ", datos.nombre);
-                limpiar_buffer_STDIN();
-            } while (scanf("%d", &datos.matricula) != 1);
+                    printf("Matricula de %s: ", datos.nombre);
+                    limpiar_buffer_STDIN();
+                } while (scanf("%d", &datos.matricula) != 1);
+                
+                if (datos.matricula <= 0)
+                
+                    validar_errores_por_SO();
+                
+            } while (datos.matricula <= 0);
             
+
+            do
+            {
+                do
+                {
+                    limpiar_terminal();
+
+                    printf("Semestre de %s: ", datos.nombre);
+                    limpiar_buffer_STDIN();
+                } while (scanf("%d",&datos.semestre) != 1);
+
+                if (datos.semestre < 1 || datos.semestre > 9)
+                
+                    validar_errores_por_SO();
+            } while (datos.semestre < 1 || datos.semestre > 9);
+
+            do
+            {
+                do
+                {
+                    limpiar_terminal();
+
+                    printf("Promedio de %s: ", datos.nombre);
+                    limpiar_buffer_STDIN();
+                } while (scanf("%d", &datos.promedio) != 1);
+                
+                if (datos.promedio < 0 || datos.promedio > 100)
+                
+                    validar_errores_por_SO();
+
+            } while (datos.promedio < 0 || datos.promedio > 100);
+
+            
+        
+            printf("Escribe la carrera que esta cursando %s: ", datos.nombre);
+            limpiar_buffer_STDIN();
+
+            scanf(" %s", datos.carrera);
+
+        
+            
+            fseek(file_alumnos, contador_alumnos * sizeof(struct Datos_Alumnos), SEEK_SET);
+            fwrite(&datos, sizeof(struct Datos_Alumnos), 1, file_alumnos);
+
+            do
+            {
+                puts("Existen mas alumn@s?");
+                puts("S. Si");
+                puts("N. No");
+                printf(": ");
+
+                limpiar_buffer_STDIN();
+
+                scanf(" %c", &respuesta);
+
+                respuesta = tolower(respuesta);
+
+                if (respuesta != 's' && respuesta != 'n')
+                
+                    validar_errores_por_SO();
+
+            } while (respuesta != 's' && respuesta != 'n');
+
+            contador_alumnos++;
+        }
+
+        limpiar_terminal();
+
+        if (contador_alumnos != 0)
+        {
+
+            for ( i = 0; i < contador_alumnos; i++)
+            {
+                fseek(file_alumnos, i * sizeof(struct Datos_Alumnos), SEEK_SET);
+                fread(&datos, sizeof(struct Datos_Alumnos), 1, file_alumnos);
+
+                printf("\n%-30s %-20d %-20s %-20d %-d\n", datos.nombre, datos.matricula, datos.carrera, datos.semestre, datos.promedio);
+            }
+            
+            pausar_terminal();
         }
         
+        fclose(file_alumnos);
     }
+
+    limpiar_terminal();
+    puts("Operacion finalizada!");
 }
 
 bool validar_cadenas(char *caracter)
