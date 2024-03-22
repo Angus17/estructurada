@@ -128,7 +128,7 @@ int main(void)
                         }
                         else
                         
-                            puts("Ya no hay espacio para mas datos. . .");
+                            puts("Ya no hay espacio para más datos. . .");
 
                         break;
 
@@ -183,7 +183,7 @@ int main(void)
 
             limpiar_terminal();
             
-            puts("Operacion finalizada con exito");
+            puts("Operación finalizada con éxito");
         }
     }
 }
@@ -247,7 +247,7 @@ void leer_datos(FILE *archivo_planetas, struct Datos_Planetas data, int *total_p
             {
                 limpiar_terminal();
 
-                puts("Ingresa la dimension ( radio en cm ) del planeta: ");
+                puts("Ingresa la dimensión ( radio en cm ) del planeta: ");
                 limpiar_buffer_STDIN();
             } while (scanf("%lld", &data.dimension) != 1);
             
@@ -261,7 +261,7 @@ void leer_datos(FILE *archivo_planetas, struct Datos_Planetas data, int *total_p
         {
             limpiar_terminal();
 
-            puts("Qué caracteristicas tiene el planeta en cuestion?: ");
+            puts("Qué características tiene el planeta en cuestion?: ");
             limpiar_buffer_STDIN();
             fgets(data.caracteristicas, 50, stdin);
 
@@ -325,7 +325,7 @@ void leer_datos(FILE *archivo_planetas, struct Datos_Planetas data, int *total_p
             {
                 limpiar_terminal();
 
-                puts("Desea ingresar mas datos de planetas? Si/No");
+                puts("Desea ingresar más datos de planetas? Si/No");
                 printf(": ");
 
                 limpiar_buffer_STDIN();
@@ -343,7 +343,7 @@ void leer_datos(FILE *archivo_planetas, struct Datos_Planetas data, int *total_p
         else
         {
             limpiar_terminal();
-            puts("Alcanzaste el limite maximo de datos");
+            puts("Alcanzaste el límite máximo de datos");
         }
     }
 
@@ -373,7 +373,7 @@ void mostrar_planeta(FILE *archivo_planetas, struct Datos_Planetas data)
         fseek(archivo_planetas, index_apuntador * sizeof(struct Datos_Planetas), SEEK_SET);
         fread(&data, sizeof(struct Datos_Planetas), 1, archivo_planetas);
 
-        printf("\n%-30s %-30s %-50s %-s\n", "CLAVE PLANETA", "DIMENSION (RADIO)", "CARACTERISTICAS", "VIDA?");
+        printf("\n%-30s %-30s %-50s %-s\n", "CLAVE PLANETA", "DIMENSIÓN (RADIO CM)", "CARACTERÍSTICAS", "VIDA?");
 
         if (data.posibilidad_vida)
         
@@ -386,7 +386,7 @@ void mostrar_planeta(FILE *archivo_planetas, struct Datos_Planetas data)
     }
     else
     
-        puts("No se encontro su busqueda en el sistema. . .");
+        puts("No se encontró su busqueda en el sistema. . .");
 
 }
 
@@ -397,7 +397,7 @@ void mostrar_planetas_con_vida(FILE *archivo_planetas, struct Datos_Planetas dat
     {
         rewind(archivo_planetas);
 
-        printf("%-30s %-30s %-50s %-s\n", "CLAVE PLANETA", "DIMENSION (RADIO)", "CARACTERISTICAS", "VIDA?");
+        printf("%-30s %-30s %-50s %-s\n", "CLAVE PLANETA", "DIMENSIÓN (RADIO CM)", "CARACTERÍSTICAS", "VIDA?");
 
         while (fread(&data, sizeof(struct Datos_Planetas), 1 , archivo_planetas) > 0)
         {
@@ -420,7 +420,7 @@ void mostrar_planetas_con_agua(FILE *archivo_planetas, struct Datos_Planetas dat
     {
         rewind(archivo_planetas);
 
-        printf("%-30s %-30s %-50s %-s\n", "CLAVE PLANETA", "DIMENSION (RADIO)", "CARACTERISTICAS", "VIDA?");
+        printf("%-30s %-30s %-50s %-s\n", "CLAVE PLANETA", "DIMENSIÓN (RADIO CM)", "CARACTERÍSTICAS", "VIDA?");
 
         while (fread(&data, sizeof(struct Datos_Planetas), 1, archivo_planetas) > 0)
         {
@@ -432,7 +432,7 @@ void mostrar_planetas_con_agua(FILE *archivo_planetas, struct Datos_Planetas dat
     }
     else
     
-        puts("No existen planetas con agua en su superficie");
+        puts("No existen planetas cuyas características contengan \"agua\"");
 
 }
 
@@ -565,13 +565,13 @@ void validar_errores_por_SO()
     #if defined(_WIN32) || defined(_WIN64)
         limpiar_terminal();
 
-        printf("Dato/s ingresado/s no valido/s, verificar dato/s\n");
+        printf("Dato/s ingresado/s no válido/s, verificar dato/s\n");
         pausar_terminal();
         limpiar_terminal();
     #elif __linux__
         limpiar_terminal();
 
-        printf("Dato/s ingresado/s no valido/s, verificar dato/s\n");
+        printf("Dato/s ingresado/s no válido/s, verificar dato/s\n");
         fflush(stdout);
         
         pausar_terminal();
