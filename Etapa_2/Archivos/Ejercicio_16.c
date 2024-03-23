@@ -103,7 +103,7 @@ int main(void)
 
                     limpiar_buffer_STDIN();
 
-                    scanf("%c", &opcion);
+                    scanf(" %c", &opcion);
                     opcion = tolower(opcion);
 
                     if (opcion < 'a' || opcion > 'e')
@@ -351,11 +351,12 @@ void mostrar_planeta(FILE *archivo_planetas, struct Datos_Planetas data)
 
     do
     {
-        puts("Que planeta desea buscar? Ingresa su clave: ");
-
-        limpiar_buffer_STDIN();
-
-        scanf("%d", &clave_busqueda);
+        do
+        {
+            limpiar_terminal();
+            puts("Que planeta desea buscar? Ingresa su clave: ");
+            limpiar_buffer_STDIN();
+        } while (scanf("%d", &clave_busqueda) != 1);
 
         if (clave_busqueda < 1 || clave_busqueda > 200)
         
@@ -530,7 +531,7 @@ bool existencia_archivo_datos(FILE *archivo_planetas, struct Datos_Planetas data
     if (data.clave_planeta != 0)
     
         return true;
-        
+
     return false;
 }
 
