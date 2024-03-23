@@ -44,15 +44,15 @@ struct Datos_Planetas
 
 void leer_datos(FILE *, struct Datos_Planetas, int *);
 void mostrar_planeta(FILE *, struct Datos_Planetas);
-void mostrar_planetas_con_vida(FILE *, struct Datos_Planetas );
-void mostrar_planetas_con_agua(FILE *, struct Datos_Planetas );
+void mostrar_planetas_con_vida(FILE *, struct Datos_Planetas);
+void mostrar_planetas_con_agua(FILE *, struct Datos_Planetas);
 
 bool verificar_clave_repetida(FILE *, struct Datos_Planetas, int *);
 bool encontrar_planeta(FILE *, struct Datos_Planetas, int *, int *);
 bool buscar_planeta_vida(FILE *, struct Datos_Planetas);
 bool buscar_planeta_agua(FILE *, struct Datos_Planetas);
 bool validar_cadenas(char *);
-bool existencia_archivo_datos(FILE *, struct Datos_Planetas);
+bool existencia_archivo_datos(FILE *, struct Datos_Planetas, int *);
 void convertir_cadena_a_minuscula(char *);
 
 void validar_errores_por_SO();
@@ -64,7 +64,7 @@ int main(void)
 {
     FILE *file_planetas;
     char opcion;
-    int index = 0;
+    int index_datos_leidos = 0;
     struct Datos_Planetas datos;
 
     setlocale(LC_ALL, "es_MX.UTF-8");
@@ -117,9 +117,9 @@ int main(void)
                 switch (opcion)
                 {
                     case 'a':
-                        if (index < 200)
+                        if (index_datos_leidos < 200)
                         
-                            leer_datos(file_planetas, datos, &index);
+                            leer_datos(file_planetas, datos, &index_datos_leidos);
                         
                         else
                         
@@ -129,7 +129,7 @@ int main(void)
 
                     case 'b':
 
-                        if (!existencia_archivo_datos(file_planetas, datos))
+                        if (!existencia_archivo_datos(file_planetas, datos, &index_datos_leidos))
                         
                             puts("Necesitas leer primero los datos de los planetas");
                         
@@ -141,7 +141,7 @@ int main(void)
 
                     case 'c':
 
-                        if (!existencia_archivo_datos(file_planetas, datos))
+                        if (!existencia_archivo_datos(file_planetas, datos, &index_datos_leidos))
                         
                             puts("Necesitas leer primero los datos de los planetas");
                         
@@ -153,7 +153,7 @@ int main(void)
 
                     case 'd':
 
-                        if (!existencia_archivo_datos(file_planetas, datos))
+                        if (!existencia_archivo_datos(file_planetas, datos, &index_datos_leidos))
                         
                             puts("Necesitas leer primero los datos de los planetas");
                         
@@ -183,10 +183,9 @@ int main(void)
     }
 }
 
-void leer_datos(FILE *archivo_planetas, struct Datos_Planetas data, int *total_planetas)
+void leer_datos(FILE *archivo_planetas, struct Datos_Planetas data, int *datos_leidos)
 {
-    char respuesta[2], respuesta_vida[2];
-    static int contador_planetas = 0;
+    char respuesta[3], respuesta_vida[3];
     bool clave_repetida = false, cadena_valida;
 
     
@@ -208,7 +207,7 @@ void leer_datos(FILE *archivo_planetas, struct Datos_Planetas data, int *total_p
 
     } while (strcmp(respuesta, "si") != 0 && strcmp(respuesta, "no") != 0);
 
-    while (strcmp(respuesta, "si") == 0 && contador_planetas < 200)
+    while (strcmp(respuesta, "si") == 0 && *datos_leidos < 200)
     {
         do
         {
@@ -220,7 +219,7 @@ void leer_datos(FILE *archivo_planetas, struct Datos_Planetas data, int *total_p
                 limpiar_buffer_STDIN();
             } while (scanf("%d", &data.clave_planeta) != 1);
             
-            if ((contador_planetas > 0 || existencia_archivo_datos(archivo_planetas, data)) && (data.clave_planeta >= 1 && data.clave_planeta <= 200))
+            if (existencia_archivo_datos(archivo_planetas, data, datos_leidos) && (data.clave_planeta >= 1 && data.clave_planeta <= 200))
             
                 clave_repetida = verificar_clave_repetida(archivo_planetas, data, &data.clave_planeta);
 
@@ -308,13 +307,10 @@ void leer_datos(FILE *archivo_planetas, struct Datos_Planetas data, int *total_p
         
             data.posibilidad_vida = false;
         
-        fseek(archivo_planetas, contador_planetas * sizeof(struct Datos_Planetas), SEEK_SET);
+        fseek(archivo_planetas, *(datos_leidos) * sizeof(struct Datos_Planetas), SEEK_SET);
         fwrite(&data, sizeof(struct Datos_Planetas), 1, archivo_planetas);
-
-
-        contador_planetas++;
         
-        if (contador_planetas < 200)
+        if (*datos_leidos < 200)
         {
             do
             {
@@ -341,8 +337,6 @@ void leer_datos(FILE *archivo_planetas, struct Datos_Planetas data, int *total_p
             puts("Alcanzaste el límite máximo de datos");
         }
     }
-
-    *total_planetas = contador_planetas;
 }
 
 void mostrar_planeta(FILE *archivo_planetas, struct Datos_Planetas data)
@@ -420,9 +414,14 @@ void mostrar_planetas_con_agua(FILE *archivo_planetas, struct Datos_Planetas dat
 
         while (fread(&data, sizeof(struct Datos_Planetas), 1, archivo_planetas) > 0)
         {
-            if (strstr(data.caracteristicas, "agua") != NULL || strstr(data.caracteristicas, "Agua") != NULL)
+            if ((strstr(data.caracteristicas, "agua") != NULL || strstr(data.caracteristicas, "Agua") != NULL) && data.posibilidad_vida)
             
                 printf("\n%-30d %-30lld %-50s %-s\n", data.clave_planeta, data.dimension, data.caracteristicas, "SI");
+
+            else if (strstr(data.caracteristicas, "agua") != NULL || strstr(data.caracteristicas, "Agua") != NULL)
+                
+                    printf("\n%-30d %-30lld %-50s %-s\n", data.clave_planeta, data.dimension, data.caracteristicas, "NO");
+                
             
         }
     }
@@ -522,16 +521,26 @@ bool validar_cadenas(char *caracter)
     return cadena_correcta;
 }
 
-bool existencia_archivo_datos(FILE *archivo_planetas, struct Datos_Planetas data)
+bool existencia_archivo_datos(FILE *archivo_planetas, struct Datos_Planetas data, int *datos_leidos)
 {
+    int index_datos = 0;
+
     rewind(archivo_planetas);
-    
-    fread(&data, sizeof(struct Datos_Planetas), 1, archivo_planetas);
-    
-    if (data.clave_planeta != 0)
+
+    while (fread(&data, sizeof(struct Datos_Planetas), 1, archivo_planetas) > 0)
+    {
+        if (data.clave_planeta != 0)
+        
+            index_datos++;
+        
+    }
+
+    *datos_leidos = index_datos;
+
+    if (*datos_leidos > 0)
     
         return true;
-
+    
     return false;
 }
 
