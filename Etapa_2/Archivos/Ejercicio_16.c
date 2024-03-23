@@ -52,6 +52,7 @@ bool encontrar_planeta(FILE *, struct Datos_Planetas, int *, int *);
 bool buscar_planeta_vida(FILE *, struct Datos_Planetas);
 bool buscar_planeta_agua(FILE *, struct Datos_Planetas);
 bool validar_cadenas(char *);
+bool existencia_archivo_datos(FILE *, struct Datos_Planetas);
 void convertir_cadena_a_minuscula(char *);
 
 void validar_errores_por_SO();
@@ -65,7 +66,6 @@ int main(void)
     char opcion;
     int index = 0;
     struct Datos_Planetas datos;
-    bool datos_leidos = false;
 
     setlocale(LC_ALL, "es_MX.UTF-8");
 
@@ -118,14 +118,9 @@ int main(void)
                 {
                     case 'a':
                         if (index < 200)
-                        {
+                        
                             leer_datos(file_planetas, datos, &index);
-
-                            if (index != 0)
-                            
-                                datos_leidos = true;
-
-                        }
+                        
                         else
                         
                             puts("Ya no hay espacio para más datos. . .");
@@ -134,7 +129,7 @@ int main(void)
 
                     case 'b':
 
-                        if (!datos_leidos)
+                        if (!existencia_archivo_datos(file_planetas, datos))
                         
                             puts("Necesitas leer primero los datos de los planetas");
                         
@@ -146,7 +141,7 @@ int main(void)
 
                     case 'c':
 
-                        if (!datos_leidos)
+                        if (!existencia_archivo_datos(file_planetas, datos))
                         
                             puts("Necesitas leer primero los datos de los planetas");
                         
@@ -158,7 +153,7 @@ int main(void)
 
                     case 'd':
 
-                        if (!datos_leidos)
+                        if (!existencia_archivo_datos(file_planetas, datos))
                         
                             puts("Necesitas leer primero los datos de los planetas");
                         
@@ -225,7 +220,7 @@ void leer_datos(FILE *archivo_planetas, struct Datos_Planetas data, int *total_p
                 limpiar_buffer_STDIN();
             } while (scanf("%d", &data.clave_planeta) != 1);
             
-            if (contador_planetas > 0)
+            if ((contador_planetas > 0 || existencia_archivo_datos(archivo_planetas, data)) && (data.clave_planeta >= 1 && data.clave_planeta <= 200))
             
                 clave_repetida = verificar_clave_repetida(archivo_planetas, data, &data.clave_planeta);
 
@@ -524,6 +519,19 @@ bool validar_cadenas(char *caracter)
     }
     
     return cadena_correcta;
+}
+
+bool existencia_archivo_datos(FILE *archivo_planetas, struct Datos_Planetas data)
+{
+    rewind(archivo_planetas);
+    
+    fread(&data, sizeof(struct Datos_Planetas), 1, archivo_planetas);
+    
+    if (data.clave_planeta != 0)
+    
+        return true;
+        
+    return false;
 }
 
 // Limpia buffer STDIN tanto para sistemas Windows como para UNIX/Linux
