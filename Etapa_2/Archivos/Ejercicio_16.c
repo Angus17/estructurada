@@ -497,7 +497,7 @@ bool buscar_planeta_agua(FILE *archivo_planetas, struct Datos_Planetas data)
 
     while (fread(&data, sizeof(struct Datos_Planetas), 1, archivo_planetas) > 0)
     {
-        if (strstr(data.caracteristicas, "agua") != NULL || strstr(data.caracteristicas, "agua") != NULL)
+        if (strstr(data.caracteristicas, "agua") != NULL || strstr(data.caracteristicas, "Agua") != NULL)
         
             return true;
 
