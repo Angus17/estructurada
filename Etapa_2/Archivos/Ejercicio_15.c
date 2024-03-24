@@ -9,7 +9,7 @@
 struct Datos_Planetas
 {
     int clave_planeta;
-    long long int dimension;
+    long int dimension;
     char caracteristicas[50];
     bool posibilidad_vida;
 };
@@ -17,7 +17,7 @@ struct Datos_Planetas
 int main(void)
 {
     FILE *file_planetas;
-    struct Datos_Planetas datos = {0,0, "", false};
+    struct Datos_Planetas datos = {0,0L, "\0", false};
     int i;
 
     file_planetas = fopen("datos_planetas.dat", "wb");
@@ -28,8 +28,6 @@ int main(void)
     
     else
     {
-        rewind(file_planetas);
-
         for ( i = 0; i < 200; i++)
         
             fwrite(&datos, sizeof(struct Datos_Planetas), 1, file_planetas);

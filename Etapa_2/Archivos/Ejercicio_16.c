@@ -37,7 +37,7 @@
 struct Datos_Planetas
 {
     int clave_planeta;
-    long long int dimension;
+    long int dimension;
     char caracteristicas[50];
     bool posibilidad_vida;
 };
@@ -48,7 +48,6 @@ void mostrar_planetas_con_vida(FILE *, struct Datos_Planetas);
 void mostrar_planetas_con_agua(FILE *, struct Datos_Planetas);
 
 bool verificar_clave_repetida(FILE *, struct Datos_Planetas, int *);
-bool encontrar_planeta(FILE *, struct Datos_Planetas, int *, int *);
 bool buscar_planeta_vida(FILE *, struct Datos_Planetas);
 bool buscar_planeta_agua(FILE *, struct Datos_Planetas);
 bool validar_cadenas(char *);
@@ -77,109 +76,106 @@ int main(void)
     
     else
     {
-        file_planetas = freopen("datos_planetas.dat", "ab+", file_planetas);
+        file_planetas = freopen("datos_planetas.dat", "rb+", file_planetas);
 
         if (file_planetas == NULL)
-        
-            puts("Ocurrió un error al abrir el archivo. . .");
-        
+        {
+            puts("Ocurrio");
+        }
         else
+        {
+            
+        }
+        
+        do
         {
             do
             {
-                do
-                {
-                    limpiar_terminal();
-
-                    puts("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
-                    printf("\n%45s\n\n", "MENÚ DE OPCIONES");
-                    puts("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
-                    puts("a. Lectura de datos");
-                    puts("b. Datos de planeta (especificado por el usuario)");
-                    puts("c. Planetas con posibilidad de vida");
-                    puts("d. Planetas con Agua");
-                    puts("e. Salir");
-                    printf("Selecciona una opción: ");
-
-                    limpiar_buffer_STDIN();
-
-                    scanf(" %c", &opcion);
-                    opcion = tolower(opcion);
-
-                    if (opcion < 'a' || opcion > 'e')
-                    
-                        validar_errores_por_SO();
-
-                } while (opcion < 'a' || opcion > 'e');
-
                 limpiar_terminal();
 
-                switch (opcion)
-                {
-                    case 'a':
-                        if (index_datos_leidos < 200)
-                        
-                            leer_datos(file_planetas, datos, &index_datos_leidos);
-                        
-                        else
-                        
-                            puts("Ya no hay espacio para más datos. . .");
+                puts("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
+                printf("\n%45s\n\n", "MENÚ DE OPCIONES");
+                puts("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
+                puts("a. Lectura de datos");
+                puts("b. Datos de planeta (especificado por el usuario)");
+                puts("c. Planetas con posibilidad de vida");
+                puts("d. Planetas con Agua");
+                puts("e. Salir");
+                printf("Selecciona una opción: ");
 
-                        break;
+                limpiar_buffer_STDIN();
 
-                    case 'b':
+                scanf(" %c", &opcion);
+                opcion = tolower(opcion);
 
-                        if (!existencia_archivo_datos(file_planetas, datos, &index_datos_leidos))
-                        
-                            puts("Necesitas leer primero los datos de los planetas");
-                        
-                        else
-                        
-                            mostrar_planeta(file_planetas, datos);
-
-                        break;
-
-                    case 'c':
-
-                        if (!existencia_archivo_datos(file_planetas, datos, &index_datos_leidos))
-                        
-                            puts("Necesitas leer primero los datos de los planetas");
-                        
-                        else
-                        
-                            mostrar_planetas_con_vida(file_planetas, datos);
-                        
-                        break;
-
-                    case 'd':
-
-                        if (!existencia_archivo_datos(file_planetas, datos, &index_datos_leidos))
-                        
-                            puts("Necesitas leer primero los datos de los planetas");
-                        
-                        else
-                        
-                            mostrar_planetas_con_agua(file_planetas, datos);
-                        
-                        break;
-
-                    case 'e':
-
-                        fclose(file_planetas);
-
-                        break;
-                }
+                if (opcion < 'a' || opcion > 'e')
                 
-                if (opcion != 'e')
-                
-                    pausar_terminal();
+                    validar_errores_por_SO();
 
-            } while (opcion != 'e');
+            } while (opcion < 'a' || opcion > 'e');
 
             limpiar_terminal();
+
+            switch (opcion)
+            {
+                case 'a':
+                    if (index_datos_leidos < 200)
+                    
+                        leer_datos(file_planetas, datos, &index_datos_leidos);
+                    
+                    else
+                    
+                        puts("Ya no hay espacio para más datos. . .");
+
+                    break;
+
+                case 'b':
+
+                    if (!existencia_archivo_datos(file_planetas, datos, &index_datos_leidos))
+                    
+                        puts("Necesitas leer primero los datos de los planetas");
+                    
+                    else
+                    
+                        mostrar_planeta(file_planetas, datos);
+
+                    break;
+
+                case 'c':
+
+                    if (!existencia_archivo_datos(file_planetas, datos, &index_datos_leidos))
+                    
+                        puts("Necesitas leer primero los datos de los planetas");
+                    
+                    else
+                    
+                        mostrar_planetas_con_vida(file_planetas, datos);
+                    
+                    break;
+
+                case 'd':
+
+                    if (!existencia_archivo_datos(file_planetas, datos, &index_datos_leidos))
+                    
+                        puts("Necesitas leer primero los datos de los planetas");
+                    
+                    else
+                    
+                        mostrar_planetas_con_agua(file_planetas, datos);
+                    
+                    break;
+            }
             
-            puts("Operación finalizada con éxito");
-        }
+            if (opcion != 'e')
+            
+                pausar_terminal();
+
+        } while (opcion != 'e');
+
+        limpiar_terminal();
+        
+        puts("Operación finalizada con éxito");
+    
     }
 }
 
@@ -188,8 +184,8 @@ void leer_datos(FILE *archivo_planetas, struct Datos_Planetas data, int *datos_l
     char respuesta[3], respuesta_vida[3];
     bool clave_repetida = false, cadena_valida;
 
-    
 
+    
     do
     {
         puts("Desea ingresar datos de planetas? Si/No");
@@ -243,7 +239,7 @@ void leer_datos(FILE *archivo_planetas, struct Datos_Planetas data, int *datos_l
 
                 puts("Ingresa la dimensión ( radio en cm ) del planeta: ");
                 limpiar_buffer_STDIN();
-            } while (scanf("%lld", &data.dimension) != 1);
+            } while (scanf("%ld", &data.dimension) != 1);
             
             if (data.dimension <= 0)
             
@@ -307,7 +303,7 @@ void leer_datos(FILE *archivo_planetas, struct Datos_Planetas data, int *datos_l
         
             data.posibilidad_vida = false;
         
-        fseek(archivo_planetas, *(datos_leidos) * sizeof(struct Datos_Planetas), SEEK_SET);
+        fseek(archivo_planetas, (data.clave_planeta - 1) * sizeof(struct Datos_Planetas), SEEK_SET);
         fwrite(&data, sizeof(struct Datos_Planetas), 1, archivo_planetas);
         
         if (*datos_leidos < 200)
@@ -337,46 +333,63 @@ void leer_datos(FILE *archivo_planetas, struct Datos_Planetas data, int *datos_l
             puts("Alcanzaste el límite máximo de datos");
         }
     }
+
+    fclose(archivo_planetas);
+
+    
+    
 }
 
 void mostrar_planeta(FILE *archivo_planetas, struct Datos_Planetas data)
 {
-    int index_apuntador = 0, clave_busqueda;
+    int clave_busqueda;
 
-    do
+    archivo_planetas = fopen("datos_planetas.dat", "rb");
+
+    if (archivo_planetas == NULL)
+    
+        puts("Ocurrió un error con el archivo. . .");
+    
+    else
     {
         do
         {
-            limpiar_terminal();
-            puts("Que planeta desea buscar? Ingresa su clave: ");
-            limpiar_buffer_STDIN();
-        } while (scanf("%d", &clave_busqueda) != 1);
+            do
+            {
+                limpiar_terminal();
+                puts("Que planeta desea buscar? Ingresa su clave: ");
+                limpiar_buffer_STDIN();
+            } while (scanf("%d", &clave_busqueda) != 1);
 
-        if (clave_busqueda < 1 || clave_busqueda > 200)
-        
-            validar_errores_por_SO();
+            if (clave_busqueda < 1 || clave_busqueda > 200)
+            
+                validar_errores_por_SO();
 
-    } while (clave_busqueda < 1 || clave_busqueda > 200);
+        } while (clave_busqueda < 1 || clave_busqueda > 200);
 
-    if (encontrar_planeta(archivo_planetas, data, &clave_busqueda, &index_apuntador))
-    {
-        fseek(archivo_planetas, index_apuntador * sizeof(struct Datos_Planetas), SEEK_SET);
+        fseek(archivo_planetas, (clave_busqueda) * sizeof(struct Datos_Planetas), SEEK_SET);
         fread(&data, sizeof(struct Datos_Planetas), 1, archivo_planetas);
 
-        printf("\n%-30s %-30s %-50s %-s\n", "CLAVE PLANETA", "DIMENSIÓN (RADIO CM)", "CARACTERÍSTICAS", "VIDA?");
+        if (data.clave_planeta != 0)
+        {
+            printf("\n%-30s %-30s %-50s %-s\n", "CLAVE PLANETA", "DIMENSIÓN (RADIO CM)", "CARACTERÍSTICAS", "VIDA?");
 
-        if (data.posibilidad_vida)
-        
-            printf("\n%-30d %-30lld %-50s %-s\n", data.clave_planeta, data.dimension, data.caracteristicas, "SI");
-        
+            if (data.posibilidad_vida)
+            
+                printf("\n%-30d %-30ld %-50s %-s\n", data.clave_planeta, data.dimension, data.caracteristicas, "SI");
+            
+            else
+            
+                printf("\n%-30d %-30ld %-50s %-s\n", data.clave_planeta, data.dimension, data.caracteristicas, "NO");
+
+        }
         else
         
-            printf("\n%-30d %-30lld %-50s %-s\n", data.clave_planeta, data.dimension, data.caracteristicas, "NO");
+            puts("No se encontró su busqueda en el sistema. . .");
 
+        fclose(archivo_planetas);
     }
-    else
     
-        puts("No se encontró su busqueda en el sistema. . .");
 
 }
 
@@ -393,7 +406,7 @@ void mostrar_planetas_con_vida(FILE *archivo_planetas, struct Datos_Planetas dat
         {
             if (data.posibilidad_vida)
             
-                printf("\n%-30d %-30lld %-50s %-s\n", data.clave_planeta, data.dimension, data.caracteristicas, "SI");
+                printf("\n%-30d %-30ld %-50s %-s\n", data.clave_planeta, data.dimension, data.caracteristicas, "SI");
             
         }
         
@@ -416,11 +429,11 @@ void mostrar_planetas_con_agua(FILE *archivo_planetas, struct Datos_Planetas dat
         {
             if ((strstr(data.caracteristicas, "agua") != NULL || strstr(data.caracteristicas, "Agua") != NULL) && data.posibilidad_vida)
             
-                printf("\n%-30d %-30lld %-50s %-s\n", data.clave_planeta, data.dimension, data.caracteristicas, "SI");
+                printf("\n%-30d %-30ld %-50s %-s\n", data.clave_planeta, data.dimension, data.caracteristicas, "SI");
 
             else if (strstr(data.caracteristicas, "agua") != NULL || strstr(data.caracteristicas, "Agua") != NULL)
                 
-                    printf("\n%-30d %-30lld %-50s %-s\n", data.clave_planeta, data.dimension, data.caracteristicas, "NO");
+                    printf("\n%-30d %-30ld %-50s %-s\n", data.clave_planeta, data.dimension, data.caracteristicas, "NO");
                 
             
         }
@@ -442,35 +455,12 @@ void convertir_cadena_a_minuscula(char *caracter)
 
 bool verificar_clave_repetida(FILE *archivo_planetas, struct Datos_Planetas data, int *clave_ingresada)
 {
-    rewind(archivo_planetas);
+    fseek(archivo_planetas, (*clave_ingresada) * sizeof(struct Datos_Planetas), SEEK_SET);
+    fread(&data, sizeof(struct Datos_Planetas), 1, archivo_planetas);
 
-    while (fread(&data, sizeof(struct Datos_Planetas), 1, archivo_planetas) > 0)
-    {
-        if (data.clave_planeta == *clave_ingresada)
-        
-            return true;
-        
-    }
-
-    return false;
-
-}
-
-bool encontrar_planeta(FILE *archivo_planetas, struct Datos_Planetas data, int *busqueda, int *apuntador_index)
-{
-    int index = 0;
-
-    rewind(archivo_planetas);
-
-    while (fread(&data, sizeof(struct Datos_Planetas), 1, archivo_planetas) > 0)
-    {
-        if (data.clave_planeta == *busqueda)
-        
-            return true;
-
-        index++;
-        *apuntador_index = index;
-    }
+    if (data.clave_planeta == *clave_ingresada)
+    
+        return true;
 
     return false;
 }
@@ -534,7 +524,7 @@ bool existencia_archivo_datos(FILE *archivo_planetas, struct Datos_Planetas data
             index_datos++;
         
     }
-
+    
     *datos_leidos = index_datos;
 
     if (*datos_leidos > 0)
