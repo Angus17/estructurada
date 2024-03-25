@@ -9,15 +9,15 @@
 struct Datos_Planetas
 {
     int clave_planeta;
-    long int dimension;
-    char caracteristicas[50];
+    long long int dimension;
+    char *caracteristicas;
     bool posibilidad_vida;
 };
 
 int main(void)
 {
     FILE *file_planetas;
-    struct Datos_Planetas datos = {0,0L, "\0", false};
+    struct Datos_Planetas datos = {0,0LL, NULL, false};
     int i;
 
     file_planetas = fopen("datos_planetas.dat", "wb");
