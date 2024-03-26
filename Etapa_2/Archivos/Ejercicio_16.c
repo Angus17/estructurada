@@ -38,7 +38,7 @@ struct Datos_Planetas
 {
     int clave_planeta;
     long long int dimension;
-    char *caracteristicas;
+    char caracteristicas[100];
     bool posibilidad_vida;
 };
 
@@ -84,8 +84,6 @@ int main(void)
         
         else
         {
-            datos.caracteristicas = malloc(sizeof(char *));
-
             do
             {
                 do
@@ -167,7 +165,6 @@ int main(void)
                     case 'e':
 
                         fclose(file_planetas);
-                        free(datos.caracteristicas);
                     
                     break;
                 }
