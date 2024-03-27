@@ -17,7 +17,7 @@
 */
 
 /*  
-    Hacer un programa que lea para varios alumnos, los datos anteriores, y guardarlos en un archivo
+    Hacer un programa que escriba para varios alumnos, los datos anteriores, y guardarlos en un archivo
 
 */
 
@@ -54,7 +54,7 @@ int main(void)
         {
             printf("Escribe el nombre del alumno %d: ", contador_alumnos + 1);
             limpiar_buffer_STDIN();
-            fgets(nombres, sizeof nombres, stdin);
+            fgets(nombres, 50, stdin);
 
             nombres[strcspn(nombres, "\n")] = '\0';
 
