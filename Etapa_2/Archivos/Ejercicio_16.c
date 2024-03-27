@@ -293,7 +293,6 @@ void leer_datos(FILE *archivo_planetas, struct Datos_Planetas data, int *datos_l
             
                 validar_errores_por_SO();
             
-            
         } while (strcmp(respuesta_vida, "si") != 0 && strcmp(respuesta_vida, "no") != 0);
 
         if (strcmp(respuesta_vida, "si") == 0)
@@ -352,7 +351,7 @@ void mostrar_planeta(FILE *archivo_planetas, struct Datos_Planetas data)
         if (clave_busqueda < 1 || clave_busqueda > 200)
         
             validar_errores_por_SO();
-
+            
     } while (clave_busqueda < 1 || clave_busqueda > 200);
 
     fseek(archivo_planetas, (clave_busqueda - 1) * sizeof(struct Datos_Planetas), SEEK_SET);
