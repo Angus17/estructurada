@@ -45,8 +45,20 @@ struct Datos_Empleados
     int anio, mes, dia; // 1990 - actual, 
     char direccion_empleado[200]; //letras, espacios, numeros
 };
-//FUNCIONES
+//FUNCIONES PRINCIPALES
+void capturar_articulos(FILE *, struct Datos_Articulos *, int *);
+void capturar_articulos(FILE *, struct Datos_Clientes *, int *);
+void capturar_articulos(FILE *, struct Datos_Empleados *, int *);
+void capturar_articulos(FILE *, struct Datos_Proveedores *, int *);
+void controlar_ventas();
+void controlar_compras();
 
+// VALIDACIONES
+void convertir_cadena_a_minuscula(char *);
+bool validar_cadenas(char *);
+
+
+// FUNCIONES PARA EL SISTEMA
 void validar_errores_por_SO();
 void limpiar_buffer_STDIN();
 void limpiar_terminal();
@@ -73,10 +85,15 @@ int main(void)
         file_empleados == NULL || 
         file_proveedor == NULL)
     
-        puts("Ocurrió un error al abrir un fichero. . .");
+        fprintf(stderr, "Error de apertura con los archivos\n");
     
     else
     {
+        rewind(file_articulos);
+        rewind(file_clientes);
+        rewind(file_empleados);
+        rewind(file_proveedor);
+
         do
         {
             do
@@ -110,35 +127,91 @@ int main(void)
             switch (opcion)
             {
                 case 1:
-
+                    if (false)
+                    {
+                        /* code */
+                    }
+                    else
+                    {
+                        /* code */
+                    }
                 break;
 
                 case 2:
-
+                    if (false)
+                    {
+                        /* code */
+                    }
+                    else
+                    {
+                        /* code */
+                    }
                 break;
 
                 case 3:
-
+                    if (false)
+                    {
+                        /* code */
+                    }
+                    else
+                    {
+                        /* code */
+                    }
                 break;
 
                 case 4:
-
+                    if (false)
+                    {
+                        /* code */
+                    }
+                    else
+                    {
+                        /* code */
+                    }
                 break;
 
                 case 5:
-
+                    if (false)
+                    {
+                        /* code */
+                    }
+                    else
+                    {
+                        /* code */
+                    }
                 break;
 
                 case 6:
-
+                    if (false)
+                    {
+                        /* code */
+                    }
+                    else
+                    {
+                        /* code */
+                    }
                 break;
 
                 case 7:
-
+                    if (false)
+                    {
+                        /* code */
+                    }
+                    else
+                    {
+                        /* code */
+                    }
                 break;
 
                 case 8:
-
+                    if (false)
+                    {
+                        /* code */
+                    }
+                    else
+                    {
+                        /* code */
+                    }
                 break;
 
                 case 9:
@@ -153,6 +226,63 @@ int main(void)
     }
     
 
+}
+
+void capturar_articulos(FILE *arcivo_articulos, struct Datos_Articulos *data, int *articulos_registrados)
+{
+    char respuesta[3];
+
+    do
+    {
+        limpiar_terminal();
+
+        printf("Desea agregar artículos? Si/No: ");
+        limpiar_buffer_STDIN();
+        scanf(" %s", respuesta);
+        
+        convertir_cadena_a_minuscula(respuesta);
+
+        if (strcmp(respuesta, "si") != 0 && strcmp(respuesta, "no") != 0)
+        
+            validar_errores_por_SO();
+        
+    } while (strcmp(respuesta, "si") != 0 && strcmp(respuesta, "no") != 0);
+    
+    while (strcmp(respuesta, "si") == 0)
+    {
+        do
+        {
+            do
+            {
+                printf("Número de artículo: ");
+                limpiar_buffer_STDIN();
+            } while (scanf("%d", data->numero_articulo));
+            
+            if (data->numero_articulo <= 0)
+            
+                validar_errores_por_SO();
+            
+        } while (data->numero_articulo <= 0);
+
+        do
+        {
+            
+        } while ();
+        
+        
+    }
+    
+
+
+}
+
+void convertir_cadena_a_minuscula(char *caracter)
+{
+    while (*caracter != '\0')
+    {
+        *caracter = tolower(*caracter);
+        caracter++;
+    }
 }
 
 // Limpia buffer STDIN tanto para sistemas Windows como para UNIX/Linux
