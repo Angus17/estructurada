@@ -68,7 +68,7 @@ int main(void)
 
     setlocale(LC_ALL, "es_MX.UTF-8");
 
-    file_planetas = fopen("datos_planetas.dat", "rb");
+    file_planetas = fopen("C:\\Users\\dileo\\OneDrive\\Documentos\\estructurada\\Etapa_2\\Archivos\\datos_planetas.dat", "rb");
 
     if (file_planetas == NULL)
     
@@ -76,7 +76,7 @@ int main(void)
     
     else
     {
-        file_planetas = freopen("datos_planetas.dat", "rb+", file_planetas);
+        file_planetas = freopen("C:\\Users\\dileo\\OneDrive\\Documentos\\estructurada\\Etapa_2\\Archivos\\datos_planetas.dat", "rb+", file_planetas);
 
         if (file_planetas == NULL)
         
@@ -519,7 +519,7 @@ bool existencia_archivo_datos(FILE *archivo_planetas, struct Datos_Planetas data
 void limpiar_buffer_STDIN()
 {
     #if defined(_WIN32) || defined(_WIN64)
-        fflush(stdin);
+        rewind(stdin);
     #elif __linux__
         __fpurge(stdin);
     #endif
