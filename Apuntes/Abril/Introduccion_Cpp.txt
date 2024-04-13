@@ -1,0 +1,7 @@
+C++, a principio de los 80s Bjarne Stroustrup desarrollo C++, una extension de C
+
+La caracteristica mas importante de C++ es la Programacion OO
+
+C++ es lenguaje hibrido
+
+Bibliotecas de C++
