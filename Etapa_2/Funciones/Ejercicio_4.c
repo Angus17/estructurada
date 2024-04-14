@@ -165,7 +165,7 @@ int calcular_promedio(int calificaciones_f[3][6], int index)
 void limpiar_buffer_STDIN()
 {
     #if defined(_WIN32) || defined(_WIN64)
-        fflush(stdin);
+        rewind(stdin);
     #elif __linux
         __fpurge(stdin);
     #endif
@@ -199,7 +199,7 @@ void validar_errores_por_SO()
 
         printf("Dato ingresado no valido, verificar dato");
         printf("\nPresiona la tecla ENTER para continuar. . . ");
-        fflush(stdin);
+        rewind(stdin);
         getchar();
         system("cls");
     #elif __linux__

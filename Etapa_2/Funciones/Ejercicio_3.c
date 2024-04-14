@@ -30,7 +30,7 @@ struct Automoviles_Estacionamiento
 };
 
 int calcular_cobro_estacionamiento(int);
-/* void validar_Sistema_Operativo(bool); */
+
 
 int main(void)
 {
@@ -42,24 +42,8 @@ int main(void)
         do
         {
             printf("Cuantas horas estuvo estacionado el auto #%d: ", i + 1);
-
-            /* #if defined(_WIN32) || defined(_WIN64)
-                fflush(stdin);
-            #elif __linux__
-                __fpurge(stdin);
-            #endif */
-
             scanf("%d", &datos[i].horas);
 
-            /* if (datos[i].horas <= 0)
-            {
-                #if defined(_WIN32) || defined(_WIN64)
-                    validar_Sistema_Operativo(true);
-                #elif __linux__
-                    validar_Sistema_Operativo(false);
-                #endif 
-            } */
-            
         } while (datos[i].horas <= 0);
     }
 
@@ -103,32 +87,3 @@ int calcular_cobro_estacionamiento(int hours)
 
     return cobro;
 }
-
-/* void validar_Sistema_Operativo(bool data)
-{
-    
-    if (data)
-    {
-        system("cls");
-
-        printf("Dato ingresado no valido, verificar dato");
-        printf("\nPresiona la tecla ENTER para continuar. . . ");
-        fflush(stdin);
-        getchar();
-        system("cls");
-    }
-    else
-    {
-        system("clear");
-
-        printf("Dato ingresado no valido, verificar dato");
-        fflush(stdout);
-        
-        printf("\nPresiona la tecla ENTER para continuar. . . ");
-        fflush(stdout);
-        __fpurge(stdin);
-        getchar();
-        
-        system("clear");
-    } 
-}    */

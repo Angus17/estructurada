@@ -22,7 +22,7 @@
     #include <stdio_ext.h>
 #endif 
 
-bool validar_cadenas(char *);
+bool validar_cadenas(const char *);
 void validar_errores_por_SO();
 void limpiar_buffer_STDIN();
 void limpiar_terminal();
@@ -45,7 +45,7 @@ int main(void)
     char respuesta;
     bool cadena_valida;
 
-    file_alumnos = fopen("alumnos.dat", "wb+");
+    file_alumnos = fopen("alumnos.dat", "rb+");
 
     if (file_alumnos == NULL)
     
@@ -74,7 +74,7 @@ int main(void)
 
         } while (respuesta != 's' && respuesta != 'n');
 
-        while (respuesta == 's')
+        while (respuesta == 's' && contador_alumnos < 1000)
         {
             do
             {
@@ -165,26 +165,33 @@ int main(void)
             fseek(file_alumnos, contador_alumnos * sizeof(struct Datos_Alumnos), SEEK_SET);
             fwrite(&datos, sizeof(struct Datos_Alumnos), 1, file_alumnos);
 
-            do
-            {
-                puts("Existen mas alumn@s?");
-                puts("S. Si");
-                puts("N. No");
-                printf(": ");
-
-                limpiar_buffer_STDIN();
-
-                scanf(" %c", &respuesta);
-
-                respuesta = tolower(respuesta);
-
-                if (respuesta != 's' && respuesta != 'n')
-                
-                    validar_errores_por_SO();
-
-            } while (respuesta != 's' && respuesta != 'n');
-
             contador_alumnos++;
+
+            if (contador_alumnos < 1000)
+            {
+                do
+                {
+                    puts("Existen mas alumn@s?");
+                    puts("S. Si");
+                    puts("N. No");
+                    printf(": ");
+
+                    limpiar_buffer_STDIN();
+
+                    scanf(" %c", &respuesta);
+
+                    respuesta = tolower(respuesta);
+
+                    if (respuesta != 's' && respuesta != 'n')
+                    
+                        validar_errores_por_SO();
+
+                } while (respuesta != 's' && respuesta != 'n');
+            }
+            else
+            
+                puts("Has alcanzado el limite de alumnos");
+            
         }
 
         limpiar_terminal();
@@ -210,7 +217,7 @@ int main(void)
     puts("Operacion finalizada!");
 }
 
-bool validar_cadenas(char *caracter)
+bool validar_cadenas(const char *caracter)
 {
     bool cadena_correcta = true;
 
@@ -231,7 +238,7 @@ bool validar_cadenas(char *caracter)
 void limpiar_buffer_STDIN()
 {
     #if defined(_WIN32) || defined(_WIN64)
-        fflush(stdin);
+        rewind(stdin);
     #elif __linux__
         __fpurge(stdin);
     #endif

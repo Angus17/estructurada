@@ -262,7 +262,12 @@ void leer_datos(struct Campos *campo, struct Total_Datos *total, const int *tipo
             validar_errores_por_SO();
 
     } while (strcmp(respuesta, "si") != 0 && strcmp(respuesta, "no") != 0);
-    
+
+    if ((contador != 0 && strcmp(respuesta, "si") == 0) || contar_existencias(&campo->files, campo->data, &campo->total, tipo_archivo))
+    {
+        fprintf(campo->files.file_peliculas_secuencial, "\n");
+        fflush(campo->files.file_peliculas_secuencial);
+    }
     while (strcmp(respuesta, "si") == 0 && campo->total.total_peliculas_secuencial < 50)
     {
         do
@@ -385,9 +390,10 @@ void leer_datos(struct Campos *campo, struct Total_Datos *total, const int *tipo
                     puts("No puedes ingresar mas campos, límite alcanzado. . .");
                 
                 if (campo->total.total_peliculas_secuencial < 50 && strcmp(respuesta, "no") != 0)
-                
+                {
                     fprintf(campo->files.file_peliculas_secuencial, "\n");
-
+                    fflush(campo->files.file_peliculas_secuencial);
+                }
                 break;
             
             case 2:

@@ -18,7 +18,7 @@ int main(void)
     {
         printf("Escribe la medida de la base del triangulo: ");
         #if defined(_WIN32) || defined(_WIN64)
-            fflush(stdin);
+            rewind(stdin);
         #elif __linux__
             __fpurge(stdin);
         #endif
@@ -29,7 +29,7 @@ int main(void)
     {
         printf("Escribe la medida de la altura del triangulo: ");
         #if defined(_WIN32) || defined(_WIN64)
-            fflush(stdin);
+            rewind(stdin);
         #elif __linux__
             __fpurge(stdin);
         #endif
