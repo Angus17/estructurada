@@ -120,16 +120,16 @@ int main(void)
                 {
                     limpiar_terminal();
 
-                    puts("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
-                    printf("\n* *%45s%28s\n\n", "MENÚ DE OPCIONES", "* *");
-                    puts("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
-                    puts("1) Leer Datos (SECUENCIAL)");
-                    puts("2) Mostrar película por categoría ingresada (SECUENCIAL)");
-                    puts("3) Leer Datos (BINARIO)");
-                    puts("4) Mostrar película por categoría ingresada (BINARIO)");
-                    puts("5) Actualizar el inventario por clave (BINARIO)");
-                    puts("6) Salir");
-                    printf("%10s: ", "Opción");
+                    printf( "%88s\n", "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
+                    printf("\n%16s%45s%28s\n\n", "* *", "MENÚ DE OPCIONES", "* *");
+                    printf("%88s\n", "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
+                    printf("\n%50s\n", "1) Leer Datos (SECUENCIAL)");
+                    printf("\n%82s\n", "2) Mostrar película por categoría ingresada (SECUENCIAL)");
+                    printf("\n%47s\n", "3) Leer Datos (BINARIO)");
+                    printf("\n%79s\n", "4) Mostrar película por categoría ingresada (BINARIO)");
+                    printf("\n%71s\n", "5) Actualizar el inventario por clave (BINARIO)");
+                    printf("\n%32s\n", "6) Salir");
+                    printf("\n%40s: ", "Opción");
 
                     limpiar_buffer_STDIN();
                     
@@ -140,6 +140,8 @@ int main(void)
                         validar_errores_por_SO();
                     
                 } while (opcion < 1 || opcion > 6);
+
+                limpiar_terminal();
 
                 switch (opcion)
                 {
@@ -298,7 +300,7 @@ void leer_datos(struct Campos *campo, struct Total_Datos *total, const int *tipo
         {
             limpiar_terminal();
 
-            printf("Escribe una descripcóon de la película: ");
+            printf("Escribe una descripción de la película: ");
             limpiar_buffer_STDIN();
             fgets(campo->data.descripcion, sizeof(campo->data.descripcion), stdin);
 
@@ -321,7 +323,7 @@ void leer_datos(struct Campos *campo, struct Total_Datos *total, const int *tipo
         {
             limpiar_terminal();
 
-            printf("A qué categoría pertenece?\n\n - A\n - B\n - C\n - D\n: ");
+            printf("A qué categoría pertenece?\n\n - A: Drama\n - B: Suspenso\n - C: Misterio\n - D: Infantil\n\nSelecciona: ");
             limpiar_buffer_STDIN();
             scanf(" %c", (campo->data.categoria + 1));
 
@@ -355,7 +357,9 @@ void leer_datos(struct Campos *campo, struct Total_Datos *total, const int *tipo
         {
             case 1:
                 total->total_peliculas_secuencial += contador;
+
                 fprintf(campo->files.file_peliculas_secuencial, "%-20d %-50s %-20s %-d", campo->data.clave, campo->data.descripcion, campo->data.categoria, campo->data.inventario);
+                fflush(campo->files.file_peliculas_secuencial);
 
                 if (total->total_peliculas_secuencial < 50)
                 {
@@ -389,8 +393,11 @@ void leer_datos(struct Campos *campo, struct Total_Datos *total, const int *tipo
             case 2:
 
                 total->total_peliculas_binario += contador;
+
                 fseek(campo->files.file_peliculas_binario, (campo->data.clave - 1) * sizeof(campo->data), SEEK_SET);
                 fwrite(&campo->data, sizeof(campo->data), 1, campo->files.file_peliculas_binario);
+
+                fflush(campo->files.file_peliculas_binario);
 
                 if (total->total_peliculas_binario < 50)
                 {
@@ -430,7 +437,7 @@ void mostrar_pelicula( struct Files_Requeridos *files_datos, const int *tipo_arc
     {
         limpiar_terminal();
 
-        printf("De qué categoría desea mostrar películas?\n- A\n - B\n - C\n - D\n: ");
+        printf("De qué categoría desea mostrar películas?\n- A: Drama\n - B: Suspenso\n - C: Misterio\n - D: Infantil\n\n Selecciona: ");
         limpiar_buffer_STDIN();
         scanf(" %c", &categoria);
 
@@ -454,7 +461,7 @@ void mostrar_pelicula( struct Files_Requeridos *files_datos, const int *tipo_arc
                 {
                     if (*(data.categoria + 1) == categoria)
                     
-                        printf("%-20d %-50s %-20s %-d\n", data.clave, data.descripcion, data.categoria, data.inventario);
+                        printf("%-20d %-50s %-20.3s %-d\n", data.clave, data.descripcion, data.categoria, data.inventario);
                     
                 }
                 
@@ -475,7 +482,7 @@ void mostrar_pelicula( struct Files_Requeridos *files_datos, const int *tipo_arc
                 {
                     if (*(data.categoria + 1) == categoria)
                     
-                        printf("%-20d %-50s %-20s %-d\n", data.clave, data.descripcion, data.categoria, data.inventario);
+                        printf("%-20d %-50s %-20.3s %-d\n", data.clave, data.descripcion, data.categoria, data.inventario);
                     
                 }
             }
@@ -768,7 +775,7 @@ bool crear_archivos(FILE *peliculas_binario, FILE *peliculas_secuencial, struct 
 
                 printf("Espacio binario creado exitosamente!\n\n");
                 pausar_terminal();
-                
+
                 return true;
             }
 
