@@ -77,7 +77,7 @@ int main(void)
             
             fprintf(file,"%-20s %-20d  %-20d %-d", nombres, matricula, promedios, semestre);
             
-            if (fin != -1)
+            if (fin != EOF)
             
                 fprintf(file,"\n");
 

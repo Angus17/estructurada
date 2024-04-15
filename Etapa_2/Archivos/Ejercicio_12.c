@@ -75,11 +75,11 @@ int main(void)
             scanf("%c", &opcion);
             opcion = tolower(opcion);
 
-            if (opcion < 'a' || opcion > 'd')
+            if (opcion < 'a' || opcion > 'e')
             
                 validar_errores_por_SO();
             
-        } while (opcion < 'a' || opcion > 'd');
+        } while (opcion < 'a' || opcion > 'e');
         
         switch (opcion)
         {
@@ -308,7 +308,7 @@ void listar_empleados(FILE *archivo)
 
 void listar_empleados_sueldo_mayor(FILE *archivo)
 {
-    int sueldo, numero_empleado, busqueda;
+    int sueldo, numero_empleado;
     char nombre[50], categoria;
 
     archivo = fopen("datos_empleados.txt", "r");
