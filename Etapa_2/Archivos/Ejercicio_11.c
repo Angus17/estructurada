@@ -1,4 +1,4 @@
-/*  
+/*
     Elabora un programa para que cada alumno lea su nombre, matricula, promedio, semestre
 
     Validar que la matricula sea mayor que cero, el nombre contenga solo letras y espacios
@@ -72,11 +72,11 @@ int main(void)
             opcion = tolower(opcion);
 
             if (opcion < 'a' || opcion > 'd')
-            
+
                 validar_errores_por_SO();
-            
+
         } while (opcion < 'a' || opcion > 'd');
-        
+
         switch (opcion)
         {
             case 'a':
@@ -85,21 +85,21 @@ int main(void)
 
             case 'b':
                 if (!verificar_existencia_archivo(file_alumnos))
-                
+
                     puts("No existe el registro de alumn@s");
-                
+
                 else
-                
+
                     listar_empleados(file_alumnos);
             break;
 
             case 'c':
                 if (!verificar_existencia_archivo(file_alumnos))
-                
+
                     puts("No existe el registro de alumn@s");
-                
+
                 else
-                
+
                     listar_empleados_sueldo_mayor(file_alumnos);
 
             break;
@@ -144,13 +144,13 @@ void leer_datos(FILE *archivo)
             respuesta = tolower(respuesta);
 
             if (respuesta != 's' && respuesta != 'n')
-            
+
                 validar_errores_por_SO();
 
         } while (respuesta != 's' && respuesta != 'n');
 
         if ((contador_alumnos != 0 && respuesta != 'n') || verificar_existencia_registros(archivo))
-        
+
             fprintf(archivo, "\n");
 
         while (respuesta == 's')
@@ -305,7 +305,7 @@ void listar_empleados_sueldo_mayor(FILE *archivo)
     archivo = fopen("datos_alumnos.txt", "r");
 
     if (archivo == NULL)
-    
+
         puts("No se pudo abrir el archivo, regresando al menu. . .");
     else
     {
@@ -316,12 +316,12 @@ void listar_empleados_sueldo_mayor(FILE *archivo)
                 puts("De que semestre desea buscar alumnos?: ");
                 limpiar_buffer_STDIN();
             } while (scanf("%d", &busqueda) != 1);
-            
+
             if (busqueda < 1 || busqueda > 9)
-            
+
                 validar_errores_por_SO();
         } while (busqueda < 1 || busqueda > 9);
-        
+
         if (buscar_existencias_sueldo_mayor(archivo, busqueda))
         {
             printf("\n%-20s %-20s %-20s %-20s\n", "NOMBRE", "MATRICULA", "PROMEDIO", "SEMESTRE");

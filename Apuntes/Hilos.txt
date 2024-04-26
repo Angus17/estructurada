@@ -1,0 +1,12 @@
+HILOS EN C++
+
+#include <thread>
+
+Hilo es una unidad pequeña de ejecución que puede ser programada y ejecutada en el sistema operativo
+Para que un programa realice multiples tareas a la vez
+
+Sirven para:
+
+    - Multitarea:
+    - Eficiencia:
+    - Capacidad de respuesta
