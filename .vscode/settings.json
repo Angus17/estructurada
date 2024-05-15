@@ -120,6 +120,7 @@
     "thread": "cpp",
     "cinttypes": "cpp",
     "variant": "cpp",
-    "format": "cpp"
+    "format": "cpp",
+    "regex": "cpp"
   }
 }

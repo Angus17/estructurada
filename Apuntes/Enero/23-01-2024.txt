@@ -12,10 +12,10 @@
 - - - - - - - - - 
 10% 1ER TAREA (EXPOSICION SOLO 1 VEZ)
 15% 2DA TAREA (TEAMS)
-- - - - - - - - - 
+- - - - - - - - -
 25% TOTAL TAREAS
 - - - - - - - - -
-30% PROYECTO INTEGRADOR (EQUIPO) APLICACION DE CODIGO EN C++
+30% PROYECTO INTEGRADOR (EQUIPO) 
 " Se entrega en la semana 15 "
 - - - - - - - - -  
 
