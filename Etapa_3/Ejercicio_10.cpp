@@ -1,10 +1,15 @@
 #include <iostream>
 #include <filesystem>
+#include <clocale>
+#include <regex>
 #include <fstream>
 #include <cstring>
 #include <string>
-#ifdef __linux__
+
+#if defined(__linux__) && !defined(__ANDROID__)
+
     #include <stdio_ext.h>
+
 #endif
 
 using namespace std;
@@ -12,18 +17,18 @@ using namespace filesystem;
 
 struct Datos_Empleados
 {
-    string nombre;
+    char nombre[70];
     int numero_empleado;
     float sueldo;
 };
 
-static void archivo_creado(fstream &, const string *, int &);
-static bool existencia_registros(fstream &, struct Datos_Empleados *, const string *);
-static void leer_datos(fstream &, struct Datos_Empleados *);
+static void archivo_creado(ofstream &, const int *);
+static void leer_datos(fstream &, struct Datos_Empleados *, int &);
+static void actualizar_sueldo(fstream &, struct Datos_Empleados *);
 
-static void contar_empleados(fstream &, int &);
-static bool clave_existente(fstream &, int &, int &);
+static void contar_empleados(fstream &, int &, struct Datos_Empleados *);
 static void convertir_cadena_a_minuscula(string &);
+static bool buscar_clave_existente(fstream &, const int *, struct Datos_Empleados *);
 
 static void limpiar_buffer_STDIN();
 static void limpiar_terminal();
@@ -33,128 +38,159 @@ static void validar_errores_por_SO();
 
 int main()
 {
-    string path = current_path();
+    path path_actual = current_path();
+    string respuesta;
     struct Datos_Empleados datos = {"", 0, 0.0};
-    int opcion;
+
+    int opcion, total_empleados = 0;
+    const int maximo_empleados = 50;
     bool dato_invalido;
 
-    path += "Datos_Empleados.dat";
+    #if defined(_WIN32) || defined(_WIN64)
 
-    fstream Empleados(path, ios::in | ios::out | ios::binary);
+        setlocale(LC_CTYPE, "es_MX");
+        path_actual += "\\Empleados.dat";
 
-    if (!Empleados.is_open())
+    #elif defined(__linux__) && !defined(__ANDROID__)
+
+        setlocale(LC_CTYPE, "es_MX.UTF-8");
+        path_actual += "/Empleados.dat";
+
+    #endif
+
+
+    ifstream Archivos_IN(path_actual, ios::binary);
+
+    if (Archivos_IN.is_open())
     {
-        cerr << "ERROR DE ARCHIVOS, INTENTE MAS TARDE. . ." << endl;
+        Archivos_IN.close();
 
-        return EXIT_FAILURE;
+        do
+        {
+            limpiar_terminal();
+
+            cout << "Desea recrear los datos del fichero? Si/No: ";
+            limpiar_buffer_STDIN();
+            getline(cin, respuesta, '\n');
+
+            convertir_cadena_a_minuscula(respuesta);
+
+            if (respuesta.empty() || (strcmp(respuesta.c_str(), "si") != 0 && strcmp(respuesta.c_str(), "no") != 0))
+
+                validar_errores_por_SO();
+
+        } while (respuesta.empty() || (strcmp(respuesta.c_str(), "si") != 0 && strcmp(respuesta.c_str(), "no") != 0));
+
+        if (strcmp(respuesta.c_str(), "si") == 0)
+        {
+            ofstream Archivos_OUT(path_actual, ios::binary);
+
+            archivo_creado(Archivos_OUT, &maximo_empleados);
+
+            Archivos_OUT.close();
+        }
+    }
+    else
+    {
+        ofstream Archivos_OUT(path_actual, ios::binary);
+
+        archivo_creado(Archivos_OUT, &maximo_empleados);
+
+        Archivos_OUT.close();
     }
 
-    Empleados.close();
+    fstream Empleados(path_actual, ios::in | ios::out | ios::binary);
 
     do
     {
         do
         {
-            cout << "* * * * * * * MENU DE OPCIONES * * * * * * *" << endl;
-            cout << "1. Archivo en blanco" << endl;
-            cout << "2. Lectura de datos" << endl;
-            cout << "3. Actualizacion de sueldo (dado # de emplead@)" << endl;
-            cout << "4. Salir" << endl;
-            cout << "Opcion: ";
+            limpiar_terminal();
+
+            cout << "* * * * * * * MENU DE OPCIONES * * * * * * *\n\n";
+            cout << "1. Lectura de datos" << endl;
+            cout << "2. Actualizacion de sueldo (dado # de emplead@)" << endl;
+            cout << "3. Salir" << endl;
+            cout << "\nSelecciona una pcion: ";
 
             limpiar_buffer_STDIN();
 
             cin >> opcion;
 
-            if ((dato_invalido = cin.fail()) || (opcion < 1 || opcion > 4))
+            if ((dato_invalido = cin.fail()) || (opcion < 1 || opcion > 3))
             {
                 cin.clear();
                 validar_errores_por_SO();
             }
-        } while (dato_invalido || (opcion < 1 || opcion > 4));
+        } while (dato_invalido || (opcion < 1 || opcion > 3));
+
+        contar_empleados(Empleados, total_empleados, &datos);
 
         switch (opcion)
         {
             case 1:
 
-                archivo_creado(Empleados, &path);
+                if (total_empleados < 50)
 
-                break;
-            case 2:
-                break;
-            case 3:
-                if (existencia_registros(Empleados, &datos, &path))
-                {
-                    
-                }
+                    leer_datos(Empleados, &datos, total_empleados);
+
                 else
 
-                    cout << "No hay datos en el sistema. . ." << endl;
+                    cout << "No puedes registrar mas emplead@s. . ." << endl;
+
+                break;
+
+            case 2:
+
+                if (total_empleados == 0)
+
+                    cout << "Necesita registrar primero a l@s emplead@s. . ." << endl;
+
+                else
+
+                    actualizar_sueldo(Empleados, &datos);
+
+                break;
+
+            case 3:
+
+                Empleados.close();
 
                 break;
         }
-        if (opcion != 4)
+
+        if (opcion != 3)
 
             pausar_terminal();
 
 
-    } while (opcion != 4);
+    } while (opcion != 3);
 
     return EXIT_SUCCESS;
 }
 
-static void archivo_creado(fstream &file, const string *dir)
+static void archivo_creado(ofstream &file, const int *max_employees)
 {
+    Datos_Empleados data = {"", 0, 0.0};
     int i;
-    string respuesta;
-    bool registros;
-    struct Datos_Empleados data = {"", 0, 0.0};
 
-    file.open(*dir, ios::in | ios::out | ios::binary);
+    for ( i = 0; i < *max_employees; i++)
 
-    if (!file.is_open())
+        file.write(reinterpret_cast<const char *>(&data), sizeof(Datos_Empleados));
 
-        cerr << "ERROR DE ARCHIVO, INTENTE MAS TARDE. . ." << endl;
+    cout << "ARCHIVO CREADO EXITOSAMENTE! " << endl;
 
-    else if ((registros = existencia_registros(file, &data, dir)))
-        {
-            do
-            {
-                limpiar_terminal();
-
-                cout << "Desea recrear el espacio de nuevo? Si/No: ";
-                limpiar_buffer_STDIN();
-                getline(cin, respuesta, '\n');
-
-                if (!respuesta.empty())
-                {
-                    convertir_cadena_a_minuscula(respuesta);
-
-                    if (strcmp(respuesta.c_str(), "si") != 0 && strcmp(respuesta.c_str(), "no") != 0)
-
-                        validar_errores_por_SO();
-
-                }
-            } while ((strcmp(respuesta.c_str(), "si") != 0 && strcmp(respuesta.c_str(), "no") != 0) || respuesta.empty());
-        }
-
-    if (!registros || strcmp(respuesta.c_str(), "si") == 0)
-    {
-        file.clear();
-        file.seekp(0 , ios::beg);
-
-        for ( i = 0; i < 50; i++)
-
-            file.write(reinterpret_cast<const char *>(&data), sizeof(data));
-
-        cout << "ENTORNO CREADO EXITOSAMENTE!" << endl;
-    }
+    pausar_terminal();
+    limpiar_terminal();
 }
+
 
 static void leer_datos(fstream &file, struct Datos_Empleados *data, int &empleados)
 {
     string respuesta;
-    bool dato_invalido;
+    regex regex_expresion("^[A-Za-z ]+$");
+    bool dato_invalido, clave_existente, nombre_valido;
+    int clave;
 
     do
     {
@@ -183,53 +219,203 @@ static void leer_datos(fstream &file, struct Datos_Empleados *data, int &emplead
 
             cout << "Numero de emplead@: ";
             limpiar_buffer_STDIN();
-            cin >> data->numero_empleado;
+            cin >> clave;
 
-            if ((dato_invalido = cin.fail()) || (data->numero_empleado < 1 || data->numero_empleado > 50))
+            if ((dato_invalido = cin.fail()) || (clave < 1 || clave > 50))
             {
                 cin.clear();
                 validar_errores_por_SO();
             }
-        } while (dato_invalido || (data->numero_empleado < 1 || data->numero_empleado > 50));
+            else
+            {
+                clave_existente = buscar_clave_existente(file, &clave, data);
+
+                if (clave_existente)
+                {
+                    limpiar_terminal();
+                    cout << "El numero de empleado ingresado ya existe en el sistema. . ." << endl;
+                    pausar_terminal();
+                }
+            }
+        } while (dato_invalido || clave_existente || (clave < 1 || clave > 50));
+
+        data->numero_empleado = clave;
+
+        do
+        {
+            limpiar_terminal();
+
+            cout << "Nombre de emplead@: ";
+            limpiar_buffer_STDIN();
+            cin.getline(data->nombre, sizeof(data->nombre));
+
+            if (!(nombre_valido = regex_match(data->nombre, regex_expresion)))
+
+                validar_errores_por_SO();
+
+        } while (!nombre_valido);
+
+        do
+        {
+            limpiar_terminal();
+
+            cout << "Sueldo: ";
+            limpiar_buffer_STDIN();
+            cin >> data->sueldo;
+
+            if ((dato_invalido = cin.fail()) || data->sueldo < 0.0)
+            {
+                cin.clear();
+                validar_errores_por_SO();
+            }
+
+        } while (dato_invalido || data->sueldo < 0.0);
 
         empleados++;
-    }
-
-}
-
-static bool existencia_registros(fstream &file, struct Datos_Empleados *data, const string *dir)
-{
-    file.open(*dir, ios::in | ios::binary);
-
-    if (!file.is_open())
-
-        cerr << "ERROR DE ARCHIVO, INTENTE MAS TARDE. . ." << endl;
-
-    else
-    {
 
         file.clear();
-        file.seekg(0 , ios::beg);
+        file.seekp((data->numero_empleado - 1) * sizeof(Datos_Empleados), ios::beg);
+        file.write(reinterpret_cast<const char *>(data), sizeof(Datos_Empleados));
 
-        while (file.read(reinterpret_cast<char *>(data), sizeof(*data)))
+        if (empleados < 50)
         {
-            if (data->numero_empleado != 0)
+            do
             {
-                return true;
-            }
-        }
+                limpiar_terminal();
 
-        return false;
+                cout << "Desea ingresar datos? Si/No: ";
+                limpiar_buffer_STDIN();
+                getline(cin, respuesta, '\n');
+
+                if (!respuesta.empty())
+                {
+                    convertir_cadena_a_minuscula(respuesta);
+
+                    if (strcmp(respuesta.c_str(), "si") != 0 && strcmp(respuesta.c_str(), "no") != 0)
+
+                        validar_errores_por_SO();
+
+                }
+            } while ((strcmp(respuesta.c_str(), "si") != 0 && strcmp(respuesta.c_str(), "no") != 0) || respuesta.empty());
+
+        }
+        else
+        {
+            limpiar_terminal();
+            cout << "Has alcanzado el limite maximo de registro de emplead@s. . ." << endl;
+        }
     }
 
 }
 
-static void contar_empleados(fstream &file, int &total_empleados)
+static void actualizar_sueldo(fstream &file, struct Datos_Empleados *data)
 {
-    struct Datos_Empleados data;
+    string respuesta;
+    bool clave_existente, dato_invalido;
+    int clave;
+    float sueldo;
 
+    do
+    {
+        limpiar_terminal();
 
+        cout << "Desea actualizar un sueldo? Si/No: ";
+        limpiar_buffer_STDIN();
+        getline(cin, respuesta, '\n');
 
+        if (!respuesta.empty())
+        {
+            convertir_cadena_a_minuscula(respuesta);
+
+            if (strcmp(respuesta.c_str(), "si") != 0 && strcmp(respuesta.c_str(), "no") != 0)
+
+                validar_errores_por_SO();
+
+        }
+    } while ((strcmp(respuesta.c_str(), "si") != 0 && strcmp(respuesta.c_str(), "no") != 0) || respuesta.empty());
+
+    if (strcmp(respuesta.c_str(), "si") == 0)
+    {
+        do
+        {
+            limpiar_terminal();
+
+            cout << "Numero de emplead@: ";
+            limpiar_buffer_STDIN();
+            cin >> clave;
+
+            if ((dato_invalido = cin.fail()) || (clave < 1 || clave > 50))
+            {
+                cin.clear();
+                validar_errores_por_SO();
+            }
+            else
+            {
+                clave_existente = buscar_clave_existente(file, &clave, data);
+
+                if (!clave_existente)
+                {
+                    limpiar_terminal();
+                    cout << "El numero de empleado ingresado NO existe en el sistema. . ." << endl;
+                    pausar_terminal();
+                }
+            }
+        } while (dato_invalido || !clave_existente || (clave < 1 || clave > 50));
+
+        do
+        {
+            limpiar_terminal();
+
+            cout << "Sueldo nuevo: ";
+            limpiar_buffer_STDIN();
+            cin >> sueldo;
+
+            if ((dato_invalido = cin.fail()) || sueldo < 0.0)
+            {
+                cin.clear();
+                validar_errores_por_SO();
+            }
+
+        } while (dato_invalido || sueldo < 0.0);
+
+        file.clear();
+
+        file.seekp((clave - 1) * sizeof(Datos_Empleados) + offsetof(Datos_Empleados, sueldo), ios::beg);
+        file.write(reinterpret_cast<const char *>(&sueldo), sizeof(sueldo));
+
+        limpiar_terminal();
+
+        cout << "SUELDO ACTUALIZADO CORRECTAMENTE !" << endl;
+    }
+}
+
+static void contar_empleados(fstream &file, int &total_empleados, struct Datos_Empleados *data)
+{
+    file.clear();
+
+    file.seekg(0, ios::beg);
+
+    while (file.read(reinterpret_cast<char *>(data), sizeof(Datos_Empleados)))
+    {
+        if (data->numero_empleado != 0)
+
+            total_empleados++;
+
+    }
+
+}
+
+static bool buscar_clave_existente(fstream &file_employees, const int *clave, struct Datos_Empleados *data_employees)
+{
+    file_employees.clear();
+    file_employees.seekg((*clave - 1) * sizeof(Datos_Empleados), ios::beg);
+    file_employees.read(reinterpret_cast<char *>(data_employees), sizeof(Datos_Empleados));
+
+    if (*clave == data_employees->numero_empleado)
+
+        return true;
+
+    return false;
 }
 
 static void convertir_cadena_a_minuscula(string &cadena)

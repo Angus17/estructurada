@@ -21,7 +21,6 @@ static void validar_errores_por_SO();
 int main()
 {
     string cadena[3];
-    thread hilos[3];
     bool dato_invalido;
     int repeticion[3], retardo[3];
 
@@ -152,16 +151,13 @@ int main()
 
     limpiar_terminal();
 
-    *(hilos + 0) = thread(repeticiones_tiempo, repeticion, retardo, cadena);
+    thread cadena_1(repeticiones_tiempo, repeticion, retardo, cadena);
+    thread cadena_2(repeticiones_tiempo, repeticion + 1, retardo + 1, cadena + 1);
+    thread cadena_3(repeticiones_tiempo, repeticion + 2, retardo + 2, cadena + 2);
 
-    *(hilos + 1) = thread(repeticiones_tiempo, repeticion + 1, retardo + 1, cadena + 1);
-
-    *(hilos + 2) = thread(repeticiones_tiempo, repeticion + 2, retardo + 2, cadena + 2);
-
-
-    (*(hilos + 0)).join();
-    (*(hilos + 1)).join();
-    (*(hilos + 2)).join();
+    cadena_1.join();
+    cadena_2.join();
+    cadena_3.join();
 
     return EXIT_SUCCESS;
 }

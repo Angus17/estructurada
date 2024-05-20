@@ -48,7 +48,7 @@ struct Files_Requeridos
 
 struct Directorios
 {
-    char *ruta_archivo_peliculas_secuencial; 
+    char *ruta_archivo_peliculas_secuencial;
     char *ruta_archivo_peliculas_directo;
 };
 

@@ -1,20 +1,3 @@
-/*  
-    Elaborar un programa que para una compañia que tiene cuatro vendedores, que pueden
-    ofrecer hasta 8 productos cada uno. Cada vendedor reporta el monto de venta que tuvo o no
-    , para cada producto.
-
-    Calcular el total de ventas por vendedor y guardarlo en un arreglo unidimensional
-    Calcular el total de ventas por producto y guardarlo en un arreglo unidimensional
-
-    Al final imprime en forma tabular lo siguiente:
-
-    Cada columna representa un vendedor y en las filas los productos
-
-    Imprimir en esa misma tabla los totales previamente calculados
-    validar que la venta sea mayor o igual que cero
-*/
-
-
 #include <iostream>
 #include <iomanip>
 
@@ -22,78 +5,78 @@ using namespace std;
 
 int main()
 {
-    int ventas[5][6], suma = 0, i, j;
+    const int num_productos = 8, num_vendedores = 4;
+    int i, j, suma = 0, ventas[num_vendedores + 1][num_productos + 1] = {0};
 
-    for ( i = 0; i < 4; i++)
+    for ( i = 0; i < num_vendedores; i++)
     {
-        for ( j = 0; j < 5; j++)
+        for ( j = 0; j < num_productos; j++)
         {
             do
             {
-                cout <<"Ingresa el numero de ventas del producto "<< j + 1 << " del vendedor: "<< i + 1 << ": ";
+                cout << "Ingresa el numero de ventas del producto " << j + 1 << " del vendedor: " << i + 1 << ": ";
                 cin >> ventas[i][j];
             } while (ventas[i][j] < 0);
         }
-        
     }
-    
-    cout<< "\n\n";
 
-    // Calculo suma de productos
-    for ( i = 0; i < 4; i++)
+    cout << "\n\n";
+
+    // Calculo suma de ventas por vendedor
+    for ( i = 0; i < num_vendedores; i++)
     {
         suma = 0;
 
-        for ( j = 0; j < 5; j++)
-        
+        for ( j = 0; j < num_productos; j++)
+
             suma += ventas[i][j];
-        
-        ventas[i][5] = suma;
+
+        ventas[i][num_productos] = suma; // Almacena la suma de ventas por producto en la última columna
     }
 
-    // Calculo suma por vendedores
-
-    for ( i = 0; i < 5; i++)
+    // Calculo suma de ventas por producto
+    for ( j = 0; j < num_productos; j++)
     {
-        suma = 0;
 
-        for ( j = 0; j < 4; j++)
-        
-            suma += ventas[j][i];
-        
-        ventas[4][i] = suma;
+        int suma = 0;
+
+        for ( i = 0; i < num_vendedores; i++)
+
+            suma += ventas[i][j];
+
+        ventas[num_vendedores][j] = suma; // Almacena la suma de ventas por vendedor  en la última fila
     }
-    
-    cout << "VENDEDOR 1:" << setw(22) << "VENDEDOR 2:" << setw(22) << "VENDEDOR 3:"<< setw(22) << "VENDEDOR 4:"<< setw(22) << "TOTAL:\n\n";
-    for ( i = 0; i < 5; i++)
-    {
-        if (i == 4)
-        {
-            cout<< endl;
-            cout << "TOTAL : ";
 
-            // CORREGIR
-            for ( j = 0; j < 5; i++)
-            
-                cout << ventas[i][j] << setw(10);
-            
-        }
+    // Calculo del total general
+    for ( i = 0; i < num_vendedores; i++)
+
+        suma += ventas[i][num_productos];
+
+    ventas[num_vendedores][num_productos] = suma;
+
+    // Imprimir toda la tabla de ventas
+    cout << setw(12) << "Producto";
+
+    for ( i = 0; i < num_vendedores; i++)
+
+        cout << setw(12) << "Vendedor " << i + 1;
+
+    cout << setw(12) << "Total\n";
+
+    for ( j = 0; j <= num_productos; j++)
+    {
+        if (j < num_productos)
+
+            cout << setw(12) << "Producto " << j + 1;
+
         else
-        {
-            for ( j = 0; j < 6; j++)
-            {
-                if (j == 0)
-                
-                    cout<< ventas[i][j];
-                
-                else
-                
-                    cout<< ventas[i][j] << setw(18) ;
-                
-                
-            }
-        }
-        
+
+            cout << setw(12) << "Total";
+
+
+        for ( i = 0; i <= num_vendedores; i++)
+
+            cout << setw(12) << ventas[i][j];
 
         cout << endl;
     }

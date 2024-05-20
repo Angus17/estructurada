@@ -132,7 +132,7 @@ static void area_triangulo(int *base, int *altura)
     float resultado = (float) ((*base) * (*altura) / 2);
 
     cout << "El area del triangulo es de: " << resultado << endl;
-    this_thread::sleep_for(chrono::milliseconds(1000));
+    this_thread::sleep_for(milliseconds(1000));
 }
 
 static void area_circulo(int *radio, const int *pi)
@@ -140,7 +140,7 @@ static void area_circulo(int *radio, const int *pi)
     float resultado = static_cast<float>((*pi)) * (*radio) * (*radio);
 
     cout << "El area del circulo es de: " << resultado << endl;
-    this_thread::sleep_for(chrono::milliseconds(1000));
+    this_thread::sleep_for(milliseconds(1000));
 }
 
 static void area_rectangulo(int *base, int *altura)

@@ -11,7 +11,7 @@
 
 #ifdef __linux__
     #include <stdio_ext.h>
-#endif 
+#endif
 
 using namespace std;
 
@@ -53,15 +53,13 @@ int main()
         cin >> respuesta;
 
     } while (respuesta != 'n');
-    
-    
 
     return EXIT_SUCCESS;
 }
 
 static void calcular_distancia(int &x1, int &x2, int &y1, int &y2, float &distancia_total)
 {
-    distancia_total = (float) sqrt(abs(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1))));
+    distancia_total = static_cast<float>( sqrt(abs(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)))) );
 
 }
 

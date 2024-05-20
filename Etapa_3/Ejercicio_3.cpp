@@ -37,9 +37,9 @@ int main()
     int numero_a_ingresar, numero_aleatorio, intentos = 1;
     bool numero_adivinado = false, entrada_invalida;
 
-    srand(time(NULL));
+    srand( time(NULL) );
 
-    numero_aleatorio = (rand() % 100) + 1;
+    numero_aleatorio = rand() % 100 + 1;
 
     do
     {
@@ -52,10 +52,9 @@ int main()
             cin >> numero_a_ingresar;
 
             if ((entrada_invalida = cin.fail()))
-            {
+
                 cin.clear();
-                limpiar_buffer_STDIN();
-            }
+
             
         } while (entrada_invalida);
         
